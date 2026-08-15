@@ -278,9 +278,11 @@ public sealed class MainForm : Form
         LoadFlavors();
     }
 
-    public async Task RunSyncAsync()
+    /// <summary>Runs a pass and returns its report, so the caller can act on it
+    /// too (first-run bookkeeping lives in TrayApp, not in the view).</summary>
+    public async Task<SyncReport?> RunSyncAsync()
     {
-        if (_busy) return;
+        if (_busy) return null;
         _busy = true;
         _check.Enabled = false;
         _status.Text = "Checking thewowdb.com...";
@@ -297,12 +299,14 @@ public sealed class MainForm : Form
                 var match = report.Flavors.FirstOrDefault(f => f.Flavor.Path == row.Flavor.Path);
                 if (match is not null) row.ShowResult(match);
             }
+            return report;
         }
         catch (Exception ex)
         {
             Log.Error("sync failed", ex);
             _status.Text = "Something went wrong. See the log.";
             _status.ForeColor = Theme.Bad;
+            return null;
         }
         finally
         {

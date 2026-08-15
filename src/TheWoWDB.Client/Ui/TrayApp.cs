@@ -103,22 +103,26 @@ public sealed class TrayApp : ApplicationContext
         _running = true;
         try
         {
-            // When the window is open let IT drive, so the user sees per-client rows.
-            if (_window is { Visible: true, IsDisposed: false })
-            {
-                await _window.RunSyncAsync();
-                return;
-            }
+            // When the window is open let IT drive, so the user sees per-client
+            // rows -- but the bookkeeping below still runs either way. Doing it
+            // only on the windowless path meant a normal first run (window
+            // open) never recorded FirstRunDone, and the "installed, restart
+            // WoW" notice would then ambush the user weeks later.
+            var visible = _window is { Visible: true, IsDisposed: false };
+            var report = visible ? await _window!.RunSyncAsync() : await _sync.RunAsync();
+            if (report is null) return;
 
-            var report = await _sync.RunAsync();
             if (!_settings.FirstRunDone && report.AnyChange)
             {
                 _settings.FirstRunDone = true;
                 _settings.Save();
-                Notify("TheWoWDB Companion is installed",
-                       "Restart World of Warcraft to load it. This client keeps it updated from the tray.");
+                // The window already reports this per client; a balloon on top
+                // of it is noise.
+                if (!visible)
+                    Notify("TheWoWDB Companion is installed",
+                           "Restart World of Warcraft to load it. This client keeps it updated from the tray.");
             }
-            else if (announce && report.AnyChange)
+            else if (announce && !visible && report.AnyChange)
             {
                 Notify(AppInfo.Name, report.Summary);
             }

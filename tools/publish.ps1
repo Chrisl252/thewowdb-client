@@ -73,6 +73,15 @@ function PublishAsset([string] $repo, [string] $tag, [string] $title, [string] $
         Say "creating release $tag"
         gh release create $tag -R $repo --title $title --notes "Published by tools/publish.ps1. Assets here are clobbered in place; the URLs are stable." | Out-Null
     }
+    # "live" holds machine artifacts (manifest, addon zip, price file) and NO
+    # executable. Left as a normal release it becomes GitHub's "latest", so the
+    # /releases/latest link on the site lands a human on a page with nothing to
+    # download. Flagging it prerelease keeps client-v* as the latest release.
+    if ($tag -eq "live") {
+        gh release edit $tag -R $repo --prerelease | Out-Null
+    } else {
+        gh release edit $tag -R $repo --latest | Out-Null
+    }
     gh release upload $tag -R $repo $file --clobber | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "upload of $file to $tag failed" }
 }

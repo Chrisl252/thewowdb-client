@@ -35,13 +35,19 @@ internal static class Program
         AppPaths.EnsureCreated();
         Log.Info($"{AppInfo.Name} {AppInfo.Version} starting ({string.Join(' ', args)})");
 
+        var firstEver = !File.Exists(AppPaths.SettingsFile);
         var settings = Settings.Load();
 
         // Default to starting with Windows on the very first run: a background
         // updater the user has to launch by hand is not a background updater.
         // The tray menu and the window both expose the switch to turn it off.
-        if (!settings.FirstRunDone && settings.RunAtStartup && !AutoStart.IsEnabled())
+        if (firstEver && settings.RunAtStartup && !AutoStart.IsEnabled())
             AutoStart.Set(true);
+
+        // Write the file immediately so state exists from run one. Saving only
+        // when the user touches a control meant a first run that changed nothing
+        // left no settings at all, and every later launch looked like a first run.
+        if (firstEver) settings.Save();
 
         var startHidden = args.Any(a =>
             a.Equals("--background", StringComparison.OrdinalIgnoreCase) ||
