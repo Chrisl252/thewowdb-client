@@ -40,7 +40,12 @@ public sealed class Downloader : IDisposable
         // whenever the edge feels like it".
         var bust = url + (url.Contains('?') ? "&" : "?") + "t=" + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var json = await _http.GetStringAsync(bust, ct).ConfigureAwait(false);
-        return JsonSerializer.Deserialize<Manifest>(json)
+
+        // Strip a UTF-8 BOM before parsing. System.Text.Json treats a leading
+        // U+FEFF as "invalid start of a value", so a manifest written by any of
+        // the several Windows tools that emit a BOM by default would download
+        // fine, return 200, and then fail for every user at once.
+        return JsonSerializer.Deserialize<Manifest>(json.TrimStart('﻿'))
                ?? throw new InvalidDataException("the manifest was empty");
     }
 

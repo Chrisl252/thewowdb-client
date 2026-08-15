@@ -60,10 +60,15 @@ function GzipFile([string] $source, [string] $destination) {
 
 # Create the release if it is not there yet, then upload with --clobber so the
 # asset URL survives every republish.
+#
+# Existence is tested by LISTING, not by `gh release view ... *> $null`: in
+# PS 5.1 redirecting a native command's stderr wraps each line in an
+# ErrorRecord, so gh's ordinary "release not found" became a terminating
+# NativeCommandError and killed the script.
 function PublishAsset([string] $repo, [string] $tag, [string] $title, [string] $file) {
-    $exists = $true
-    gh release view $tag -R $repo *> $null
-    if ($LASTEXITCODE -ne 0) { $exists = $false }
+    $tags = @(gh release list -R $repo --limit 100 --json tagName -q '.[].tagName')
+    if ($LASTEXITCODE -ne 0) { throw "could not list releases for $repo" }
+    $exists = $tags -contains $tag
     if (-not $exists) {
         Say "creating release $tag"
         gh release create $tag -R $repo --title $title --notes "Published by tools/publish.ps1. Assets here are clobbered in place; the URLs are stable." | Out-Null
@@ -90,7 +95,11 @@ try {
 
     # ---- 2. mirror the newest addon build ---------------------------------
     Say "reading newest addon release from $AddonRepo"
-    $addonTag = (gh release list -R $AddonRepo --json tagName -q '[.[] | select(.tagName | startswith("addon-v"))][0].tagName')
+    # Filtering happens in PowerShell, not in a jq expression: PS mangles the
+    # inner double quotes of `startswith("addon-v")`, and jq then reports
+    # "function not defined: v/0" while gh still exits 0 - a silent wrong answer.
+    $addonTag = @(gh release list -R $AddonRepo --limit 100 --json tagName -q '.[].tagName' |
+                  Where-Object { $_ -like 'addon-v*' }) | Select-Object -First 1
     if (-not $addonTag) { throw "no addon-v* release found in $AddonRepo" }
     $addonVersion = $addonTag -replace '^addon-v', ''
 
@@ -151,7 +160,14 @@ try {
         }
     }
     $manifestPath = Join-Path $work "manifest.json"
-    ($manifest | ConvertTo-Json -Depth 6) | Set-Content -Path $manifestPath -Encoding utf8
+    # WriteAllText with an explicit no-BOM encoding, NOT Set-Content -Encoding utf8:
+    # PS 5.1's utf8 always emits a BOM, and a leading U+FEFF makes System.Text.Json
+    # throw "'0xFEFF' is an invalid start of a value" -- the manifest would 200 and
+    # still break every client.
+    [System.IO.File]::WriteAllText(
+        $manifestPath,
+        ($manifest | ConvertTo-Json -Depth 6),
+        (New-Object System.Text.UTF8Encoding($false)))
 
     # ---- 5. publish --------------------------------------------------------
     # Payloads first, manifest last: a client that reads the manifest mid-publish

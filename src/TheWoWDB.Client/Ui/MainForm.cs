@@ -33,9 +33,12 @@ public sealed class MainForm : Form
 
         Text = AppInfo.Name;
         Icon = icon;
-        ClientSize = new Size(560, 520);
-        MinimumSize = new Size(560, 420);
+        // Tall enough for six flavors (retail + the classic family + PTR/beta)
+        // without scrolling; a scrollbar on first run reads as "something is cut off".
+        ClientSize = new Size(580, 640);
+        MinimumSize = new Size(580, 460);
         StartPosition = FormStartPosition.CenterScreen;
+        DarkTitleBar.Apply(this);
         BackColor = Theme.Bg;
         ForeColor = Theme.Text;
         Font = Theme.Ui();

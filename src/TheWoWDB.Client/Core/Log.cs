@@ -11,6 +11,10 @@ public static class Log
     private const long MaxBytes = 512 * 1024;
     private static readonly object Gate = new();
 
+    /// <summary>No BOM: Encoding.UTF8 writes one, and it shows up as a stray
+    /// glyph on the first line of a file people open to read an error.</summary>
+    private static readonly Encoding Utf8NoBom = new UTF8Encoding(false);
+
     public static void Info(string message) => Write("INFO ", message);
     public static void Warn(string message) => Write("WARN ", message);
 
@@ -26,7 +30,7 @@ public static class Log
             {
                 AppPaths.EnsureCreated();
                 Roll();
-                File.AppendAllText(AppPaths.LogFile, line + Environment.NewLine, Encoding.UTF8);
+                File.AppendAllText(AppPaths.LogFile, line + Environment.NewLine, Utf8NoBom);
             }
         }
         catch
