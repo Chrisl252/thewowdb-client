@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "KeepPassive Capture",
+  "version": "0.1.0",
+  "description": "Reads YOUR Seller Central and Whatnot Seller Hub from this logged-in Chrome only. No Amazon or Whatnot developer APIs.",
+  "action": {
+    "default_title": "KeepPassive Capture",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["tabs", "scripting", "storage"],
+  "host_permissions": [
+    "https://sellercentral.amazon.com/*",
+    "https://sellercentral.amazon.co.uk/*",
+    "https://sellercentral.amazon.ca/*",
+    "https://www.whatnot.com/*",
+    "http://127.0.0.1:4173/*"
+  ]
+}

@@ -1,0 +1,38 @@
+:root {
+  --bg: #14110e;
+  --gold: #e4b84a;
+  --text: #f3efe6;
+  --muted: #b3a89a;
+}
+html, body {
+  margin: 0;
+  width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.45 "Segoe UI", sans-serif;
+}
+body { padding: 16px; }
+.kicker {
+  margin: 0;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: var(--gold);
+}
+h1 { margin: 6px 0 8px; font-size: 22px; font-weight: 600; }
+.lede, .hint, .status { color: var(--muted); }
+button {
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+  font: 600 12px/1 "Segoe UI", sans-serif;
+}
+button:hover { background: #e4b84a18; }
+button:disabled { opacity: 0.45; cursor: wait; }
+.status { min-height: 2.6em; }
+.ok { color: #9cba7a; }
+.bad { color: #e07a62; }
