@@ -255,9 +255,9 @@ export const intel = {
     "A Medicaid-funded home-care platform that lets eligible people hire family or friends, then runs payroll, EVV, and instant pay — Grubhub’s two-sided marketplace, with the state as the card on file.",
   snapshot: [
     { label: "Years in business", value: "10 yrs 8 mo", note: "BBB: started 24 Dec 2015 · as of Aug 2026" },
-    { label: "Legal entity", value: "Freedom Care LLC", note: "NPI 1922467554 · NY LHCSA is Evergreenchoice, LLC" },
-    { label: "Staff (LinkedIn)", value: "702", note: "501–1,000 band · corporate/ops, not caregivers" },
-    { label: "Staff (LeadIQ)", value: "~2.8k", note: "Jul 2026 scrape · 1,001–5,000 band" },
+    { label: "Legal entity", value: "Freedom Care LLC", note: "EIN 81-0913242 · DOS 4869472 · NPI 1922467554" },
+    { label: "Staff (sworn)", value: "~260 NY", note: "Nov 2024 petition · ~30k NY CDPAP consumers then" },
+    { label: "401(k) participants", value: "59,655", note: "Form 5500 · mostly PAs, not office staff" },
     { label: "Medicaid paid", value: "$3.03B", note: "2018–2024 claims · OpenMedicaid" },
     { label: "2024 run-rate", value: "$806M", note: "T1019 personal care, 15-min units" },
     { label: "Domain age", value: "21.5 yrs", note: "freedomcare.com created Jan 22, 2005" },
@@ -290,6 +290,22 @@ export const intel = {
     caveat:
       "Public headcount mixes three populations: (1) corporate/ops staff, (2) certified aides employed by the LHCSA, (3) family caregivers on payroll. Treat any single number as a definition problem.",
     rows: [
+      {
+        source: "Nov 2024 Article 78 petition (verified)",
+        date: "25 Nov 2024",
+        figure: "~260 NY staff · ~30–35k NY consumers",
+        includesCaregivers: "260 is direct NY staff. 30k/35k are consumers, not PAs.",
+        url: "https://www.mcknightshomecare.com/wp-content/uploads/sites/10/2024/12/lawsuit-freedom-care.pdf",
+        confidence: "High (company sworn pleading)",
+      },
+      {
+        source: "Form 5500 401(k) (EIN 81-0913242)",
+        date: "latest public filing in aggregators",
+        figure: "59,655 plan participants",
+        includesCaregivers: "Yes — this is the best public proxy for W-2 caregivers on payroll, not LinkedIn staff.",
+        url: "https://form5500search.com/company/810913242",
+        confidence: "High as a filed figure; year mix across filings",
+      },
       {
         source: "LinkedIn company page",
         date: "Aug 2026",
@@ -332,11 +348,16 @@ export const intel = {
       },
     ],
     estimate:
-      "Best public range for corporate/ops staff in 2026 is 700–3,000 depending on vendor. The paid caregiver workforce is not disclosed; Medicaid claim volume is consistent with tens of thousands of active aides, not hundreds.",
+      "Best public range for corporate/ops staff in 2026 is ~500–1,200 (petition 260 NY in late 2024; LinkedIn 501–1,000; Lyons alleged a 500–600-person town hall then hundreds laid off after 1 Apr 2025). Caregiver payroll is a different number: Form 5500 shows ~60k plan participants at peak FI scale. After PPL, that NY book is gone.",
   },
   serp: {
     domain: "freedomcare.com",
-    related: ["freedomcareny.com (legacy NY brand/email)", "app listings under FreedomCare LLC"],
+    related: [
+      "freedomcareny.com — created 28 Dec 2015, 301s to /new-york/",
+      "myfreedomcare.com — 301s to freedomcare.com",
+      "freedom.care — NOT owned; parked for sale",
+      "app.freedomcare.com — does not resolve",
+    ],
     title: "Hire a family member or friend to care for you | FreedomCare",
     meta: "FreedomCare allows people to choose who provides their care and the caregiver gets paid instantly after their shift.",
     sitelinks: [
