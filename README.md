@@ -1,3 +1,21 @@
+# Kindred — Grubhub for home care
+
+Demo marketplace plus a public-source desk on **FreedomCare** (how the business
+works, headcount, SERP/domain, years in operation).
+
+```
+npm install
+npm run dev
+```
+
+Opens at [http://127.0.0.1:4173](http://127.0.0.1:4173). The competitive brief
+lives at `/intel`. This is a product demo, not a licensed agency or Medicaid
+provider.
+
+The Windows tray client below is unchanged.
+
+---
+
 # TheWoWDB Client
 
 A small Windows tray app that installs the **TheWoWDB Companion** addon into
