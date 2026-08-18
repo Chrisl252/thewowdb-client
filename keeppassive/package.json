@@ -1,0 +1,16 @@
+{
+  "name": "keeppassive",
+  "private": true,
+  "version": "0.1.0",
+  "description": "KeepPassive + Jarvis: own-account Amazon Seller Central and Whatnot ingest, plus today's Amazon briefing.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "node --test src/ingest/csv.test.js src/ingest/amazonReports.test.js src/ingest/whatnotReports.test.js src/capture/capture.test.js server/briefing.test.js"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}

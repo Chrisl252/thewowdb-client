@@ -7,3 +7,10 @@ dist/
 *.user
 *.suo
 .vs/
+
+# KeepPassive / Jarvis
+keeppassive/node_modules/
+keeppassive/dist/
+keeppassive/.env
+keeppassive/.env.local
+keeppassive/.data/

@@ -1,0 +1,5 @@
+amazon-order-id	merchant-order-id	purchase-date	last-updated-date	order-status	fulfillment-channel	sales-channel	sku	asin	product-name	item-status	quantity	currency	item-price	item-tax	shipping-price
+111-1000001-0000001		2026-08-17T14:03:11+00:00	2026-08-17T18:11:00+00:00	Shipped	Amazon	Amazon.com	KP-MUG-01	B0KEEPASS1	KeepPassive enamel mug	Shipped	2	USD	24.00	2.16	0.00
+111-1000002-0000002		2026-08-16T21:44:02+00:00	2026-08-17T09:02:10+00:00	Shipped	Amazon	Amazon.com	KP-TOTE-04	B0KEEPASS2	KeepPassive tote — black	Shipped	1	USD	18.50	1.67	0.00
+111-1000003-0000003		2026-08-15T11:12:40+00:00	2026-08-16T16:20:00+00:00	Shipped	MFN	Amazon.com	KP-PATCH-09	B0KEEPASS3	Jarvis crest patch	Shipped	3	USD	21.00	1.89	4.99
+111-1000004-0000004		2026-08-18T02:05:55+00:00	2026-08-18T02:06:12+00:00	Pending	Amazon	Amazon.com	KP-MUG-01	B0KEEPASS1	KeepPassive enamel mug	Unshipped	0	USD	26.00	2.34	0.00
