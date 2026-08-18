@@ -50,6 +50,24 @@ export default function Intel() {
         <p className="callout">{model.nyPivot}</p>
       </section>
 
+      <section className="intel-block">
+        <h2>15 claimed states — not one product</h2>
+        <p>
+          Each state is a different Medicaid vehicle. New York is LHCSA agency care, not
+          consumer-directed CDPAP. Wisconsin is on the homepage and missing from the states
+          sitemap. Shell NPIs already exist for CA, TX, KS, NH, MT, ME and others that are not
+          claimed live.
+        </p>
+        <ul className="flow">
+          {intel.states.map((s) => (
+            <li key={s.code}>
+              <em>{s.code}</em>
+              {s.program}
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section className="intel-block two">
         <div>
           <h2>Who runs it · how long</h2>
@@ -58,7 +76,7 @@ export default function Intel() {
               <dt>Founder / CEO</dt>
               <dd>
                 {people.founderCeo}
-                <small>in seat since {people.ceoSince} · ~10 years 4 months as of Aug 2026</small>
+                <small>{people.ceoSince}</small>
               </dd>
             </div>
             <div>
@@ -82,6 +100,14 @@ export default function Intel() {
               <dd>
                 {people.type}. LinkedIn aliases include FreedomCare, LLC and FreedomCare NY.
               </dd>
+            </div>
+            <div>
+              <dt>NY operator</dt>
+              <dd>{people.nyOperator}</dd>
+            </div>
+            <div>
+              <dt>BBB</dt>
+              <dd>{people.bbb}</dd>
             </div>
           </dl>
           <p>{people.footprint}</p>

@@ -41,7 +41,7 @@ export default function Home() {
             <button type="submit">See who’s in the kitchen</button>
           </form>
           <p className="fine">
-            Demo only. FreedomCare proved the model: 10 years, 15 states, $3.03B
+            Demo only. FreedomCare proved the model: ~11 years, 15 states, $3.03B
             Medicaid 2018–24. <Link to="/intel">Open the intel desk →</Link>
           </p>
         </div>

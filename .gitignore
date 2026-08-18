@@ -2,9 +2,11 @@
 bin/
 obj/
 dist/
+kindred-dist/
 node_modules/
 
 # local scratch
 *.user
 *.suo
 .vs/
+.vite/
