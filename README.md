@@ -1,3 +1,30 @@
+# Free Care
+
+A bilingual **brick board** for people in Las Vegas / Clark County / Nevada who
+need a safe on-ramp to public help. It is a signpost, not a payer.
+
+```
+npm install
+npm run dev
+```
+
+Opens at [http://127.0.0.1:4173](http://127.0.0.1:4173).
+
+Four large bricks:
+
+1. **Can Nevada pay for this care?** — local wizard (no names, SSNs, or Medicaid IDs)
+2. **Document pack** — MAABD / PCS checklists that deep-link official pages
+3. **Who is real vs a scam** — ACCESS Nevada, DHCFP, 211, Stay Cool only
+4. **Heat & missed visit** — Stay Cool Clark County, 211 / 311, 911
+
+This is not Medicaid, not a licensed Intermediary Service Organization, not a
+fiscal intermediary, and not FreedomCare. It never files with the state and
+never pays a caregiver.
+
+The Windows tray client below is unchanged.
+
+---
+
 # TheWoWDB Client
 
 A small Windows tray app that installs the **TheWoWDB Companion** addon into
@@ -65,3 +92,4 @@ prerequisites.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the module map and
 [CONTRIBUTING.md](CONTRIBUTING.md) for how to add to it.
+
