@@ -1,9 +1,9 @@
 {
-  "name": "kindred-care",
+  "name": "free-care",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Kindred — Grubhub for home care. Demo marketplace plus FreedomCare competitive intel.",
+  "description": "Free Care — bilingual Nevada brick board for ACCESS, PCS, 211, and heat safety. Not Medicaid and not an ISO.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4173 --strictPort",
     "build": "vite build",

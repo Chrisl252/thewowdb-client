@@ -14,6 +14,6 @@ export default defineConfig({
     strictPort: true,
   },
   build: {
-    outDir: "kindred-dist",
+    outDir: "free-care-dist",
   },
 });

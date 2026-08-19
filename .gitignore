@@ -3,6 +3,7 @@ bin/
 obj/
 dist/
 kindred-dist/
+free-care-dist/
 node_modules/
 
 # local scratch
