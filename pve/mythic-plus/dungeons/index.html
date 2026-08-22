@@ -41,9 +41,10 @@
 
     <p class="wgf-mpd-preview-note">
       Preview of the destination-tile listing. Page totals (8 dungeons, 1,383 ranked runs,
-      Season 18, updated 2026-08-21 13:26 UTC) are from the live US board. Per-dungeon
-      runners and keys below are fixtures so the cards have a body — production hydrates
-      from the existing table / API payload and will not invent ranks.
+      Season 18, updated 2026-08-21 13:26 UTC) are from the live US board. Each card uses
+      that dungeon's own loading-screen tile — open Full board for the per-dungeon ladder
+      at /pve/mythic-plus/dungeon/{slug}/. Per-dungeon runners on the cards are fixtures
+      so they have a body; production hydrates the existing table and will not invent ranks.
     </p>
 
     <form class="wgf-mpd-filters" id="pve-dungeon-filters" method="get" action="/pve/mythic-plus/dungeons/">
@@ -87,9 +88,9 @@
             data-top-player="Silex" data-top-class="paladin" data-top-spec="Protection" data-top-realm="Area 52"
             data-top-key="18" data-top-time="27:41" data-highest-key="18" data-fastest="27:41" data-ranked="172"
             data-affixes="Tyrannical, Fortified, Xal'atath's Bargain" data-timer="32:00" data-vs-timer="−4:19"
-            data-href="/pve/mythic-plus/dungeons/altar-of-fangs/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/altar-of-fangs/snapshots/">
-          <td>Altar of Fangs <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/altar-of-fangs/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/altar-of-fangs/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/altar-of-fangs/snapshots/">
+          <td>Altar of Fangs <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/altar-of-fangs/snapshots/">Group snapshots →</a></td>
           <td>Silex +18</td>
           <td>+18</td>
           <td>27:41</td>
@@ -98,9 +99,9 @@
         <tr data-slug="den-of-nalorakk" data-name="Den of Nalorakk" data-origin="Midnight"
             data-top-player="Kezra" data-top-class="hunter" data-top-spec="Beast Mastery" data-top-realm="Illidan"
             data-top-key="17" data-top-time="25:08" data-highest-key="17" data-fastest="25:08" data-ranked="168"
-            data-href="/pve/mythic-plus/dungeons/den-of-nalorakk/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/den-of-nalorakk/snapshots/">
-          <td>Den of Nalorakk <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/den-of-nalorakk/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/den-of-nalorakk/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/den-of-nalorakk/snapshots/">
+          <td>Den of Nalorakk <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/den-of-nalorakk/snapshots/">Group snapshots →</a></td>
           <td>Kezra +17</td>
           <td>+17</td>
           <td>25:08</td>
@@ -110,9 +111,9 @@
             data-top-player="Vesh" data-top-class="death knight" data-top-spec="Blood" data-top-realm="Tichondrius"
             data-top-key="16" data-top-time="29:54" data-highest-key="16" data-fastest="29:54" data-ranked="181"
             data-faction="Horde"
-            data-href="/pve/mythic-plus/dungeons/kings-rest/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/kings-rest/snapshots/">
-          <td>Kings' Rest <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/kings-rest/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/kings-rest/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/kings-rest/snapshots/">
+          <td>Kings' Rest <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/kings-rest/snapshots/">Group snapshots →</a></td>
           <td>Vesh +16</td>
           <td>+16</td>
           <td>29:54</td>
@@ -123,9 +124,9 @@
             data-top-key="18" data-top-time="24:12" data-highest-key="18" data-fastest="24:12" data-ranked="159"
             data-party="rogue,mage,priest,monk,warrior" data-affixes="Tyrannical, Fortified"
             data-score="312.4" data-timer="30:00" data-vs-timer="−5:48" data-faction="Alliance"
-            data-href="/pve/mythic-plus/dungeons/murder-row/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/murder-row/snapshots/">
-          <td>Murder Row <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/murder-row/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/murder-row/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/murder-row/snapshots/">
+          <td>Murder Row <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/murder-row/snapshots/">Group snapshots →</a></td>
           <td>Lyraen +18</td>
           <td>+18</td>
           <td>24:12</td>
@@ -134,9 +135,9 @@
         <tr data-slug="ruby-life-pools" data-name="Ruby Life Pools" data-origin="Dragonflight"
             data-top-player="Thalys" data-top-class="evoker" data-top-spec="Preservation" data-top-realm="Stormrage"
             data-top-key="16" data-top-time="26:03" data-highest-key="16" data-fastest="26:03" data-ranked="190"
-            data-href="/pve/mythic-plus/dungeons/ruby-life-pools/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/ruby-life-pools/snapshots/">
-          <td>Ruby Life Pools <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/ruby-life-pools/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/ruby-life-pools/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/ruby-life-pools/snapshots/">
+          <td>Ruby Life Pools <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/ruby-life-pools/snapshots/">Group snapshots →</a></td>
           <td>Thalys +16</td>
           <td>+16</td>
           <td>26:03</td>
@@ -145,9 +146,9 @@
         <tr data-slug="temple-of-sethraliss" data-name="Temple of Sethraliss" data-origin="Battle for Azeroth"
             data-top-player="Oruun" data-top-class="shaman" data-top-spec="Restoration" data-top-realm="Mal'Ganis"
             data-top-key="15" data-top-time="28:17" data-highest-key="15" data-fastest="28:17" data-ranked="164"
-            data-href="/pve/mythic-plus/dungeons/temple-of-sethraliss/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/temple-of-sethraliss/snapshots/">
-          <td>Temple of Sethraliss <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/temple-of-sethraliss/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/temple-of-sethraliss/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/temple-of-sethraliss/snapshots/">
+          <td>Temple of Sethraliss <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/temple-of-sethraliss/snapshots/">Group snapshots →</a></td>
           <td>Oruun +15</td>
           <td>+15</td>
           <td>28:17</td>
@@ -156,9 +157,9 @@
         <tr data-slug="the-blinding-vale" data-name="The Blinding Vale" data-origin="Midnight"
             data-top-player="Nerith" data-top-class="priest" data-top-spec="Discipline" data-top-realm="Area 52"
             data-top-key="17" data-top-time="31:06" data-highest-key="17" data-fastest="31:06" data-ranked="176"
-            data-href="/pve/mythic-plus/dungeons/the-blinding-vale/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/the-blinding-vale/snapshots/">
-          <td>The Blinding Vale <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/the-blinding-vale/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/the-blinding-vale/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/the-blinding-vale/snapshots/">
+          <td>The Blinding Vale <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/the-blinding-vale/snapshots/">Group snapshots →</a></td>
           <td>Nerith +17</td>
           <td>+17</td>
           <td>31:06</td>
@@ -168,9 +169,9 @@
             data-top-player="Qaleth" data-top-class="demon hunter" data-top-spec="Havoc" data-top-realm="Illidan"
             data-top-key="18" data-top-time="22:58" data-highest-key="18" data-fastest="22:58" data-ranked="173"
             data-party="demon hunter,mage,priest,paladin,warlock"
-            data-href="/pve/mythic-plus/dungeons/voidscar-arena/?region=us&amp;season=18"
-            data-snapshots="/pve/mythic-plus/dungeons/voidscar-arena/snapshots/">
-          <td>Voidscar Arena <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeons/voidscar-arena/snapshots/">Group snapshots →</a></td>
+            data-href="/pve/mythic-plus/dungeon/voidscar-arena/?region=us&amp;season=18"
+            data-snapshots="/pve/mythic-plus/dungeon/voidscar-arena/snapshots/">
+          <td>Voidscar Arena <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/voidscar-arena/snapshots/">Group snapshots →</a></td>
           <td>Qaleth +18</td>
           <td>+18</td>
           <td>22:58</td>
@@ -203,7 +204,7 @@
       if (season && !new URLSearchParams(location.search).get("season")) {
         season.value = filters.season;
       }
-      window.WgfPveDungeons.hydrate(document);
+      window.WgfPveDungeons.boot(document);
     })();
   </script>
 </body>

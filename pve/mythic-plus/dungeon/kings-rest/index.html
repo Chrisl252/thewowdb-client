@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kings' Rest Mythic+ Leaderboard (US) — TheWoWDB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-pve-dungeons.css">
+</head>
+<body class="wgf-shell-page" data-wgf-page="pve-dungeon" data-slug="kings-rest" data-name="Kings' Rest" data-origin="Battle for Azeroth" data-timer="36:00" data-ranked="181" style="--mpd-art:url('/assets/dungeon-tiles/kings-rest.jpg')">
+  <nav class="wgf-seo-breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/pve/">PvE</a></li>
+      <li><a href="/pve/mythic-plus/">Mythic+</a></li>
+      <li><a href="/pve/mythic-plus/dungeons/">Dungeons</a></li>
+      <li aria-current="page">Kings' Rest</li>
+    </ol>
+  </nav>
+
+  <main class="wgf-mpd wgf-mpd-dungeon">
+    <header class="wgf-mpd-dungeon-hero" data-slug="kings-rest" style="--mpd-art:url('/assets/dungeon-tiles/kings-rest.jpg')">
+      <img class="wgf-mpd-dungeon-hero__img" src="/assets/dungeon-tiles/kings-rest.jpg" alt="Kings' Rest" width="600" height="300">
+      <div class="wgf-mpd-dungeon-hero__veil" aria-hidden="true"></div>
+      <div class="wgf-mpd-dungeon-hero__copy">
+        <span class="wgf-mpd-origin">Battle for Azeroth</span>
+        <h1>Kings' Rest</h1>
+        <p class="wgf-mpd-sub">Best keys and fastest times in this dungeon — US · Season 18.</p>
+      </div>
+    </header>
+
+    <p class="wgf-mpd-preview-note">Preview of the per-dungeon board. Hero / picker art is the official Kings' Rest loading screen. Runners below are fixtures so the board has a body — production hydrates the live # / Player / Key / Time / Result / M+ rating / Item level table.</p>
+
+    <div id="pve-season-dungeons" class="wgf-mpd-season" data-mpd-season></div>
+
+    <p class="wgf-mpd-snapline">
+      <a class="wgf-mpd-snap" href="/pve/mythic-plus/dungeon/kings-rest/snapshots/">Group snapshots for Kings' Rest: see the full team comps and their gear →</a>
+    </p>
+
+    <ol id="pve-dungeon-meta" class="wgf-mpd-meta__source">
+          <li data-spec="Blood Death Knight" data-share="1.8%" data-count="3">Blood Death Knight 1.8% 3</li>
+          <li data-spec="Protection Paladin" data-share="1.2%" data-count="2">Protection Paladin 1.2% 2</li>
+          <li data-spec="Discipline Priest" data-share="1.2%" data-count="2">Discipline Priest 1.2% 2</li>
+    </ol>
+    <div id="pve-dungeon-meta-board" class="wgf-mpd-meta" hidden></div>
+
+    <form class="wgf-mpd-filters" id="pve-dungeon-filters" method="get" action="/pve/mythic-plus/dungeon/kings-rest/">
+      <div class="wgf-mpd-regions" role="group" aria-label="Region">
+        <a class="wgf-mpd-region on" data-region="us" href="?region=us&amp;season=18">US</a>
+        <a class="wgf-mpd-region" data-region="eu" href="?region=eu&amp;season=18">EU</a>
+        <a class="wgf-mpd-region" data-region="kr" href="?region=kr&amp;season=18">KR</a>
+        <a class="wgf-mpd-region" data-region="tw" href="?region=tw&amp;season=18">TW</a>
+      </div>
+      <label class="wgf-mpd-label" for="mpd-season">Season
+        <select class="wgf-mpd-sel" id="mpd-season" name="season" onchange="this.form.submit()">
+          <option value="18" selected>Season 18</option>
+          <option value="17">Season 17</option>
+        </select>
+      </label>
+      <label class="wgf-mpd-label" for="mpd-sort">Sort
+        <select class="wgf-mpd-sel" id="mpd-sort" name="sort" onchange="this.form.submit()">
+          <option value="key" selected>Key</option>
+          <option value="time">Time</option>
+          <option value="result">Result</option>
+          <option value="rating">M+ rating</option>
+          <option value="ilvl">Item level</option>
+        </select>
+      </label>
+      <label class="wgf-mpd-label" for="mpd-result">Result
+        <select class="wgf-mpd-sel" id="mpd-result" name="result" onchange="this.form.submit()">
+          <option value="all" selected>All runs</option>
+          <option value="timed">Timed</option>
+          <option value="depleted">Depleted</option>
+        </select>
+      </label>
+      <input type="hidden" name="region" value="us">
+    </form>
+
+    <div id="pve-dungeon-podium" class="wgf-mpd-podium" hidden></div>
+
+    <table class="wgf-pve-table wgf-mpd-runsource" id="pve-dungeon-runs">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Player</th>
+          <th>Key</th>
+          <th>Time</th>
+          <th>Result</th>
+          <th>M+ rating</th>
+          <th>Item level</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr data-rank="1" data-player="Vesh" data-spec="Blood Death Knight" data-realm="Tichondrius" data-key="+16" data-time="29:54" data-result="Timed" data-rating="3124" data-ilvl="306">
+            <td>1</td>
+            <td>Vesh Blood Death Knight · Tichondrius</td>
+            <td>+16</td>
+            <td>29:54</td>
+            <td>Timed</td>
+            <td>3124</td>
+            <td>306</td>
+          </tr>
+          <tr data-rank="2" data-player="Kezra" data-spec="Beast Mastery Hunter" data-realm="Illidan" data-key="+16" data-time="33:10" data-result="Depleted" data-rating="2011" data-ilvl="293">
+            <td>2</td>
+            <td>Kezra Beast Mastery Hunter · Illidan</td>
+            <td>+16</td>
+            <td>33:10</td>
+            <td>Depleted</td>
+            <td>2011</td>
+            <td>293</td>
+          </tr>
+          <tr data-rank="3" data-player="Thalys" data-spec="Preservation Evoker" data-realm="Stormrage" data-key="+15" data-time="27:02" data-result="Timed" data-rating="2190" data-ilvl="300">
+            <td>3</td>
+            <td>Thalys Preservation Evoker · Stormrage</td>
+            <td>+15</td>
+            <td>27:02</td>
+            <td>Timed</td>
+            <td>2190</td>
+            <td>300</td>
+          </tr>
+          <tr data-rank="4" data-player="Silex" data-spec="Protection Paladin" data-realm="Area 52" data-key="+15" data-time="30:44" data-result="Timed" data-rating="1888" data-ilvl="289">
+            <td>4</td>
+            <td>Silex Protection Paladin · Area 52</td>
+            <td>+15</td>
+            <td>30:44</td>
+            <td>Timed</td>
+            <td>1888</td>
+            <td>289</td>
+          </tr>
+          <tr data-rank="5" data-player="Oruun" data-spec="Restoration Shaman" data-realm="Mal'Ganis" data-key="+14" data-time="26:18" data-result="Timed" data-rating="1742" data-ilvl="284">
+            <td>5</td>
+            <td>Oruun Restoration Shaman · Mal'Ganis</td>
+            <td>+14</td>
+            <td>26:18</td>
+            <td>Timed</td>
+            <td>1742</td>
+            <td>284</td>
+          </tr>
+          <tr data-rank="6" data-player="Nerith" data-spec="Discipline Priest" data-realm="Area 52" data-key="+14" data-time="31:55" data-result="Depleted" data-rating="2304" data-ilvl="297">
+            <td>6</td>
+            <td>Nerith Discipline Priest · Area 52</td>
+            <td>+14</td>
+            <td>31:55</td>
+            <td>Depleted</td>
+            <td>2304</td>
+            <td>297</td>
+          </tr>
+          <tr data-rank="7" data-player="Lyraen" data-spec="Assassination Rogue" data-realm="Moon Guard" data-key="+13" data-time="24:09" data-result="Timed" data-rating="1995" data-ilvl="292">
+            <td>7</td>
+            <td>Lyraen Assassination Rogue · Moon Guard</td>
+            <td>+13</td>
+            <td>24:09</td>
+            <td>Timed</td>
+            <td>1995</td>
+            <td>292</td>
+          </tr>
+      </tbody>
+    </table>
+
+    <div id="pve-dungeon-board" class="wgf-mpd-runboard-mount" hidden></div>
+
+    <section class="wgf-mpd-explore">
+      <h2>Explore more</h2>
+      <a href="/pve/mythic-plus/dungeons/">All dungeon boards</a>
+      <a href="/pve/mythic-plus/">Mythic+ rating ladder</a>
+    </section>
+  </main>
+
+  <script src="/assets/wgf-pve-dungeons.js"></script>
+  <script>
+    window.WgfPveDungeons.boot(document);
+  </script>
+</body>
+</html>

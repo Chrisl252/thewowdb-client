@@ -1,20 +1,42 @@
-/* wgf-pve-dungeons.css — Mythic+ dungeon listing (`/pve/mythic-plus/dungeons/`).
-   Replaces the bare 5-column spreadsheet with Hall destination tiles.
-   Loaded after _tokens.css / wgf-hall.css on PvE pages. Does not restyle
-   the character M+ sheet or the /pve/mythic-plus/ player ladder.
-   Scope: .wgf-mpd, body[data-wgf-page="pve-dungeons"]. */
+/* wgf-pve-dungeons.css — Mythic+ dungeon listing (`/pve/mythic-plus/dungeons/`)
+   and per-dungeon boards (`/pve/mythic-plus/dungeon/{slug}/`).
+   Hall destination tiles + real dungeon / zone art. Loaded after _tokens.css
+   / wgf-hall.css on PvE pages. Does not restyle the character M+ sheet or
+   the /pve/mythic-plus/ player ladder.
+   Scope: .wgf-mpd, body[data-wgf-page="pve-dungeons"|"pve-dungeon"]. */
 
-/* ── Page backdrop (Hall pattern, same lever as .hm-pagebg) ───────────────
-   Seat of the Triumvirate is the closest hosted void/light tile to this
-   Midnight season's Blinding Vale / Voidscar mood. Darkness is the
-   legibility lever — no navy tooltip wash. */
+/* ── Per-slug art (listing cards, season picker, dungeon heroes) ──────────
+   Real Season 2 tiles live at /assets/dungeon-tiles/{slug}.jpg. Empty gold
+   boxes happen when a picker has a metal frame but no image — these vars
+   plus an <img> keep art on the plate even if JS is late. */
+[data-slug="altar-of-fangs"],
+a[href*="/dungeon/altar-of-fangs"] { --mpd-art: url("/assets/dungeon-tiles/altar-of-fangs.jpg"); }
+[data-slug="den-of-nalorakk"],
+a[href*="/dungeon/den-of-nalorakk"] { --mpd-art: url("/assets/dungeon-tiles/den-of-nalorakk.jpg"); }
+[data-slug="kings-rest"],
+a[href*="/dungeon/kings-rest"] { --mpd-art: url("/assets/dungeon-tiles/kings-rest.jpg"); }
+[data-slug="murder-row"],
+a[href*="/dungeon/murder-row"] { --mpd-art: url("/assets/dungeon-tiles/murder-row.jpg"); }
+[data-slug="ruby-life-pools"],
+a[href*="/dungeon/ruby-life-pools"] { --mpd-art: url("/assets/dungeon-tiles/ruby-life-pools.jpg"); }
+[data-slug="temple-of-sethraliss"],
+a[href*="/dungeon/temple-of-sethraliss"] { --mpd-art: url("/assets/dungeon-tiles/temple-of-sethraliss.jpg"); }
+[data-slug="the-blinding-vale"],
+a[href*="/dungeon/the-blinding-vale"] { --mpd-art: url("/assets/dungeon-tiles/the-blinding-vale.jpg"); }
+[data-slug="voidscar-arena"],
+a[href*="/dungeon/voidscar-arena"] { --mpd-art: url("/assets/dungeon-tiles/voidscar-arena.jpg"); }
+
+/* ── Page backdrop (Hall pattern). Listing uses Blinding Vale; a dungeon
+   page uses its own --mpd-art when data-slug is set. No navy tooltip wash. */
 body[data-wgf-page="pve-dungeons"],
+body[data-wgf-page="pve-dungeon"],
 body:has(.wgf-mpd) {
   background-color: #0c0a08;
   background-image: none;
 }
 
 body[data-wgf-page="pve-dungeons"]::before,
+body[data-wgf-page="pve-dungeon"]::before,
 body:has(.wgf-mpd)::before {
   content: "";
   position: fixed;
@@ -24,7 +46,7 @@ body:has(.wgf-mpd)::before {
   background:
     radial-gradient(120% 85% at 50% 6%, rgba(var(--wgf-gold-rgb), 0.11), transparent 46%),
     linear-gradient(180deg, rgba(12, 10, 8, 0.84) 0%, rgba(12, 10, 8, 0.76) 30%, rgba(11, 9, 7, 0.92) 100%),
-    url("/assets/dungeon-tiles/seat-of-the-triumvirate.jpg") center 28% / cover no-repeat;
+    var(--mpd-art, url("/assets/dungeon-tiles/the-blinding-vale.jpg")) center 28% / cover no-repeat;
   filter: saturate(1.04);
 }
 
@@ -270,11 +292,22 @@ body:has(.wgf-mpd)::before {
 
 .wgf-mpd-card__art {
   display: block;
+  position: relative;
   height: 168px;
+  overflow: hidden;
   background:
     linear-gradient(180deg, rgba(12, 10, 8, 0.08) 0%, rgba(12, 10, 8, 0.78) 100%),
-    var(--mpd-art) center / cover no-repeat;
+    var(--mpd-art) center / cover no-repeat,
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    #1a140c;
   text-decoration: none;
+}
+.wgf-mpd-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .wgf-mpd-card__body {
   display: flex;
@@ -599,4 +632,283 @@ body:has(.wgf-mpd)::before {
   .wgf-mpd-card,
   .wgf-mpd-region,
   .wgf-btn-red { transition: none; }
+}
+
+/* ── Per-dungeon board (`/pve/mythic-plus/dungeon/{slug}/`) ─────────────── */
+.wgf-mpd-dungeon-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  margin: var(--space-4) 0 var(--space-4);
+  border: 2px solid var(--wgf-metal);
+  background:
+    var(--mpd-art) center 40% / cover no-repeat,
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    #1a140c;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.65), var(--shadow-2);
+}
+.wgf-mpd-dungeon-hero__img {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+.wgf-mpd-dungeon-hero__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 10, 8, 0.18) 0%, rgba(12, 10, 8, 0.55) 48%, rgba(12, 10, 8, 0.88) 100%);
+  pointer-events: none;
+}
+.wgf-mpd-dungeon-hero__copy {
+  position: relative;
+  z-index: 1;
+  padding: clamp(28px, 4.5vw, 52px) clamp(20px, 3vw, 40px);
+}
+.wgf-mpd-dungeon-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.04;
+  letter-spacing: 0.02em;
+  margin: 0 0 var(--space-2);
+  color: var(--wgf-text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.92), 0 3px 14px rgba(0, 0, 0, 0.55);
+}
+.wgf-mpd-dungeon-hero .wgf-mpd-statband { margin-top: var(--space-4); }
+.wgf-mpd-dungeon-hero .wgf-mpd-stat {
+  min-width: 96px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.14)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate);
+}
+
+/* Season picker — art thumbs, never an empty gold frame */
+.wgf-mpd-season {
+  margin: 0 0 var(--space-5);
+}
+.wgf-mpd-season__k {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-game);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--wgf-gold-dim);
+}
+.wgf-mpd-season__row {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 8px;
+}
+.wgf-mpd-season__tile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 2px solid var(--wgf-metal);
+  background:
+    var(--mpd-art) center / cover no-repeat,
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    #1a140c;
+  text-decoration: none;
+  overflow: hidden;
+}
+.wgf-mpd-season__tile.on,
+.wgf-mpd-season__tile[aria-current="page"] {
+  border-color: var(--wgf-gold);
+  box-shadow: 0 0 0 1px var(--wgf-gold);
+}
+.wgf-mpd-season__img {
+  display: block;
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+}
+.wgf-mpd-season__name {
+  display: block;
+  padding: 6px 6px 8px;
+  background: rgba(12, 10, 8, 0.82);
+  color: var(--wgf-gold-muted);
+  font-family: var(--font-game);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: var(--text-ink-outline);
+}
+.wgf-mpd-season__tile.on .wgf-mpd-season__name,
+.wgf-mpd-season__tile[aria-current="page"] .wgf-mpd-season__name {
+  color: var(--wgf-gold-bright);
+}
+
+.wgf-mpd-snapline {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+}
+
+/* Meta specs — existing ladder share, not invented */
+.wgf-mpd-meta {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4);
+  border: 2px solid var(--wgf-metal);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.50)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-panel-1);
+}
+.wgf-mpd-meta h2 {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  color: var(--wgf-gold);
+  font-size: 1.15rem;
+}
+.wgf-mpd-meta__sub {
+  margin: 0 0 var(--space-3);
+  color: var(--wgf-muted);
+  font-size: var(--text-sm);
+}
+.wgf-mpd-meta__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.wgf-mpd-meta__list li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--wgf-metal-soft);
+}
+.wgf-mpd-meta__name { color: var(--wgf-text); flex: 1 1 auto; }
+.wgf-mpd-meta__share {
+  font-family: var(--font-mono);
+  color: var(--wgf-gold-bright);
+  font-variant-numeric: tabular-nums;
+}
+.wgf-mpd-meta__n { color: var(--wgf-muted); font-variant-numeric: tabular-nums; }
+
+/* Podium from the existing run table */
+.wgf-mpd-podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  list-style: none;
+  margin: 0 0 var(--space-5);
+  padding: 0;
+}
+.wgf-mpd-podium__slot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: var(--space-3);
+  border: 2px solid var(--wgf-metal);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.50)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-panel-1);
+}
+.wgf-mpd-podium__slot--1 { border-color: var(--wgf-gold); }
+.wgf-mpd-podium__rk {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--wgf-gold-bright);
+  min-width: 1.4ch;
+}
+.wgf-mpd-podium__slot img {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--wgf-border-neutral);
+  background: #0c0a07;
+}
+
+/* Run board — same columns the live table already emits */
+.wgf-mpd-runboard {
+  overflow-x: auto;
+  border: 2px solid var(--wgf-metal);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.50)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-panel-1);
+}
+.wgf-mpd-runs {
+  width: 100%;
+  border-collapse: collapse;
+}
+.wgf-mpd-runs th {
+  font-family: var(--font-game);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--wgf-gold-muted);
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--wgf-metal-soft);
+}
+.wgf-mpd-runs td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--wgf-border-neutral-soft);
+  vertical-align: middle;
+}
+.wgf-mpd-runs tbody tr:hover td { background: rgba(var(--wgf-gold-rgb), 0.06); }
+.wgf-mpd-who {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.wgf-mpd-who__txt { min-width: 0; display: flex; flex-direction: column; }
+.wgf-mpd-c-rank {
+  font-family: var(--font-mono);
+  color: var(--wgf-muted);
+  width: 2.5ch;
+}
+.wgf-mpd-c-rating,
+.wgf-mpd-c-ilvl {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.wgf-mpd-result {
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  font-size: var(--text-sm);
+}
+.wgf-mpd-result--in { color: var(--wgf-up); }
+.wgf-mpd-result--out { color: var(--wgf-down); }
+.wgf-mpd-count {
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  color: var(--wgf-muted);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.wgf-mpd-explore {
+  margin: var(--space-6) 0 0;
+}
+.wgf-mpd-explore h2 {
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  color: var(--wgf-gold);
+  font-size: 1.15rem;
+  margin: 0 0 var(--space-2);
+}
+.wgf-mpd-explore a { margin-right: var(--space-4); }
+
+@media (max-width: 960px) {
+  .wgf-mpd-season__row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .wgf-mpd-meta__list { grid-template-columns: 1fr; }
+  .wgf-mpd-podium { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .wgf-mpd-season__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wgf-mpd-dungeon-hero { min-height: 220px; }
 }
