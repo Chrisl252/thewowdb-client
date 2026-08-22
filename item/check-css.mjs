@@ -14,8 +14,8 @@ if (/rgba\(\s*12\s*,\s*12\s*,\s*30/.test(css) || /rgba\(\s*5\s*,\s*5\s*,\s*16/.t
 if (!css.includes("dungeon-tiles/magisters-terrace.jpg")) {
   fails.push("missing Magisters' Terrace page/hero tile");
 }
-if (!css.includes("dungeon-tiles/pit-of-saron.jpg")) {
-  fails.push("missing Pit of Saron hero art window");
+if (!css.includes("dungeon-tiles/windrunner-spire.jpg")) {
+  fails.push("missing Windrunner hero art window");
 }
 if (!css.includes(".wgf-item-index-layout .wgf-seo-hero")) {
   fails.push("hero restyle is not scoped to the item-index layout");

@@ -252,30 +252,29 @@ body.wgf-shell-page[data-wgf-page="item-index"]::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(120% 85% at 50% 6%, rgba(var(--wgf-gold-rgb), 0.11), transparent 46%),
-    linear-gradient(180deg, rgba(12, 10, 8, 0.84) 0%, rgba(12, 10, 8, 0.76) 30%, rgba(11, 9, 7, 0.92) 100%),
-    url("/assets/dungeon-tiles/magisters-terrace.jpg") center 28% / cover no-repeat;
-  filter: saturate(1.04);
+    radial-gradient(120% 85% at 50% 6%, rgba(var(--wgf-gold-rgb), 0.14), transparent 46%),
+    linear-gradient(180deg, rgba(12, 10, 8, 0.70) 0%, rgba(12, 10, 8, 0.62) 34%, rgba(11, 9, 7, 0.84) 100%),
+    url("/assets/dungeon-tiles/magisters-terrace.jpg") center 22% / cover no-repeat;
+  filter: saturate(1.08);
 }
 
-/* The gold frame becomes a destination plate: crest + copy + art window.
-   Existing eyebrow / h1 / sub markup is enough; .ii-hero-meta is optional. */
+/* Split destination plate: stone + copy on the left, full-bleed zone art
+   on the right. Existing eyebrow / h1 / sub markup is enough; .ii-hero-meta
+   is optional. */
 .wgf-item-index-layout .wgf-seo-hero {
   position: relative;
   display: grid;
-  grid-template-columns: 72px minmax(0, 1fr) minmax(148px, 30%);
+  grid-template-columns: 72px minmax(0, 1fr) minmax(280px, 44%);
   align-items: center;
-  column-gap: 1.05rem;
-  row-gap: 0.28rem;
+  column-gap: 0.85rem;
+  row-gap: 0.3rem;
   overflow: hidden;
   margin: 0 auto 1.1rem;
-  padding: clamp(16px, 2.2vw, 24px) clamp(16px, 2.6vw, 26px);
+  padding: 0;
   border: 2px solid var(--wgf-metal);
   border-radius: 0;
   background:
-    linear-gradient(105deg, rgba(12, 10, 8, 0.78) 0%, rgba(12, 10, 8, 0.58) 54%, rgba(12, 10, 8, 0.30) 100%),
-    url("/assets/dungeon-tiles/magisters-terrace.jpg") center 36% / cover no-repeat,
-    linear-gradient(rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.44)),
+    linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.50)),
     url("/assets/ui/classhall-stone-tile.png") left top / 256px 256px repeat,
     var(--wgf-panel-1);
   box-shadow:
@@ -287,12 +286,13 @@ body.wgf-shell-page[data-wgf-page="item-index"]::before {
   content: "";
   grid-column: 1;
   grid-row: 1 / -1;
-  width: 68px;
-  height: 68px;
-  justify-self: center;
+  width: 58px;
+  height: 58px;
+  justify-self: end;
+  align-self: center;
   box-sizing: content-box;
-  padding: 13.1px 13.1px 26.22px 31.96px;
-  margin: -13.1px -13.1px -26.22px -31.96px;
+  padding: 11.2px 11.2px 22.4px 27.3px;
+  margin: 18px 0 18px 14px;
   background-image:
     url("/assets/ui/spellbook-item-iconframe.png"),
     url("/assets/icons/inv_misc_coin_01.jpg");
@@ -308,6 +308,15 @@ body.wgf-shell-page[data-wgf-page="item-index"]::before {
   position: relative;
   z-index: 1;
   min-width: 0;
+  padding-right: 12px;
+}
+
+.wgf-item-index-layout .wgf-seo-hero > .wgf-seo-eyebrow {
+  padding-top: 20px;
+}
+
+.wgf-item-index-layout .wgf-seo-hero > :last-child {
+  padding-bottom: 18px;
 }
 
 .wgf-item-index-layout .wgf-seo-hero::after {
@@ -315,12 +324,12 @@ body.wgf-shell-page[data-wgf-page="item-index"]::before {
   grid-column: 3;
   grid-row: 1 / -1;
   align-self: stretch;
-  min-height: 128px;
-  border: 1px solid var(--wgf-border-strong);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.65);
+  min-height: 210px;
+  border: 0;
+  border-left: 1px solid var(--wgf-metal);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
   background:
-    linear-gradient(180deg, rgba(12, 10, 8, 0.10), rgba(12, 10, 8, 0.42)),
-    url("/assets/dungeon-tiles/pit-of-saron.jpg") center 42% / cover no-repeat;
+    url("/assets/dungeon-tiles/windrunner-spire.jpg") center 32% / cover no-repeat;
 }
 
 .wgf-item-index-layout .wgf-seo-eyebrow {
@@ -408,16 +417,26 @@ body.wgf-shell-page[data-wgf-page="item-index"]::before {
 @media (max-width: 720px) {
   .wgf-item-index-layout .wgf-seo-hero {
     grid-template-columns: 56px minmax(0, 1fr);
-    padding: 16px 14px 18px;
   }
   .wgf-item-index-layout .wgf-seo-hero::before {
-    width: 52px;
-    height: 52px;
-    padding: 10px 10px 20.1px 24.4px;
-    margin: -10px -10px -20.1px -24.4px;
+    width: 48px;
+    height: 48px;
+    padding: 9.3px 9.3px 18.6px 22.6px;
+    margin: 14px 0 14px 10px;
   }
   .wgf-item-index-layout .wgf-seo-hero::after {
-    display: none;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-height: 96px;
+    border-left: 0;
+    border-bottom: 1px solid var(--wgf-metal);
+  }
+  .wgf-item-index-layout .wgf-seo-hero::before,
+  .wgf-item-index-layout .wgf-seo-hero > * {
+    grid-row: auto;
+  }
+  .wgf-item-index-layout .wgf-seo-hero > .wgf-seo-eyebrow {
+    padding-top: 12px;
   }
 }
 
