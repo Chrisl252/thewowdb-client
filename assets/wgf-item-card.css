@@ -43,16 +43,17 @@ a.wgf-item-chip.q-artifact{color:var(--q-artifact)}a.wgf-item-chip.q-heirloom{co
   align-items: start;
   column-gap: 2px;
   row-gap: 0;
-  padding: 14px 16px 14px 14px;
+  padding: 14px 16px 12px 14px;
   border: 2px solid var(--wgf-metal);
   border-radius: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.22)),
-    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(0, 0, 0, 0.14)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 180px 180px repeat,
     var(--wgf-panel-1);
   box-shadow:
-    inset 0 0 0 1px rgba(0, 0, 0, 0.65),
-    inset 0 1px 0 rgba(var(--wgf-gold-rgb), 0.10),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 rgba(var(--wgf-gold-rgb), 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
     var(--shadow-2, 0 12px 38px rgba(0, 0, 0, 0.45));
   transition:
     border-color var(--motion-fast, 120ms) var(--ease-standard, ease),
@@ -198,14 +199,14 @@ a.wgf-item-chip.q-artifact{color:var(--q-artifact)}a.wgf-item-chip.q-heirloom{co
   margin-right: 0;
   font-size: 0;
   line-height: 0;
-  color: transparent;
-  border: 1px solid currentColor;
+  color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.55);
   background: currentColor;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
   transform: rotate(45deg);
 }
-.ic-tier--gold { color: var(--wgf-gold-primary); }
-.ic-tier--silver { color: #cdd3da; }
+.ic-tier--gold { color: var(--wgf-gold-bright, var(--wgf-gold-primary)); }
+.ic-tier--silver { color: #e4e8ee; }
 .ic-tier--bronze { color: #c8814b; }
 .ic-coins {
   display: inline-flex;
@@ -247,6 +248,8 @@ a.wgf-item-chip.q-artifact{color:var(--q-artifact)}a.wgf-item-chip.q-heirloom{co
   align-items: center;
   column-gap: 2px;
   min-width: 0;
+  /* Clear the frame's bottom flourish so the ledger does not sit under it. */
+  padding-bottom: 10px;
 }
 .wgf-item-card:has(> .ic-identity) {
   display: flex;
@@ -254,8 +257,9 @@ a.wgf-item-chip.q-artifact{color:var(--q-artifact)}a.wgf-item-chip.q-heirloom{co
   gap: 0;
 }
 .ic-identity .ic-body { padding-top: 0; }
+.ic-identity .ic-icon { align-self: center; }
 .wgf-item-card:has(> .ic-identity) > .ic-price {
-  margin-top: 12px;
+  margin-top: 0;
 }
 
 /* Card grid for shelves of featured / category items */

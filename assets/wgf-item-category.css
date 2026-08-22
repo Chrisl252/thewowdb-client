@@ -29,8 +29,8 @@ body[data-wgf-page="item-category"] {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(120% 85% at 50% 6%, rgba(var(--wgf-gold-rgb), 0.11), transparent 46%),
-    linear-gradient(180deg, rgba(12, 10, 8, 0.84) 0%, rgba(12, 10, 8, 0.76) 30%, rgba(11, 9, 7, 0.92) 100%);
+    radial-gradient(120% 85% at 50% 6%, rgba(var(--wgf-gold-rgb), 0.14), transparent 46%),
+    linear-gradient(180deg, rgba(12, 10, 8, 0.70) 0%, rgba(12, 10, 8, 0.64) 32%, rgba(11, 9, 7, 0.86) 100%);
 }
 
 body[data-wgf-page="item-category"][data-wgf-cat="herb"] .icp-pagebg {
