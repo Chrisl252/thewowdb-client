@@ -1,4 +1,4 @@
-const payload = await fetch("../assets/comments/item-227774.json").then((r) => r.json());
+const payload = await fetch("/assets/comments/item-227774.json").then((r) => r.json());
 
 const root = document.getElementById("related");
 window.WGFComments.mount(root, payload);
