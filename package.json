@@ -1,0 +1,13 @@
+{
+  "name": "thewowdb-mplus-dungeons-preview",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "node pve/mythic-plus/dungeons/dungeon-art.test.js"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
