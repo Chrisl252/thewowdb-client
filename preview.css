@@ -1,0 +1,64 @@
+@font-face {
+  font-family: "FrizQuadrata";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/assets/fonts/frizqt.woff2") format("woff2");
+}
+
+:root {
+  --font-game: "FrizQuadrata", "Palatino Linotype", Palatino, serif;
+  --font-game-display: "FrizQuadrata", "Palatino Linotype", Palatino, serif;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --space-3: 16px;
+  --space-5: 32px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #16110a;
+  color: #2c1d0b;
+}
+
+.hm-hero {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 56px) 24px;
+}
+
+.wgf-parchment-pane {
+  --wgf-text: #2c1d0b;
+  position: relative;
+  box-sizing: border-box;
+  padding: 34px;
+  color: #2c1d0b;
+  background:
+    url("/assets/ui/achievement-wood-nineslice-cornertopleft.png") top left / 34px auto no-repeat,
+    url("/assets/ui/achievement-wood-nineslice-cornertopright.png") top right / 34px auto no-repeat,
+    url("/assets/ui/achievement-wood-nineslice-cornerbottomleft.png") bottom left / 34px auto no-repeat,
+    url("/assets/ui/achievement-wood-nineslice-cornerbottomright.png") bottom right / 34px auto no-repeat,
+    url("/assets/ui/_achievement-wood-nineslice-edgetop.png") top center / auto 34px repeat-x,
+    url("/assets/ui/_achievement-wood-nineslice-edgebottom.png") bottom center / auto 34px repeat-x,
+    url("/assets/ui/!achievement-wood-nineslice-edgeleft.png") left center / 34px auto repeat-y,
+    url("/assets/ui/!achievement-wood-nineslice-edgeright.png") right center / 34px auto repeat-y,
+    url("/assets/ui/questbg-parchment.png") center / cover no-repeat,
+    #c6a46b;
+}
+
+.wgf-parchment-pane__title {
+  margin: 0 0 16px;
+  color: #7a3f10;
+  font-family: var(--font-game-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+
+button.catchip {
+  font: inherit;
+}
