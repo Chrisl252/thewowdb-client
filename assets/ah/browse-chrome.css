@@ -10,18 +10,23 @@
    sat as an unmerged footnote.
    ========================================================================= */
 
+.ah-layout {
+  align-items: stretch;
+}
+
 .wgf-window .ah-sidebar {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
   padding: 0;
   background:
     linear-gradient(180deg, rgba(8, 6, 4, 0.42), rgba(8, 6, 4, 0.58)),
     url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat;
-  border-right: 1px solid rgba(0, 0, 0, 0.55);
+  border-right: 1px solid rgba(0, 0, 0, 0.62);
   box-shadow:
-    inset -1px 0 0 rgba(255, 255, 255, 0.04),
-    inset 0 0 12px rgba(0, 0, 0, 0.25);
+    inset -12px 0 16px -12px rgba(0, 0, 0, 0.7),
+    inset -1px 0 0 rgba(255, 255, 255, 0.04);
 }
 
 .wgf-window .ah-sidebar-head {
@@ -31,7 +36,7 @@
 .wgf-window .ah-sidebar-title {
   box-sizing: border-box;
   margin: 0;
-  padding: 10px 12px 8px;
+  padding: 8px 12px 7px;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.55);
   border-radius: 0;
@@ -57,7 +62,7 @@
 .wgf-window .ah-cat-row--all-items {
   box-sizing: border-box;
   margin: 0;
-  min-height: 28px;
+  min-height: 30px;
   padding: 0 10px;
   border: 0;
   border-radius: 0;
@@ -66,7 +71,7 @@
   font-family: var(--font-game);
   font-size: 13px;
   font-weight: 600;
-  line-height: 28px;
+  line-height: 30px;
 }
 
 .wgf-window .ah-cat-row--all-items {
@@ -79,6 +84,11 @@
 }
 
 .wgf-window .ah-cat-caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  flex: 0 0 14px;
   color: var(--wgf-gold-muted);
   font-size: 11px;
   line-height: 1;
@@ -142,11 +152,21 @@
   width: 44px;
 }
 
+.ah-table tbody td {
+  height: 44px;
+}
+
 .ah-table thead th.col-fav,
 .ah-table td.col-fav {
   text-align: center;
   vertical-align: middle;
   padding: 0;
+}
+
+.ah-table td.col-fav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ah-table thead th.col-fav {
@@ -205,7 +225,7 @@
    ========================================================================= */
 
 .ah-table tbody tr:last-child > * {
-  border-bottom-color: transparent;
+  border-bottom: 0;
 }
 
 .wgf-window .ah-main {
@@ -244,9 +264,9 @@
 }
 
 .ah-page .ah-about {
-  margin-top: var(--space-5);
-  padding: var(--space-4) 2px 0;
-  border-top: 1px solid rgba(var(--wgf-gold-rgb), 0.18);
+  margin-top: var(--space-4);
+  padding: var(--space-3) 2px 0;
+  border-top: 1px solid rgba(var(--wgf-gold-rgb), 0.22);
 }
 
 .ah-page .ah-about h2 {
