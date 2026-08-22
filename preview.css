@@ -1,0 +1,114 @@
+/* Preview tokens — subset of static/css/_tokens.css (Warm Stone + Gold). */
+@font-face {
+  font-family: "FrizQuadrata";
+  src: url("/assets/fonts/frizqt.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --wgf-bg-base: #16110a;
+  --wgf-bg: var(--wgf-bg-base);
+  --wgf-bg-2: #1c160e;
+  --wgf-panel: #221b11;
+  --wgf-panel-1: #221b11;
+  --wgf-panel-2: #2b2215;
+  --wgf-panel-3: #352a1a;
+  --wgf-border: rgba(var(--wgf-gold-rgb), 0.24);
+  --wgf-border-strong: rgba(var(--wgf-gold-rgb), 0.42);
+  --wgf-border-neutral: #453824;
+  --wgf-gold-primary: #f0c040;
+  --wgf-gold: var(--wgf-gold-primary);
+  --wgf-gold-bright: #ffd978;
+  --wgf-gold-link: #ffd978;
+  --wgf-gold-muted: #b9a66b;
+  --wgf-gold-dim: #8d7625;
+  --wgf-gold-rgb: 240, 192, 64;
+  --wgf-on-gold: #160b00;
+  --wgf-text: #ece7dd;
+  --wgf-muted: #b1a58c;
+  --wgf-metal: #4a4a4a;
+  --wgf-metal-soft: #2e2e2e;
+  --wgf-well: #0a0a0c;
+  --wgf-plate: var(--wgf-well);
+  --wgf-up: #3fcf6b;
+  --wgf-up-rgb: 63, 207, 107;
+  --fc-alliance: #3a6fd8;
+  --font-display: "Cinzel", "Palatino Linotype", serif;
+  --font-ui: "Crimson Text", Georgia, serif;
+  --font-game: "FrizQuadrata", "Cinzel", serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --text-ink-outline: 0 1px 2px rgba(0, 0, 0, 0.92), 0 0 4px rgba(0, 0, 0, 0.6);
+  --focus-ring: 0 0 0 2px var(--wgf-bg), 0 0 0 4px var(--wgf-gold-primary);
+  --motion-fast: 120ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { margin: 0; min-height: 100%; }
+
+body.wgf-shell-page {
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+  background-color: #0c0a08;
+  background-image: none;
+}
+
+body.wgf-shell-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70rem 34rem at 50% -6rem, rgba(var(--wgf-gold-rgb), 0.10), transparent 70%),
+    radial-gradient(ellipse 90rem 50rem at 50% 115%, rgba(0, 0, 0, 0.55), transparent 70%),
+    linear-gradient(180deg, rgba(12, 10, 8, 0.72) 0%, rgba(12, 10, 8, 0.88) 100%),
+    url("/assets/ui/classhall-stone-tile.png") left top / 256px 256px repeat,
+    #0c0a08;
+}
+
+a { color: var(--wgf-gold-link); }
+a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.wgf-pvp-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-7);
+}
+
+.wgf-seo-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+  list-style: none;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  font-family: var(--font-game);
+  font-size: var(--text-sm);
+  color: var(--wgf-muted);
+}
+.wgf-seo-breadcrumb a { color: var(--wgf-gold-muted); text-decoration: none; }
+.wgf-seo-breadcrumb a:hover { color: var(--wgf-gold-bright); text-decoration: underline; }
+.wgf-seo-breadcrumb li:not(:last-child)::after {
+  content: "›";
+  margin-left: 0.55rem;
+  color: var(--wgf-gold-dim);
+}
