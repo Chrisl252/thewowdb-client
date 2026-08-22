@@ -37,16 +37,20 @@
     }, 1500);
   }
 
-  function copyText(text, btn, okLabel) {
+  function writeClipboard(text, onDone) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(
-        function () { flash(btn, okLabel); },
-        function () { fallbackCopy(text); flash(btn, okLabel); }
-      );
+      navigator.clipboard.writeText(text).then(onDone, function () {
+        fallbackCopy(text);
+        onDone();
+      });
     } else {
       fallbackCopy(text);
-      flash(btn, okLabel);
+      onDone();
     }
+  }
+
+  function copyText(text, btn, okLabel) {
+    writeClipboard(text, function () { flash(btn, okLabel); });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -70,13 +74,13 @@
         if (live) {
           live.textContent = PLACE.subzone + " — " + PLACE.x.toFixed(1) + ", " + PLACE.y.toFixed(1);
         }
-        copyText(PLACE.way, pinBtn, "Copied /way");
-        var label = pinBtn.querySelector(".rk-pin__label");
-        if (label) {
+        writeClipboard(PLACE.way, function () {
+          var label = pinBtn.querySelector(".rk-pin__label");
+          if (!label) return;
           var prev = label.textContent;
-          label.textContent = "Copied";
+          label.textContent = "Copied /way";
           setTimeout(function () { label.textContent = prev; }, 1500);
-        }
+        });
       });
     }
   });
