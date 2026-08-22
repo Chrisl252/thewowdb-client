@@ -1,0 +1,12 @@
+{
+  "name": "thewowdb-reckful-pin-preview",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4188",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4188"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
