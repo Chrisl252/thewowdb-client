@@ -281,12 +281,23 @@ body[data-wgf-page="auction-house"] .wgf-shell-search {
 
 .ah-toolbar {
   display: grid;
-  grid-template-columns: minmax(168px, 220px) minmax(200px, 1fr) 130px minmax(168px, 220px) 140px;
+  grid-template-columns: minmax(168px, 220px) minmax(200px, 1fr) 130px minmax(300px, 380px);
   gap: var(--space-2);
   align-items: center;
   padding: var(--space-2) 12px;
   background: linear-gradient(180deg, var(--wgf-plate-hi), var(--wgf-plate));
   border-bottom: 1px solid var(--wgf-metal-soft);
+}
+
+.ah-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.ah-toolbar__actions > * {
+  flex: 1 1 0;
 }
 
 .ah-control,
@@ -517,8 +528,7 @@ body[data-wgf-page="auction-house"] .wgf-shell-search {
   }
 
   .ah-searchbox,
-  .ah-cheapest-realm,
-  .ah-search-button {
+  .ah-toolbar__actions {
     grid-column: 1 / -1;
   }
 
