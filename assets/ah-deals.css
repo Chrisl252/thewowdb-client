@@ -136,13 +136,35 @@ body[data-wgf-page="ah-deals"] .ah-window.deals-window {
   border: 2px solid var(--wgf-metal);
   border-radius: 0;
   background:
-    linear-gradient(rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.44)),
+    linear-gradient(rgba(0, 0, 0, 0.50), rgba(0, 0, 0, 0.50)),
     url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
     var(--wgf-plate);
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.65),
     var(--shadow-2);
   overflow: hidden;
+}
+body[data-wgf-page="ah-deals"] .ah-window.deals-window::before {
+  content: "Deal Candidates";
+  display: block;
+  min-height: 36px;
+  padding: 8px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.38)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate-hi);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.4);
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-shadow: var(--text-ink-outline);
 }
 
 /* ── Control deck: toolbar + filters as one carved plate ──────────────────── */
@@ -337,13 +359,14 @@ body[data-wgf-page="ah-deals"] .ah-window.deals-window {
   border: 0;
   border-radius: 0;
   background:
+    linear-gradient(rgba(8, 6, 4, 0.42), rgba(8, 6, 4, 0.42)),
     url(/assets/ui/auctionhouse-ui-inputfield-left.png) left center / auto 100% no-repeat,
     url(/assets/ui/auctionhouse-ui-inputfield-right.png) right center / auto 100% no-repeat,
     url(/assets/ui/auctionhouse-ui-inputfield-middle.png) left center / auto 100% repeat-x;
   color: var(--wgf-text);
   font-family: var(--font-ui);
   font-size: var(--text-sm);
-  box-shadow: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
   appearance: textfield;
   -moz-appearance: textfield;
 }
@@ -432,13 +455,14 @@ body[data-wgf-page="ah-deals"] .ah-window.deals-window {
 }
 
 #dealsSourceSelect,
-.wgf-select {
+body[data-wgf-page="ah-deals"] .wgf-select {
   height: var(--wgf-dropdown-h);
   min-width: 180px;
   padding: 0 40px 0 12px;
   border: 0;
   border-radius: 0;
   background:
+    linear-gradient(rgba(8, 6, 4, 0.38), rgba(8, 6, 4, 0.38)),
     url(/assets/ui/auctionhouse-ui-dropdown-arrow-down.png) right 6px center / auto 20px no-repeat,
     url(/assets/ui/auctionhouse-ui-dropdown-left.png) left center / auto 100% no-repeat,
     url(/assets/ui/auctionhouse-ui-dropdown-right.png) right center / auto 100% no-repeat,
@@ -450,7 +474,7 @@ body[data-wgf-page="ah-deals"] .ah-window.deals-window {
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
-  box-shadow: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 #dealsSourceSelect:focus-visible,
 .wgf-select:focus-visible {
@@ -565,7 +589,7 @@ body[data-wgf-page="ah-deals"] .ah-table-shell.deals-table-shell {
 
 .deals-table tbody td {
   height: auto;
-  padding: 9px 10px;
+  padding: 11px 10px;
   vertical-align: middle;
   border-bottom: 1px solid rgba(46, 46, 46, 0.85);
 }
@@ -647,16 +671,25 @@ body[data-wgf-page="ah-deals"] .ah-table-shell.deals-table-shell {
 }
 .deals-item-iconwrap {
   position: relative;
-  flex: 0 0 36px;
-  width: 36px;
-  height: 36px;
-  background:
-    url(/assets/ui/spellbook-item-iconframe.png) center / 100% 100% no-repeat,
-    #080706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  background: #080706;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.75);
+}
+.deals-item-iconwrap::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  background: url(/assets/ui/spellbook-item-iconframe.png) center / 100% 100% no-repeat;
+  pointer-events: none;
 }
 .deals-item-icon {
-  position: absolute;
-  inset: 6px;
+  position: relative;
+  z-index: 0;
   width: 24px;
   height: 24px;
   border: 0;
@@ -667,6 +700,7 @@ body[data-wgf-page="ah-deals"] .ah-table-shell.deals-table-shell {
 .deals-item-copy {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   min-width: 0;
   gap: 2px;
 }
@@ -692,7 +726,7 @@ body[data-wgf-page="ah-deals"] .ah-table-shell.deals-table-shell {
   min-width: 4.4em;
   padding: 3px 8px;
   border-radius: 0;
-  border: 1px solid var(--wgf-metal);
+  border: 1px solid #2a2418;
   font-family: var(--font-game);
   font-size: 10.5px;
   font-weight: 800;
@@ -700,7 +734,9 @@ body[data-wgf-page="ah-deals"] .ah-table-shell.deals-table-shell {
   font-variant: small-caps;
   text-transform: none;
   text-shadow: var(--text-ink-outline);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.4);
 }
 .deals-src--realm {
   background: color-mix(in srgb, var(--wgf-gold-primary) 12%, #1a140c);
@@ -742,13 +778,15 @@ body[data-wgf-page="ah-deals"] .ah-table-shell.deals-table-shell {
   align-items: center;
   justify-content: center;
   min-width: 4.6em;
-  padding: 4px 8px;
+  padding: 5px 9px;
   border-radius: 0;
-  border: 1px solid var(--wgf-metal);
+  border: 1px solid #2a2418;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.28)),
-    var(--wgf-panel-2);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.42)),
+    #1a1610;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -8px 12px rgba(0, 0, 0, 0.45);
 }
 .deals-table .dsb-compact__tier {
   font-family: var(--font-game);
