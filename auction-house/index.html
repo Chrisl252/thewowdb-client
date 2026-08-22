@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auction House — TheWoWDB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-ah.css">
+</head>
+<body class="wgf-shell-page wgf-ah-page" data-wgf-page="auction-house">
+  <header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner">
+      <a class="wgf-shell-logo" href="/auction-house/">THEWOWDB</a>
+      <nav class="wgf-shell-nav" aria-label="Primary">
+        <a href="/auction-house/" class="is-active">Items</a>
+        <div class="wgf-nav-group">
+          <button class="wgf-nav-trigger" type="button" aria-expanded="false">
+            Game <span class="wgf-nav-caret" aria-hidden="true"></span>
+          </button>
+          <div class="wgf-nav-menu" role="menu">
+            <a href="/auction-house/" class="is-active" role="menuitem">Auction House</a>
+            <a href="/cheapest-realm/" role="menuitem">Cheapest Realm</a>
+          </div>
+        </div>
+        <a href="/cheapest-realm/">Cheapest Realm</a>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="wgf-seo-breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/auction-house/">Home</a></li>
+      <li aria-current="page">Auction House</li>
+    </ol>
+  </nav>
+
+  <main class="wgf-shell-main">
+    <header class="wgf-page-hero wgf-page-hero--ah-compact">
+      <h1>Auction House</h1>
+      <p class="wgf-page-hero--ah-tagline">
+        Search any item for live realm prices from recorded Auction House snapshots.
+      </p>
+    </header>
+
+    <section class="wgf-window" aria-labelledby="ah-window-title">
+      <header class="wgf-window__title" id="ah-window-title">Browse Auctions</header>
+
+      <form class="ah-toolbar" id="ahSearchForm" role="search">
+        <label class="visually-hidden" for="ahRealm">Realm</label>
+        <select class="ah-control ah-realm-select" id="ahRealm" name="realm">
+          <option>Area 52</option>
+          <option>Stormrage</option>
+          <option>Illidan</option>
+          <option>Proudmoore</option>
+        </select>
+
+        <label class="ah-searchbox" for="ahSearch">
+          <span aria-hidden="true">⌕</span>
+          <input id="ahSearch" name="q" type="search" placeholder="Search items" autocomplete="off">
+        </label>
+
+        <button class="ah-filter-button" id="ahMarketShare" type="button">Market Share</button>
+
+        <a
+          class="wgf-btn-red ah-cheapest-realm"
+          id="ahCheapestRealm"
+          href="/cheapest-realm/"
+        >Compare cheapest realm</a>
+
+        <button class="ah-search-button wgf-btn-red" type="submit">Search</button>
+      </form>
+
+      <div class="ah-layout">
+        <aside class="ah-sidebar" aria-label="Categories">
+          <h2 class="ah-sidebar-title">Categories</h2>
+          <button class="ah-cat-row is-active" type="button" data-ah-cat="all" aria-current="true">All Items</button>
+          <button class="ah-cat-row" type="button" data-ah-cat="herb">Herbs</button>
+          <button class="ah-cat-row" type="button" data-ah-cat="cloth">Cloth</button>
+          <button class="ah-cat-row" type="button" data-ah-cat="potion">Potions &amp; Flasks</button>
+          <button class="ah-cat-row" type="button" data-ah-cat="reagent">Reagents</button>
+        </aside>
+
+        <div class="ah-table-shell wgf-scroll">
+          <table class="ah-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Min buyout</th>
+                <th>Available</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-ah-row data-name="Peacebloom" data-cat="herb">
+                <td><a class="ah-item-name q-uncommon" href="/cheapest-realm/?q=Peacebloom">Peacebloom</a></td>
+                <td>Herb</td>
+                <td class="ah-price">1g 24s</td>
+                <td>18,420</td>
+              </tr>
+              <tr data-ah-row data-name="Silverleaf" data-cat="herb">
+                <td><a class="ah-item-name q-uncommon" href="/cheapest-realm/?q=Silverleaf">Silverleaf</a></td>
+                <td>Herb</td>
+                <td class="ah-price">96s 40c</td>
+                <td>12,110</td>
+              </tr>
+              <tr data-ah-row data-name="Lightweave Cloth" data-cat="cloth">
+                <td><a class="ah-item-name q-uncommon" href="/cheapest-realm/?q=Lightweave%20Cloth">Lightweave Cloth</a></td>
+                <td>Cloth</td>
+                <td class="ah-price">4g 10s</td>
+                <td>6,804</td>
+              </tr>
+              <tr data-ah-row data-name="Flask of Alchemical Chaos" data-cat="potion">
+                <td><a class="ah-item-name q-rare" href="/cheapest-realm/?q=Flask%20of%20Alchemical%20Chaos">Flask of Alchemical Chaos</a></td>
+                <td>Flask</td>
+                <td class="ah-price">312g 50s</td>
+                <td>240</td>
+              </tr>
+              <tr data-ah-row data-name="Pummel Permit" data-cat="reagent">
+                <td><a class="ah-item-name q-rare" href="/cheapest-realm/?q=Pummel%20Permit">Pummel Permit</a></td>
+                <td>Reagent</td>
+                <td class="ah-price">84,200g</td>
+                <td>7</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="ah-empty" id="ahEmpty" hidden>No listings match that search on this realm.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/assets/ah-browser.js"></script>
+</body>
+</html>
