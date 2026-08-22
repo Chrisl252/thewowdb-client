@@ -49,13 +49,23 @@
   // Painted from localStorage first so a slow / failed /api/auth/me never blanks
   // the header. /api/auth/me only upgrades it.
   (function () {
-    function loadIdentity(done) {
-      if (window.WGFHeaderIdentity) { done(window.WGFHeaderIdentity); return; }
+    function loadScript(src, done) {
       var s = document.createElement("script");
-      s.src = "/assets/wgf-header-identity.js?v=hid1";
-      s.onload = function () { done(window.WGFHeaderIdentity || null); };
-      s.onerror = function () { done(null); };
+      s.src = src;
+      s.onload = function () { done(); };
+      s.onerror = function () { done(); };
       document.head.appendChild(s);
+    }
+
+    function loadIdentity(done) {
+      function after() {
+        if (window.WGFHeaderIdentity) { done(window.WGFHeaderIdentity); return; }
+        loadScript("/assets/wgf-header-identity.js?v=hid2", function () {
+          done(window.WGFHeaderIdentity || null);
+        });
+      }
+      if (window.WGFIdentityFormat) { after(); return; }
+      loadScript("/assets/wgf-identity-format.js?v=hid2", after);
     }
 
     loadIdentity(function (HID) {
@@ -63,8 +73,8 @@
                 document.querySelector(".wgf-realm-btn");
       if (HID) {
         if (!btn) btn = HID.mountChip(document);
-        if (!btn) return;
         HID.paint(btn, window.WGFAuth || null);
+        if (!btn) return;
       } else if (!btn) {
         return;
       }

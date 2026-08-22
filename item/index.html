@@ -4,15 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Thunderfury — TheWoWDB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Text:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
   <link rel="stylesheet" href="/preview.css">
   <link rel="stylesheet" href="/assets/wgf-site-shell.css">
   <link rel="stylesheet" href="/assets/wgf-chrome.css">
 </head>
-<body class="wgf-shell-page" data-wgf-page="item">
+<body class="wgf-shell-page" data-wgf-page="item" data-wgf-snapshot="2026-08-22T19:00:00.000Z" data-wgf-expansion="Midnight">
   <header class="wgf-shell-topbar">
     <div class="wgf-shell-topbar__inner">
       <a class="wgf-shell-logo" href="/" aria-label="TheWoWDB - Home">TheWoWDB</a>
       <nav id="wgf-primary-nav" class="wgf-shell-nav" aria-label="Primary navigation">
+        <a class="wgf-nav-link" href="/herbs/">Herbs</a>
         <a class="wgf-nav-link is-active" href="/item/">Item Prices</a>
         <a class="wgf-nav-link" href="/guides/">Guides</a>
       </nav>
@@ -26,22 +29,16 @@
   </header>
 
   <main class="preview-note">
-    <p><strong>Inner page</strong> — this template also omits <code>.wgf-shell-right</code>. After navigation the chip must still show <strong>Alterrboy · Proudmoore US · Retail</strong>, not just a character name.</p>
+    <p><strong>Inner page</strong> — this template also omits <code>.wgf-shell-right</code>. The header still shows <strong>Alterrboy</strong>, <strong>Proudmoore US</strong>, <strong>Retail</strong>, and the gold live plate (last updated + US Region · Retail (Midnight)).</p>
     <div class="preview-nav">
       <a href="/">Home</a>
+      <a href="/herbs/">Herbs</a>
       <a href="/guides/">Guides</a>
     </div>
   </main>
 
-  <script>
-    try {
-      localStorage.setItem("wgf-auth-account", "Alterrboy");
-      localStorage.setItem("wgf-ah-realm", "proudmoore");
-      localStorage.setItem("wgf-ah-realm-name", "Proudmoore");
-      localStorage.setItem("wgf-ah-region", "us");
-      localStorage.setItem("wgf-ah-game", "retail");
-    } catch (e) {}
-  </script>
+  <script src="/assets/wgf-header-demo.js"></script>
+  <script src="/assets/wgf-identity-format.js"></script>
   <script src="/assets/wgf-header-identity.js"></script>
   <script src="/assets/wgf-shell.js"></script>
 </body>

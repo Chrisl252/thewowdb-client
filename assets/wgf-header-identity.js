@@ -10,10 +10,10 @@
  * every page). Vanilla; UMD so the same file is the node test target.
  */
 (function (root, factory) {
-  var api = factory();
+  var api = factory(root);
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.WGFHeaderIdentity = api;
-})(typeof window !== "undefined" ? window : globalThis, function () {
+})(typeof window !== "undefined" ? window : globalThis, function (root) {
   "use strict";
 
   var LS_REALM = "wgf-ah-realm";
@@ -259,20 +259,117 @@
     return btn;
   }
 
+  function fmt() {
+    return (root && root.WGFIdentityFormat) ||
+      (typeof require === "function" ? require("./wgf-identity-format.js") : null);
+  }
+
+  function readSnapshot(doc, extra) {
+    extra = extra || {};
+    var snap = (root && root.WGFSnapshot) || {};
+    var el = doc && (doc.querySelector("[data-wgf-header-status]") ||
+                     doc.querySelector("[data-wgf-snapshot]") ||
+                     doc.body);
+    var live = extra.live;
+    if (live == null) live = snap.live;
+    if (live == null && el && el.getAttribute) {
+      var attr = el.getAttribute("data-wgf-live");
+      if (attr === "0" || attr === "false") live = false;
+    }
+    if (live == null) live = true;
+    var lastUpdated = extra.lastUpdated || snap.lastUpdated ||
+      (el && el.getAttribute && (el.getAttribute("data-wgf-snapshot") || el.getAttribute("data-updated"))) || "";
+    var expansion = extra.expansion || snap.expansion ||
+      (el && el.getAttribute && el.getAttribute("data-wgf-expansion")) || "";
+    return { live: !!live, lastUpdated: lastUpdated, expansion: expansion };
+  }
+
+  function statusBarHTML(model, snapshot) {
+    var F = fmt() || {};
+    snapshot = snapshot || { live: true, lastUpdated: "", expansion: "" };
+    var live = snapshot.live !== false;
+    var account = model.signedIn && model.account ? model.account : "";
+    var realm = model.realm || "";
+    var version = model.version || "Retail";
+    var gameCtx = F.formatGameContext
+      ? F.formatGameContext({
+          region: model.region || "US",
+          version: model.gameKey || version,
+          expansion: snapshot.expansion
+        })
+      : "US Region · Retail (Midnight)";
+    var liveLabel = F.formatLiveLabel ? F.formatLiveLabel(live) : (live ? "Live · updated hourly" : "Offline · last verified");
+    var cadence = F.formatCadence ? F.formatCadence() : "Usually refreshed hourly";
+    var updated = snapshot.lastUpdated && F.formatLastUpdated
+      ? F.formatLastUpdated(snapshot.lastUpdated)
+      : "";
+    var iso = snapshot.lastUpdated || "";
+    var who = "";
+    if (account) who += '<span class="wgf-header-status__account">' + esc(account) + "</span>";
+    if (realm) who += '<span class="wgf-header-status__realm">' + esc(realm) + "</span>";
+    who += '<span class="wgf-header-status__version">' + esc(version) + "</span>";
+    return (
+      '<div class="wgf-header-status__plate' + (live ? " is-live" : " is-offline") + '">' +
+        '<div class="wgf-header-status__who">' + who + "</div>" +
+        '<div class="wgf-header-status__live">' +
+          '<span class="wgf-header-status__dot" aria-hidden="true"></span>' +
+          '<span class="wgf-header-status__label">' + esc(liveLabel) + "</span>" +
+          (updated ? '<time class="wgf-header-status__updated" datetime="' + esc(iso) + '">' + esc(updated) + "</time>" : "") +
+        "</div>" +
+        '<div class="wgf-header-status__meta">' +
+          '<span class="wgf-header-status__cadence">' + esc(cadence) + "</span>" +
+          '<span class="wgf-header-status__scope">' + esc(gameCtx) + "</span>" +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function mountStatusBar(doc) {
+    doc = doc || document;
+    var existing = doc.querySelector("[data-wgf-header-status]");
+    if (existing) return existing;
+    var topbar = doc.querySelector(".wgf-shell-topbar");
+    if (!topbar) return null;
+    var bar = doc.createElement("aside");
+    bar.className = "wgf-header-status";
+    bar.setAttribute("data-wgf-header-status", "1");
+    bar.setAttribute("aria-label", "Live market status");
+    topbar.appendChild(bar);
+    return bar;
+  }
+
+  function paintStatusBar(doc, model, snapshot) {
+    doc = doc || (typeof document !== "undefined" ? document : null);
+    if (!doc) return model;
+    var bar = mountStatusBar(doc);
+    if (!bar) return model;
+    var snap = readSnapshot(doc, snapshot);
+    bar.innerHTML = statusBarHTML(model, snap);
+    bar.classList.toggle("wgf-header-status--signedin", !!(model.signedIn && model.account));
+    bar.classList.toggle("wgf-header-status--guest", !(model.signedIn && model.account));
+    bar.classList.toggle("is-live", snap.live);
+    bar.hidden = false;
+    bar.removeAttribute("hidden");
+    return bar;
+  }
+
   function paint(btn, auth, storage) {
-    if (!btn) return identityModel(auth, storage);
     var model = identityModel(auth, storage);
     persistModel(model, storage);
-    btn.innerHTML = chipHTML(model);
-    btn.title = chipLabel(model);
-    btn.setAttribute("aria-label", chipLabel(model));
-    btn.classList.toggle("wgf-header-identity--signedin", model.signedIn && !!model.account);
-    btn.classList.toggle("wgf-header-identity--guest", !(model.signedIn && model.account));
-    btn.classList.toggle("wgf-realm-btn--signedin", model.signedIn && !!model.account);
-    btn.classList.toggle("wgf-realm-btn--character", false);
-    btn.style.color = "";
-    btn.hidden = false;
-    btn.removeAttribute("hidden");
+    if (btn && !btn.hasAttribute("data-wgf-chrome-owned")) {
+      btn.innerHTML = chipHTML(model);
+      btn.title = chipLabel(model);
+      btn.setAttribute("aria-label", chipLabel(model));
+      btn.classList.toggle("wgf-header-identity--signedin", model.signedIn && !!model.account);
+      btn.classList.toggle("wgf-header-identity--guest", !(model.signedIn && model.account));
+      btn.classList.toggle("wgf-realm-btn--signedin", model.signedIn && !!model.account);
+      btn.classList.toggle("wgf-realm-btn--character", false);
+      btn.style.color = "";
+      btn.hidden = false;
+      btn.removeAttribute("hidden");
+    }
+    var doc = (btn && btn.ownerDocument) || (typeof document !== "undefined" ? document : null);
+    if (doc) paintStatusBar(doc, model);
     return model;
   }
 
@@ -294,8 +391,12 @@
     persistModel: persistModel,
     chipHTML: chipHTML,
     chipLabel: chipLabel,
+    statusBarHTML: statusBarHTML,
+    readSnapshot: readSnapshot,
     ensureRightCluster: ensureRightCluster,
     mountChip: mountChip,
+    mountStatusBar: mountStatusBar,
+    paintStatusBar: paintStatusBar,
     paint: paint,
     readStorage: readStorage,
     writeStorage: writeStorage

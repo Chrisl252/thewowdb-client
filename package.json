@@ -1,11 +1,11 @@
 {
-  "name": "thewowdb-header-identity-preview",
+  "name": "thewowdb-identity-chrome-preview",
   "private": true,
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4173",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
-    "test": "node --test header-identity.test.js"
+    "test": "node --test enter-world/identity.test.js header-identity.test.js"
   },
   "devDependencies": {
     "jsdom": "^26.1.0",

@@ -3,40 +3,45 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TheWoWDB — Header identity</title>
+  <title>WoW Herbs — TheWoWDB</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Text:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
   <link rel="stylesheet" href="/preview.css">
   <link rel="stylesheet" href="/assets/wgf-site-shell.css">
   <link rel="stylesheet" href="/assets/wgf-chrome.css">
 </head>
-<body class="wgf-shell-page" data-wgf-page="home" data-wgf-snapshot="2026-08-22T19:00:00.000Z" data-wgf-expansion="Midnight">
+<body class="wgf-shell-page" data-wgf-page="herbs" data-wgf-snapshot="2026-08-22T19:00:00.000Z" data-wgf-expansion="Midnight">
   <header class="wgf-shell-topbar">
     <div class="wgf-shell-topbar__inner">
       <a class="wgf-shell-logo" href="/" aria-label="TheWoWDB - Home">TheWoWDB</a>
       <nav id="wgf-primary-nav" class="wgf-shell-nav" aria-label="Primary navigation">
-        <a class="wgf-nav-link" href="/herbs/">Herbs</a>
+        <a class="wgf-nav-link is-active" href="/herbs/">Herbs</a>
         <a class="wgf-nav-link" href="/item/">Item Prices</a>
         <a class="wgf-nav-link" href="/guides/">Guides</a>
       </nav>
     </div>
     <div class="wgf-shell-searchband">
       <form class="wgf-shell-search wgf-shell-search--prime" role="search" action="/search/" method="get">
-        <input class="wgf-shell-search__input" type="search" name="q" placeholder="Search" aria-label="Search">
+        <input class="wgf-shell-search__input" type="search" name="q" placeholder="Search herbs" aria-label="Search">
         <button class="wgf-shell-search__btn" type="submit" aria-label="Search">⌕</button>
       </form>
     </div>
   </header>
 
-  <main class="preview-note">
-    <p><strong>Homepage</strong> — the gold live plate is now header chrome, not a mid-page herb-listing widget. Top-right / under nav always shows <strong>Alterrboy</strong>, selected realm <strong>Proudmoore US</strong>, WoW version <strong>Retail</strong>, and <strong>US Region · Retail (Midnight)</strong>. Midnight is the expansion, not a realm.</p>
-    <p>Open Enter World, then Cancel / Esc. The chip and the live bar stay put.</p>
+  <main class="id-page" style="max-width:980px;margin:0 auto;padding:36px 20px 80px">
+    <p class="id-kicker" style="margin:0 0 6px;font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--wgf-gold-muted)">Verified — US Auction House</p>
+    <h1 class="id-title" style="margin:0 0 8px;font-family:var(--font-display);font-size:clamp(32px,5vw,52px);letter-spacing:.04em">WOW <em style="font-style:normal;color:var(--wgf-gold)">HERBS</em></h1>
+    <p class="id-sub" style="margin:0 0 22px;color:var(--wgf-muted)">Materials</p>
+    <p class="id-note" style="max-width:62ch;color:var(--wgf-muted)">
+      The gold live plate that used to sit here mid-page — green dot,
+      “Live · updated hourly”, last-updated time, “Usually refreshed hourly”,
+      “US Region · Retail (Midnight)” — now lives in the header on every page.
+      Snapshot times are no longer unique to category listings.
+    </p>
     <div class="preview-nav">
-      <a href="/herbs/">Herbs listing</a>
-      <a href="/item/">Inner item page</a>
+      <a href="/">Home</a>
       <a href="/guides/">Guides</a>
-      <a href="/enter-world/">Enter World</a>
-      <a href="/?guest=1">Logged-out header</a>
+      <a href="/herbs/?guest=1">Logged-out header</a>
     </div>
   </main>
 

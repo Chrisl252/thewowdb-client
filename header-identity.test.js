@@ -146,3 +146,51 @@ test("paint never hides the chip and persists identity for the next page", () =>
   assert.match(btn.innerHTML, /Proudmoore US/);
   assert.match(btn.innerHTML, /Retail/);
 });
+
+test("paint mounts the gold live status bar under the topbar on every page", () => {
+  const { JSDOM } = require("jsdom");
+  const dom = new JSDOM(`<!doctype html><header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner"><div class="wgf-shell-right"></div></div>
+  </header>`, { url: "https://thewowdb.com/guides/" });
+  global.window = dom.window;
+  global.window.WGFIdentityFormat = require("./assets/wgf-identity-format.js");
+  global.window.WGFSnapshot = {
+    live: true,
+    lastUpdated: "2026-08-22T19:00:00.000Z",
+    expansion: "Midnight"
+  };
+  const store = mem();
+  const btn = HID.mountChip(dom.window.document);
+  HID.paint(btn, {
+    signed_in: true,
+    user: { battletag: "Alterrboy#1" },
+    active_character: { realm_name: "Proudmoore", realm_slug: "proudmoore", region: "us", game: "retail" }
+  }, store);
+  const bar = dom.window.document.querySelector("[data-wgf-header-status]");
+  assert.ok(bar, "status bar is injected into the header");
+  assert.equal(bar.parentElement.className, "wgf-shell-topbar");
+  assert.match(bar.innerHTML, /Alterrboy/);
+  assert.match(bar.innerHTML, /Proudmoore US/);
+  assert.match(bar.innerHTML, /Retail/);
+  assert.match(bar.innerHTML, /Live · updated hourly/);
+  assert.match(bar.innerHTML, /Usually refreshed hourly/);
+  assert.match(bar.innerHTML, /US Region · Retail \(Midnight\)/);
+  delete global.window;
+});
+
+test("logged-out header still shows default US / Retail game context", () => {
+  const { JSDOM } = require("jsdom");
+  const dom = new JSDOM(`<!doctype html><header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner"></div>
+  </header>`);
+  global.window = dom.window;
+  global.window.WGFIdentityFormat = require("./assets/wgf-identity-format.js");
+  const btn = HID.mountChip(dom.window.document);
+  HID.paint(btn, { signed_in: false }, mem());
+  const bar = dom.window.document.querySelector("[data-wgf-header-status]");
+  assert.ok(bar);
+  assert.doesNotMatch(bar.innerHTML, /Alterrboy/);
+  assert.match(bar.innerHTML, /US Region · Retail \(Midnight\)/);
+  assert.match(bar.innerHTML, /Live · updated hourly/);
+  delete global.window;
+});

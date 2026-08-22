@@ -71,7 +71,9 @@ export default defineConfig({
       input: {
         home: resolve(__dirname, "index.html"),
         item: resolve(__dirname, "item/index.html"),
+        herbs: resolve(__dirname, "herbs/index.html"),
         guides: resolve(__dirname, "guides/index.html"),
+        enterWorld: resolve(__dirname, "enter-world/index.html"),
       },
     },
   },
