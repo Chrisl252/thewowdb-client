@@ -1,0 +1,101 @@
+/* Local preview tokens — subset of live /static/css/_tokens.css */
+
+@font-face {
+  font-family: "FrizQuadrata";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/assets/fonts/frizqt.woff2") format("woff2");
+}
+
+:root {
+  --wgf-bg-base: #16110a;
+  --wgf-bg: var(--wgf-bg-base);
+  --wgf-bg-2: #1c160e;
+  --wgf-panel: #221b11;
+  --wgf-panel-1: #221b11;
+  --wgf-panel-2: #2b2215;
+  --wgf-panel-3: #352a1a;
+  --wgf-border: rgba(240, 192, 64, 0.24);
+  --wgf-gold-primary: #f0c040;
+  --wgf-gold: var(--wgf-gold-primary);
+  --wgf-gold-bright: #ffd869;
+  --wgf-gold-link: #ffd978;
+  --wgf-gold-muted: #b9a66b;
+  --wgf-gold-dim: #8d7625;
+  --wgf-gold-dark: #5a4410;
+  --wgf-gold-rgb: 240, 192, 64;
+  --wgf-text: #ece7dd;
+  --wgf-muted: #b1a58c;
+  --wgf-up: #3fcf6b;
+  --wgf-metal: #4a4a4a;
+  --wgf-metal-soft: #2e2e2e;
+  --wgf-well: #0a0a0c;
+  --wgf-plate: var(--wgf-well);
+  --wgf-plate-hi: var(--wgf-panel);
+  --wgf-btn-h: 34px;
+  --wgf-btn-cap: 15px;
+  --font-display: "Cinzel", "Palatino Linotype", serif;
+  --font-ui: "Crimson Text", Georgia, serif;
+  --font-game: "FrizQuadrata", "Cinzel", serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-2xl: 2rem;
+  --radius-card: 5px;
+  --text-ink-outline: 0 1px 2px rgba(0, 0, 0, 0.92), 0 0 4px rgba(0, 0, 0, 0.6);
+  --focus-ring: 0 0 0 2px var(--wgf-bg), 0 0 0 4px var(--wgf-gold-primary);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body.wgf-shell-page {
+  background:
+    radial-gradient(circle at 18% 28%, rgba(46, 92, 38, 0.28), transparent 22rem),
+    radial-gradient(circle at top center, rgba(244, 196, 92, 0.08), transparent 34rem),
+    linear-gradient(180deg, var(--wgf-bg-2), var(--wgf-bg));
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a { color: var(--wgf-gold-link); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.preview-note {
+  max-width: 720px;
+  margin: 32px auto;
+  padding: 18px 20px;
+  border: 1px solid var(--wgf-metal-soft);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.18)), var(--wgf-panel-1);
+  color: var(--wgf-muted);
+  font-size: 14px;
+}
+
+.preview-note strong { color: var(--wgf-gold); }
+
+.preview-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.preview-nav a { color: var(--wgf-gold-link); }
