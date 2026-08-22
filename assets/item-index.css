@@ -1,0 +1,429 @@
+/* =============================================================================
+   item-index.css — WoW Item Price Guide (/item/) — "same fashion" as
+   cheapest-realm. Self-contained (carries the shared search/typeahead/chip/tile
+   toolkit) so the live cheapest-realm page is untouched. Tokens come from
+   static/css/_tokens.css; the WoW quality colors + .crp-* price coins are kept
+   here (the .coin-* names collide with the AH coin-swatch system — never reuse).
+   TODO(consolidate): extract this toolkit + cheapest-realm's into a shared file.
+
+   2026-08-22 destination pass: the /item/ hero was a hollow gold-bordered
+   rectangle (wgf-seo-pages .wgf-seo-hero + --wgf-bg-hero, no art) and the page
+   sat on a flat dark gradient. Same Hall pattern as .hm-pagebg / guides:
+   first-party dungeon tiles, Class Hall stone, gold/umber scrim. Search,
+   category chips, and tracked rows are unchanged. Item-detail / cheapest-realm
+   / AH browse are out of scope — every new rule is scoped to
+   .wgf-item-index-layout or data-wgf-page="item-index".
+   ============================================================================= */
+/* --q-* quality tokens now live in static/css/_tokens.css (2026-07-02). */
+.crp-g { color: var(--wgf-gold) } .crp-s { color: #c0c0c0 } .crp-c { color: var(--coin-copper) }
+.ii-coin-na { color: var(--wgf-muted) }
+
+/* ===== hero search ===== */
+/* kit re-cut 2026-07-04: full .wgf-window plate - stone tile + metal corner braces,
+   same background stack as .wgf-window in wgf-chrome.css. Not a flat gradient card. */
+.ii-searchsec { position: relative; margin: 1.1rem 0 1.4rem; padding: 1.5rem 1.5rem 1.6rem;
+  border: 2px solid var(--wgf-metal); border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,.18)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.65), var(--shadow-2); }
+.ii-kicker { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .14em;
+  font-size: .74rem; color: var(--wgf-gold-soft); margin: 0 0 .7rem }
+.search { position: relative }
+.search__field { position: relative; display: flex; align-items: center }
+.search__icon { position: absolute; left: 1.15rem; width: 26px; height: 26px; opacity: .85; pointer-events: none; color: var(--wgf-gold) }
+.search__input { width: 100%; padding: 1.1rem 1.2rem 1.1rem 3.4rem; font-size: 1.45rem; font-family: var(--font-ui);
+  border: 0; border-radius: 4px; color: var(--wgf-text);
+  background:
+    url(/assets/ui/auctionhouse-ui-inputfield-left.png) left center / auto 100% no-repeat,
+    url(/assets/ui/auctionhouse-ui-inputfield-right.png) right center / auto 100% no-repeat,
+    url(/assets/ui/auctionhouse-ui-inputfield-middle.png) left center / auto 100% repeat-x;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.7); transition: box-shadow .15s }
+.search__input::placeholder { color: #7d7565 }
+.search__input:focus { outline: none; box-shadow: var(--focus-ring), inset 0 2px 6px rgba(0,0,0,.7); }
+
+/* typeahead */
+.results { list-style: none; margin: .6rem 0 0; padding: .3rem; position: absolute; left: 0; right: 0; z-index: 30;
+  background: linear-gradient(180deg,#0c0c0f,#050507); border: 1px solid var(--wgf-metal); border-radius: 6px; max-height: 26rem;
+  overflow-y: auto; box-shadow: 0 24px 60px rgba(0,0,0,.6) }
+.results[hidden] { display: none }
+.results li { display: flex; align-items: center; gap: .85rem; padding: .6rem .7rem; cursor: pointer; border-radius: 10px; border: 1px solid transparent }
+.results li:hover, .results li.is-active { background: var(--wgf-panel-3); border-color: var(--wgf-border) }
+.ic { position: relative; flex: 0 0 auto; border-radius: 8px; background: #0a0906; border: 1px solid #3a3324; overflow: hidden }
+.ic img { width: 100%; height: 100%; display: block }
+.ic .qring { position: absolute; inset: 0; border-radius: 7px; box-shadow: inset 0 0 0 2px var(--qc,transparent) }
+.results .ic { width: 40px; height: 40px }
+.results .meta { min-width: 0; flex: 1 1 auto }
+.results .nm { display: block; font-family: var(--font-game); font-weight: 600; font-size: 1.06rem; color: var(--qc,var(--wgf-text)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.results .sub { display: block; font-size: .82rem; color: var(--wgf-muted); font-family: var(--font-mono); margin-top: .1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.results .from { flex: 0 0 auto; text-align: right; font-family: var(--font-mono); font-size: .92rem; color: var(--wgf-gold) }
+.results .from small { display: block; color: var(--wgf-muted); font-size: .68rem; letter-spacing: .04em; text-transform: uppercase }
+
+/* ===== categories ===== */
+.cats { margin: 1.05rem 0 0 }
+.cats__label { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .1em; font-size: .7rem; color: var(--wgf-muted); margin: 0 0 .55rem }
+.cats__row { display: flex; flex-wrap: wrap; gap: .5rem }
+/* Category selectors = the client RED BUTTON, tab-row idiom (owner 2026-07-04 + home
+   .catchip parity): real 128-redbutton cap/center slices. Dimmed unselected, full on hover.
+   is-active = the pressed/active red state (pressed cap slices + 1px sink). */
+.catchip { box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 32px; padding: 0 14px; border: 0; border-radius: 0;
+  background:
+    url(/assets/ui/128-redbutton-left-cap.png) left center / auto 100% no-repeat border-box,
+    url(/assets/ui/128-redbutton-right-cap.png) right center / auto 100% no-repeat border-box,
+    url(/assets/ui/_128-redbutton-center.png) left center / auto 100% repeat-x content-box;
+  background-color: transparent;
+  color: var(--wgf-gold-dim);
+  font-family: var(--font-game); font-size: var(--text-sm); font-weight: 700;
+  font-variant: small-caps; letter-spacing: .03em; line-height: 1;
+  text-shadow: var(--text-ink-outline); cursor: pointer;
+  filter: brightness(.7) saturate(.9);
+  transition: filter var(--motion-fast) var(--ease-standard),
+              color var(--motion-fast) var(--ease-standard); }
+.catchip:hover { filter: brightness(1) saturate(1); color: var(--wgf-gold-bright); }
+.catchip:active { filter: brightness(.85); transform: translateY(1px); }
+.catchip.is-active {
+  background:
+    url(/assets/ui/128-redbutton-left-cap-pressed.png) left center / auto 100% no-repeat border-box,
+    url(/assets/ui/128-redbutton-right-cap-pressed.png) right center / auto 100% no-repeat border-box,
+    url(/assets/ui/_128-redbutton-center-pressed.png) left center / auto 100% repeat-x content-box;
+  background-color: transparent;
+  color: var(--wgf-gold-bright); filter: none; transform: translateY(1px); }
+.catchip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ===== browse grid (category) ===== */
+.browse-sec[hidden] { display: none }
+.browse-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: .2rem 0 .75rem }
+.linkbtn { background: none; border: 0; color: var(--wgf-gold-bright); font-family: var(--font-ui); font-size: .9rem; cursor: pointer; padding: .2rem .3rem }
+.linkbtn:hover { text-decoration: underline }
+.browse-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: .55rem }
+/* Owner 2026-07-04: the navy plate is CONDEMNED outside item tooltips ("blue feels
+   like slop"). Rows/tiles wear the warm near-black kit plate + metal border. */
+.tile { display: flex; align-items: center; gap: .7rem; padding: .55rem .65rem; border: 1px solid var(--wgf-metal-soft);
+  border-radius: 0; background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.25)), var(--wgf-plate); cursor: pointer; text-align: left; text-decoration: none;
+  transition: border-color .12s, background .12s }
+.tile:hover { border-color: var(--wgf-gold-dim); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.2)), var(--wgf-plate-hi) }
+.tile .ic { width: 42px; height: 42px }
+.tile .info { min-width: 0; flex: 1 1 auto; overflow: hidden }
+.tile .nm { display: block; font-family: var(--font-game); font-weight: 600; color: var(--qc,var(--wgf-text)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 1.02rem }
+.tile .mt { display: block; font-size: .78rem; color: var(--wgf-muted); font-family: var(--font-mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.tile .fr { flex: 0 0 auto; min-width: 3.4rem; text-align: right; font-family: var(--font-mono); font-size: .86rem; color: var(--wgf-gold); line-height: 1.15 }
+.tile .fr small { display: block; font-size: .6rem; color: var(--wgf-muted); text-transform: uppercase; letter-spacing: .04em }
+
+/* ===== Top-Traded item rows (SSR + browse) ===== */
+.ii-list { display: flex; flex-direction: column; gap: .5rem }
+.ii-row { display: flex; align-items: center; gap: .9rem; text-decoration: none;
+  border: 1px solid var(--wgf-metal-soft); border-radius: 0; background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.25)), var(--wgf-plate);
+  padding: .55rem 1.05rem; transition: border-color .12s ease, background .12s ease }
+.ii-row:hover { border-color: var(--wgf-gold-dim); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.2)), var(--wgf-plate-hi) }
+.ii-row .ic { width: 40px; height: 40px; flex: 0 0 auto }
+.ii-row .nm { flex: 0 1 auto; min-width: 0; font-family: var(--font-game-display); font-variant: small-caps; font-weight: 600; font-size: 1.12rem;
+  line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--qc,var(--wgf-text)); text-shadow: var(--text-ink-outline) }
+.ii-row .cat { flex: 0 0 auto; padding: 0; border-radius: 0; font-family: var(--font-game); font-size: .72rem; font-weight: 700; font-variant: small-caps;
+  color: var(--wgf-gold-muted); background: transparent; border: 0; white-space: nowrap; text-shadow: var(--text-ink-outline); }
+.ii-row .grow { flex: 1 1 auto; min-width: .5rem }
+.ii-row .price { flex: 0 0 8rem; font-family: var(--font-mono); font-weight: 700; font-size: 1.3rem; color: var(--wgf-gold); text-align: right; white-space: nowrap }
+.ii-row .avail { flex: 0 0 7rem; font-size: .86rem; color: var(--wgf-muted); text-align: right; white-space: nowrap }
+.ii-row .avail b { color: var(--wgf-text); font-weight: 600 }
+
+@media (max-width: 680px) {
+  .ii-row { flex-wrap: wrap; gap: .4rem .8rem; padding: .6rem .85rem }
+  .ii-row .nm { flex: 1 1 auto; font-size: 1.04rem }
+  .ii-row .grow { display: none }
+  .ii-row .price { order: 2; flex: 0 0 auto; margin-left: auto; font-size: 1.2rem }
+  .ii-row .cat { order: 3 }
+  .ii-row .avail { order: 4; flex: 0 0 auto; text-align: left }
+}
+
+.empty { margin: .5rem 0 0; color: var(--wgf-muted) }
+.empty[hidden] { display: none }
+.section-h { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .06em; font-size: 1.05rem; color: var(--wgf-gold); margin: 0 }
+
+@media (max-width: 640px) {
+  .search__input { font-size: 1.2rem; padding: 1rem 1rem 1rem 3rem }
+}
+
+.wgf-item-index-layout { max-width: 1280px; margin: 0 auto; padding-inline: clamp(16px, 3vw, 32px); box-sizing: border-box; }
+.wgf-item-index-layout .wgf-seo-main { min-width: 0; }
+.wgf-item-index-layout .wgf-seo-hero { max-width: none; }
+.wgf-item-index-layout .wgf-ad-slot { margin-left: auto; margin-right: auto; }
+@media (max-width: 640px) {
+  .wgf-item-index-layout { padding-inline: 14px; }
+  .ii-searchsec { padding: 1.1rem 1rem 1.15rem; }
+}
+
+/* =============================================================================
+   THE A-Z ITEM DIRECTORY (owner ruling 2026-08-14, live-fire in-game reskin)
+   "any item that is displayed in list form should look exactly like an in game tooltip"
+
+   This is the block the owner circled on /item/: 400 <li><a> per page, 30 pages, rendered
+   as browser bullet discs with underlined links - the single largest plain surface left on
+   the site. It stays server-rendered <a href> markup (those links are what keeps ~11.5k
+   tail item pages out of orphan status, so the HTML is not touched here), but it now reads
+   as the client's own list panel: a dense multi-column roster of sunk plate rows with a
+   metal edge, gold Friz names, and the selected-row gold wash on hover.
+
+   The hover CARD comes free: every row here is /item/<slug>-<id>/, so wgf-item-tooltip.js
+   binds it and the reader gets the real in-game tooltip with live AH pricing. That is the
+   half of the owner ruling that markup could never deliver on its own.
+   ============================================================================= */
+
+.ii-dir-count {
+  margin: 0 0 var(--space-3);
+  color: var(--wgf-muted);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+}
+
+.ii-dir-list {
+  display: grid;
+  /* Dense columns: 400 names as one tall bullet column was unreadable and pushed the pager
+     far below the fold. auto-fill keeps a short last page from stretching into giant rows. */
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 2px;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+/* Kill the shared gold diamond marker here - these rows carry their own plate, and the
+   marker would sit outside it. (.wgf-ref-list still gets the diamond everywhere else.) */
+.ii-dir-list > li {
+  padding-left: 0;
+}
+.ii-dir-list > li::before {
+  content: none;
+}
+
+.ii-dir-list > li > a {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-left: 2px solid var(--wgf-metal);
+  background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.5));
+  color: var(--wgf-gold-dim);
+  font-family: var(--font-game);
+  font-size: var(--text-sm);
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-decoration: none;
+  text-shadow: var(--text-ink-outline);
+  /* A long item name must not blow the column out; the full name is in the hover card. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ii-dir-list > li > a:hover,
+.ii-dir-list > li > a:focus-visible {
+  border-color: rgba(var(--wgf-gold-rgb), 0.5);
+  background: linear-gradient(rgba(244, 196, 92, 0.10), rgba(244, 196, 92, 0.04));
+  color: var(--wgf-gold-bright);
+  text-decoration: none;
+}
+.ii-dir-list > li > a:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 560px) {
+  .ii-dir-list { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+
+/* =============================================================================
+   Destination art — page backdrop + filled hero (2026-08-22)
+   Scoped to the Item Price Guide index only. Do not restyle /item/<slug>/
+   (that hero is the tooltip card) or any other SEO route.
+   ============================================================================= */
+
+body.wgf-shell-page:has(.wgf-item-index-layout),
+body.wgf-shell-page[data-wgf-page="item-index"] {
+  background-color: #0c0a08;
+  background-image: none;
+}
+
+body.wgf-shell-page:has(.wgf-item-index-layout)::before,
+body.wgf-shell-page[data-wgf-page="item-index"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 85% at 50% 6%, rgba(var(--wgf-gold-rgb), 0.11), transparent 46%),
+    linear-gradient(180deg, rgba(12, 10, 8, 0.84) 0%, rgba(12, 10, 8, 0.76) 30%, rgba(11, 9, 7, 0.92) 100%),
+    url("/assets/dungeon-tiles/magisters-terrace.jpg") center 28% / cover no-repeat;
+  filter: saturate(1.04);
+}
+
+/* The gold frame becomes a destination plate: crest + copy + art window.
+   Existing eyebrow / h1 / sub markup is enough; .ii-hero-meta is optional. */
+.wgf-item-index-layout .wgf-seo-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) minmax(148px, 30%);
+  align-items: center;
+  column-gap: 1.05rem;
+  row-gap: 0.28rem;
+  overflow: hidden;
+  margin: 0 auto 1.1rem;
+  padding: clamp(16px, 2.2vw, 24px) clamp(16px, 2.6vw, 26px);
+  border: 2px solid var(--wgf-metal);
+  border-radius: 0;
+  background:
+    linear-gradient(105deg, rgba(12, 10, 8, 0.78) 0%, rgba(12, 10, 8, 0.58) 54%, rgba(12, 10, 8, 0.30) 100%),
+    url("/assets/dungeon-tiles/magisters-terrace.jpg") center 36% / cover no-repeat,
+    linear-gradient(rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.44)),
+    url("/assets/ui/classhall-stone-tile.png") left top / 256px 256px repeat,
+    var(--wgf-panel-1);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.65),
+    var(--shadow-2, 0 12px 38px rgba(0, 0, 0, 0.45));
+}
+
+.wgf-item-index-layout .wgf-seo-hero::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1 / -1;
+  width: 68px;
+  height: 68px;
+  justify-self: center;
+  box-sizing: content-box;
+  padding: 13.1px 13.1px 26.22px 31.96px;
+  margin: -13.1px -13.1px -26.22px -31.96px;
+  background-image:
+    url("/assets/ui/spellbook-item-iconframe.png"),
+    url("/assets/icons/inv_misc_coin_01.jpg");
+  background-repeat: no-repeat, no-repeat;
+  background-origin: padding-box, content-box;
+  background-clip: padding-box, content-box;
+  background-position: center, center;
+  background-size: 100% 100%, 100% 100%;
+}
+
+.wgf-item-index-layout .wgf-seo-hero > * {
+  grid-column: 2;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.wgf-item-index-layout .wgf-seo-hero::after {
+  content: "";
+  grid-column: 3;
+  grid-row: 1 / -1;
+  align-self: stretch;
+  min-height: 128px;
+  border: 1px solid var(--wgf-border-strong);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.65);
+  background:
+    linear-gradient(180deg, rgba(12, 10, 8, 0.10), rgba(12, 10, 8, 0.42)),
+    url("/assets/dungeon-tiles/pit-of-saron.jpg") center 42% / cover no-repeat;
+}
+
+.wgf-item-index-layout .wgf-seo-eyebrow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--wgf-gold-link);
+  font-family: var(--font-display, Cinzel, serif);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+  margin: 0;
+  opacity: 0.95;
+}
+
+.wgf-item-index-layout .wgf-seo-eyebrow::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 2px;
+  margin-top: 0.5rem;
+  background: linear-gradient(90deg, var(--wgf-gold-primary), transparent);
+}
+
+.wgf-item-index-layout h1.wgf-seo-h1,
+.wgf-shell-page .wgf-item-index-layout h1.wgf-seo-h1 {
+  font-family: var(--font-display, Cinzel, serif);
+  font-size: clamp(1.55rem, 3.4vw, 2.35rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: var(--wgf-text);
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.92), 0 3px 14px rgba(0, 0, 0, 0.55);
+}
+
+.wgf-item-index-layout .wgf-seo-sub {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--wgf-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+}
+
+.wgf-item-index-layout .wgf-seo-freshness {
+  margin: 0.15rem 0 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+}
+
+/* Optional destination chips — ignored if the live template has no list. */
+.wgf-item-index-layout .ii-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.7rem;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wgf-item-index-layout .ii-hero-meta li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--wgf-metal-soft);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.52)),
+    url("/assets/ui/classhall-stone-tile.png") left top / 256px 256px repeat;
+  color: var(--wgf-text);
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.wgf-item-index-layout .ii-hero-meta b {
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-size: 0.68rem;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  text-shadow: var(--text-ink-outline);
+}
+
+@media (max-width: 720px) {
+  .wgf-item-index-layout .wgf-seo-hero {
+    grid-template-columns: 56px minmax(0, 1fr);
+    padding: 16px 14px 18px;
+  }
+  .wgf-item-index-layout .wgf-seo-hero::before {
+    width: 52px;
+    height: 52px;
+    padding: 10px 10px 20.1px 24.4px;
+    margin: -10px -10px -20.1px -24.4px;
+  }
+  .wgf-item-index-layout .wgf-seo-hero::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.wgf-shell-page:has(.wgf-item-index-layout)::before,
+  body.wgf-shell-page[data-wgf-page="item-index"]::before {
+    filter: none;
+  }
+}
