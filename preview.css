@@ -1,0 +1,60 @@
+@font-face {
+  font-family: "FrizQuadrata";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/assets/fonts/frizqt.woff2") format("woff2");
+}
+
+:root {
+  --font-game: "FrizQuadrata", "Palatino Linotype", Palatino, serif;
+  --font-ui: "Trebuchet MS", "Segoe UI", sans-serif;
+  --wgf-gold: #e8c56e;
+  --wgf-gold-bright: #ffd869;
+  --wgf-gold-rgb: 232, 197, 110;
+  --wgf-text: #f4efe3;
+  --wgf-muted: #b9b3a4;
+  --wgf-panel-1: #16130e;
+  --wgf-border: #3a3630;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-2xl: 1.75rem;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #0d0c0a;
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+}
+
+.wgf-shell-page { min-height: 100vh; }
+
+.preview-note {
+  max-width: 720px;
+  margin: 32px auto;
+  padding: 18px 20px;
+  border: 1px solid var(--wgf-border);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.18)), var(--wgf-panel-1);
+  color: var(--wgf-muted);
+  font-size: 14px;
+}
+
+.preview-note strong { color: var(--wgf-gold); }
+
+.preview-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.preview-nav a {
+  color: var(--wgf-gold);
+}

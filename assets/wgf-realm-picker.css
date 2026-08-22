@@ -1,0 +1,847 @@
+/* WoW Gold Farms - Realm Selection window (2026-07-31, owner spec: the classic
+   in-game realm list). Squared near-black plate + thin metal edge (same family as
+   the nav dropdown / kit wells), gold Friz headers, classic population ladder
+   colors, red kit action buttons, region tab strip stuck to the top of the realm
+   pane. Vanilla CSS; class prefix wgf-rp-. No rounded corners on the main chrome. */
+
+.wgf-rp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0, 0, 0, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.wgf-rp-window {
+  position: relative;
+  width: min(560px, 96vw);
+  max-height: min(640px, 92vh);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #101014 0%, #0a0a0d 100%);
+  border: 2px solid #4a4640;
+  border-radius: 0;
+  box-shadow: 0 0 0 1px #000, 0 12px 40px rgba(0, 0, 0, 0.8),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  padding: 26px 14px 12px;
+}
+
+/* Title plaque riding the top edge, like the client's window title tab. */
+.wgf-rp-plaque {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 18px;
+  background: linear-gradient(180deg, #201d18, #14120e);
+  border: 1px solid #56504a;
+  box-shadow: 0 0 0 1px #000, 0 2px 6px rgba(0, 0, 0, 0.6);
+  color: var(--wgf-gold, #e8c56e);
+  font-family: var(--font-game, serif);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.wgf-rp-head {
+  display: flex;
+  padding: 4px 10px 6px;
+  border-bottom: 1px solid #3a3630;
+  font-family: var(--font-game, serif);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--wgf-gold, #e8c56e);
+}
+.wgf-rp-h--name { flex: 1 1 auto; }
+.wgf-rp-h--tz   { flex: 0 0 96px; text-align: left; }
+.wgf-rp-h--pop  { flex: 0 0 104px; text-align: right; }
+
+.wgf-rp-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #0c0c0f, #050507);
+  border: 1px solid #2c2925;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.7);
+  scrollbar-width: thin;
+  scrollbar-color: #6b5a33 #0a0a0d;
+}
+
+.wgf-rp-row {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.25;
+}
+.wgf-rp-row:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+.wgf-rp-row:hover {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.wgf-rp-row.is-selected {
+  background: rgba(244, 196, 92, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(244, 196, 92, 0.45);
+}
+
+.wgf-rp-name {
+  flex: 1 1 auto;
+  color: #f4e2b8;
+  font-family: var(--font-game, serif);
+  font-weight: 650;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wgf-rp-linked { color: var(--wgf-muted, #9a917f); font-size: 11px; font-weight: 500; }
+.wgf-rp-tz {
+  flex: 0 0 96px;
+  color: #cfc7b8;
+  font-size: 12px;
+}
+.wgf-rp-pop {
+  flex: 0 0 104px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+/* Classic realm-list population ladder. */
+.wgf-rp-pop--new    { color: #40c7eb; }
+.wgf-rp-pop--low    { color: #40d860; }
+.wgf-rp-pop--medium { color: #f0e442; }
+.wgf-rp-pop--high   { color: #ff9a2a; }
+.wgf-rp-pop--full   { color: #ff4a3d; }
+.wgf-rp-pop--locked { color: #8a8a8a; }
+
+.wgf-rp-empty {
+  padding: 26px 18px;
+  color: var(--wgf-muted, #9a917f);
+  font-size: 13px;
+  text-align: center;
+}
+
+.wgf-rp-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+/* WoW version strip (Retail / Classic / …). Persisted on click so Cancel still
+   leaves the header showing the version the player just picked. */
+.wgf-rp-versions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 2px 4px 8px;
+  border-bottom: 1px solid #3a3630;
+  margin-bottom: 6px;
+}
+.wgf-rp-version {
+  padding: 4px 10px;
+  background: linear-gradient(180deg, #171512, #0d0c0a);
+  border: 1px solid #3a3630;
+  border-radius: 0;
+  color: #cfc7b8;
+  font-family: var(--font-game, serif);
+  font-size: 11.5px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.wgf-rp-version:hover { filter: brightness(1.15); }
+.wgf-rp-version.is-on {
+  background: linear-gradient(180deg, #26221a, #171410);
+  border-color: #6b5a33;
+  color: var(--wgf-gold-bright, #ffd869);
+}
+
+/* Region tab strip, classic style (lives at the top of the realm pane). */
+.wgf-rp-tabs { display: flex; gap: 4px; }
+.wgf-rp-tab {
+  padding: 5px 14px;
+  background: linear-gradient(180deg, #171512, #0d0c0a);
+  border: 1px solid #3a3630;
+  border-radius: 0;
+  color: #cfc7b8;
+  font-family: var(--font-game, serif);
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.wgf-rp-tab:hover { filter: brightness(1.15); }
+.wgf-rp-tab.is-active {
+  background: linear-gradient(180deg, #26221a, #171410);
+  border-color: #6b5a33;
+  color: var(--wgf-gold-bright, #ffd869);
+}
+
+.wgf-rp-actions { display: flex; gap: 8px; }
+.wgf-rp-actions .wgf-btn-red { min-width: 96px; }
+
+/* Fallback when wgf-chrome.css (the red-button slices) is not loaded on this page:
+   keep the buttons usable with a plain dark-red plate, never invisible. */
+.wgf-rp-actions .wgf-btn-red {
+  height: 28px;
+  padding: 0 14px;
+  border: 1px solid #5a1f16;
+  background-color: #3a120c;
+  color: var(--wgf-gold-bright, #ffd869);
+  font-family: var(--font-game, serif);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  border-radius: 0;
+  background-image:
+    url(/assets/ui/128-redbutton-left-cap.png),
+    url(/assets/ui/128-redbutton-right-cap.png),
+    url(/assets/ui/_128-redbutton-center.png);
+  background-position: left center, right center, left center;
+  background-size: auto 100%, auto 100%, auto 100%;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+}
+.wgf-rp-actions .wgf-btn-red:hover  { filter: brightness(1.14); }
+.wgf-rp-actions .wgf-btn-red:active { filter: brightness(0.92); transform: translateY(1px); }
+
+@media (max-width: 720px) {
+  .wgf-rp-h--tz, .wgf-rp-tz { display: none; }
+  .wgf-rp-h--pop, .wgf-rp-pop { flex-basis: 84px; }
+  .wgf-rp-row { min-height: 44px; }
+}
+
+/* === Character Select (2026-08-02) ============================================
+   Merged into this window on owner direction ("merge the realm selector + the bnet
+   login"). In the client these are one flow - Realm Selection, Character Select,
+   Enter World - so the roster sits ABOVE the realm list and a click on a character
+   is a complete choice: identity and realm together.
+   Signed out, the same slot carries the Battle.net login instead. */
+
+.wgf-rp-chars {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.wgf-rp-chars__head {
+  padding: 6px 10px 4px;
+  font-family: var(--font-game, serif);
+  font-size: 12px;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  color: var(--wgf-gold, #f0c040);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.wgf-rp-charlist {
+  max-height: 348px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #8b7236 #0d0d08;
+}
+
+.wgf-rp-chars__loading,
+.wgf-rp-chars__empty {
+  padding: 10px;
+  font-size: 12.5px;
+  color: var(--wgf-muted, #a99e92);
+}
+
+.wgf-rp-char {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 10px;
+  cursor: pointer;
+  line-height: 1.25;
+}
+.wgf-rp-char:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+.wgf-rp-char:hover,
+.wgf-rp-char:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+.wgf-rp-char.is-active {
+  background: rgba(244, 196, 92, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(244, 196, 92, 0.45);
+}
+
+/* Race portrait, squared in a thin metal frame like the client's character list. */
+.wgf-rp-char__face {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #4a4642;
+  background: #0d0b08;
+  object-fit: cover;
+}
+.wgf-rp-char__face--blank { display: inline-block; }
+
+.wgf-rp-char__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Colour comes from the class, inline, resolved server-side by pvp_icons so this
+   sheet never carries a second copy of the class palette. */
+.wgf-rp-char__name {
+  font-family: var(--font-game, serif);
+  font-size: 13.5px;
+  font-weight: 650;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wgf-rp-char__meta {
+  font-size: 11px;
+  color: var(--wgf-muted, #a99e92);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wgf-rp-char__realm {
+  flex: 0 0 auto;
+  text-align: right;
+  font-size: 11.5px;
+  color: #c9bda9;
+  display: flex;
+  flex-direction: column;
+}
+
+.wgf-rp-char__region {
+  font-size: 10px;
+  color: var(--wgf-muted, #a99e92);
+  letter-spacing: 0.06em;
+}
+
+/* Signed out: the login lives in the same slot the roster would occupy. */
+.wgf-rp-login {
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.wgf-rp-login__copy {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--wgf-muted, #a99e92);
+}
+
+.wgf-rp-login__btn { text-decoration: none; }
+
+@media (max-width: 480px) {
+  .wgf-rp-char__realm { display: none; }
+  .wgf-rp-charlist { max-height: 200px; }
+}
+
+/* -- Account bar (2026-08-02) ---------------------------------------------------
+   Owner, looking at the live window: "i need to be able to login and logout easily
+   but i don't see any account details here." The window knew whose roster it was
+   fetching and never said so, and offered no way out. Sits above Character Select
+   in both the populated and the empty state. */
+
+.wgf-rp-acct {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.28);
+  font-size: 12px;
+  color: var(--wgf-muted, #a99e92);
+}
+
+.wgf-rp-acct__who strong {
+  color: var(--wgf-gold-bright, #ffd869);
+  font-weight: 650;
+}
+
+.wgf-rp-acct__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* The sign-out control is a <button> inside a POST form (never a GET link), so it
+   matches the form on /account/ and cannot be fired by a stray navigation. */
+.wgf-rp-acct__form { margin: 0; display: inline; }
+
+.wgf-rp-acct__link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: #35b0ff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(53, 176, 255, 0.4);
+  cursor: pointer;
+}
+
+.wgf-rp-acct__link:hover,
+.wgf-rp-acct__link:focus-visible {
+  color: #7ccbff;
+  border-bottom-color: rgba(124, 203, 255, 0.75);
+}
+
+.wgf-rp-acct__signout { color: #ff8f7a; border-bottom-color: rgba(255, 143, 122, 0.4); }
+.wgf-rp-acct__signout:hover,
+.wgf-rp-acct__signout:focus-visible {
+  color: #ffb3a3;
+  border-bottom-color: rgba(255, 179, 163, 0.75);
+}
+
+/* The empty state now carries a real action, so it needs room to breathe. */
+.wgf-rp-chars__empty {
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--wgf-muted, #a99e92);
+}
+.wgf-rp-chars__empty p { margin: 0; }
+
+/* -- Character Select, client-shaped (2026-08-02) --------------------------------
+   Owner has 23 characters and could not see them: they were crammed into a ~4-row
+   strip above a long realm list. The list is now the main surface, grouped by realm
+   with the active character's realm first, and each card carries portrait, name,
+   "Level N Class" and the realm - the shape the client's character list uses. */
+
+.wgf-rp-chars__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.wgf-rp-chars__count {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-variant: normal;
+  letter-spacing: 0;
+  font-size: 11px;
+  color: var(--wgf-muted, #a99e92);
+}
+
+/* Realm divider inside the list - a quiet plate, not a second heading. */
+.wgf-rp-chars__realm {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 10px;
+  background: linear-gradient(180deg, #17161a 0%, #100f13 100%);
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: var(--font-game, serif);
+  font-size: 11.5px;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  color: #c9bda9;
+}
+
+.wgf-rp-chars__realmn {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-variant: normal;
+  letter-spacing: 0;
+  font-size: 10.5px;
+  color: var(--wgf-muted, #a99e92);
+}
+
+/* Taller card: portrait + three lines, matching the client's row rhythm. */
+.wgf-rp-char { padding: 6px 10px; gap: 10px; align-items: center; }
+
+.wgf-rp-char__face {
+  width: 40px;
+  height: 40px;
+}
+
+.wgf-rp-char__name { font-size: 14px; line-height: 1.2; }
+
+.wgf-rp-char__meta {
+  font-size: 11.5px;
+  color: #b9ad9c;
+  line-height: 1.3;
+}
+
+/* The class name wears its class colour, exactly like the client. */
+.wgf-rp-char__class { font-weight: 650; }
+
+.wgf-rp-char__where {
+  display: block;
+  font-size: 10.5px;
+  color: var(--wgf-muted, #a99e92);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wgf-rp-char__where .wgf-rp-char__region {
+  display: inline;
+  margin-left: 5px;
+  opacity: 0.75;
+}
+
+@media (max-width: 480px) {
+  .wgf-rp-charlist { max-height: 260px; }
+}
+
+/* -- Official character renders (2026-08-02) -------------------------------------
+   Blizzard's own portrait of the character in the row; the full-body render one
+   click away. Loaded on demand - 23 transparent PNGs is megabytes nobody asked for. */
+
+.wgf-rp-char__view {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  line-height: 0;
+}
+
+.wgf-rp-char__zoom {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  font-size: 10px;
+  line-height: 1;
+  padding: 1px 2px;
+  color: var(--wgf-gold-bright, #ffd869);
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(244, 196, 92, 0.4);
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.wgf-rp-char:hover .wgf-rp-char__zoom,
+.wgf-rp-char__view:focus-visible .wgf-rp-char__zoom { opacity: 1; }
+
+.wgf-rp-char__view:focus-visible {
+  outline: 1px solid rgba(244, 196, 92, 0.7);
+  outline-offset: 1px;
+}
+
+/* The full-body view sits over the window, not over the page, so the list stays
+   in place behind it and Escape returns you to exactly where you were. */
+.wgf-rp-render {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: rgba(4, 3, 2, 0.9);
+  cursor: zoom-out;
+}
+
+.wgf-rp-render__fig {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-height: 100%;
+}
+
+.wgf-rp-render__img {
+  max-width: 100%;
+  max-height: 78%;
+  min-height: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.75));
+}
+
+.wgf-rp-render__cap {
+  font-family: var(--font-game, serif);
+  font-size: 14px;
+  color: var(--wgf-gold-bright, #ffd869);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  text-align: center;
+}
+
+.wgf-rp-render__hint {
+  display: block;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 10.5px;
+  color: var(--wgf-muted, #a99e92);
+  margin-top: 2px;
+}
+
+/* -- Two views, one at a time (2026-08-02) ---------------------------------------
+   Character Select on top of the realm list gave the window two scrollers fighting
+   each other and squeezed the realms into a slot. The client keeps these on separate
+   screens; so do we. The switcher only appears when a roster exists. */
+
+.wgf-rp-views {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.wgf-rp-view {
+  flex: 1 1 0;
+  padding: 7px 10px;
+  border: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  background: transparent;
+  color: var(--wgf-muted, #a99e92);
+  font-family: var(--font-game, serif);
+  font-size: 12.5px;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.wgf-rp-view:last-child { border-right: 0; }
+
+.wgf-rp-view:hover { color: #e2d6c2; background: rgba(255, 255, 255, 0.04); }
+
+.wgf-rp-view.is-on {
+  color: var(--wgf-gold-bright, #ffd869);
+  background: linear-gradient(180deg, rgba(244, 196, 92, 0.16), rgba(244, 196, 92, 0.05));
+  box-shadow: inset 0 -2px 0 rgba(244, 196, 92, 0.6);
+}
+
+.wgf-rp-pane[hidden] { display: none; }
+
+/* Realm search: hundreds of realms is a list you search, not one you scan. */
+.wgf-rp-filter { padding: 7px 10px 5px; }
+
+.wgf-rp-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 9px;
+  border: 1px solid var(--wgf-border-neutral, #3a3632);
+  border-radius: 2px;
+  background: var(--wgf-well, #000);
+  color: var(--wgf-text, #e8e8f4);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.wgf-rp-search::placeholder { color: var(--wgf-muted, #a99e92); opacity: 0.85; }
+
+.wgf-rp-search:focus-visible {
+  outline: 1px solid rgba(244, 196, 92, 0.55);
+  outline-offset: -1px;
+  border-color: var(--wgf-gold-dark, #8a6a1e);
+}
+
+.wgf-rp-row[hidden] { display: none; }
+
+.wgf-rp-noresult {
+  padding: 12px 10px;
+  font-size: 12.5px;
+  color: var(--wgf-muted, #a99e92);
+}
+
+/* The region tabs LEAD the realm view (2026-08-02): they used to hang below the
+   whole list, so on a phone with 100+ realms switching region meant scrolling
+   past everything first. Top of the pane, and sticky so any scroll context that
+   ever contains them still cannot carry them away. */
+.wgf-rp-pane--realms .wgf-rp-tabs,
+.wgf-rp-tabs--top {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  background: linear-gradient(180deg, #101014 0%, #0a0a0d 100%);
+  padding: 6px 10px;
+}
+
+/* Footer is just the actions now that the tabs moved into the realm pane. */
+.wgf-rp-foot { justify-content: flex-end; }
+
+/* -- Pane layout fix (2026-08-02) ------------------------------------------------
+   .wgf-rp-list is written as a direct flex child of the window: flex 1 1 auto +
+   overflow-y auto. Wrapping it in a pane broke that - a plain block wrapper grows to
+   fit its content, so the list never received a bounded height, never scrolled, and
+   the window overflowed its own frame (owner: "can't scroll now and it's fragmented
+   / stuck").
+
+   min-height: 0 is the load-bearing line. A flex item's default min-height is auto,
+   which refuses to shrink below its content, so an inner overflow:auto child can
+   never engage. Every wrapper between the window and a scroller needs it. */
+
+.wgf-rp-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* [hidden] must still beat the display:flex above - it does, on specificity
+   (0,2,0) vs (0,1,0), so this holds regardless of source order. */
+.wgf-rp-pane[hidden] { display: none; }
+
+.wgf-rp-list { min-height: 0; }
+
+/* The character list gets the same treatment: fill the pane, cap the growth, and
+   scroll inside rather than pushing the window open. */
+.wgf-rp-charlist {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #6b5a33 #0a0a0d;
+}
+
+/* Fixed-height furniture must not be squeezed by the flexing lists. */
+.wgf-rp-chars,
+.wgf-rp-views,
+.wgf-rp-filter,
+.wgf-rp-head,
+.wgf-rp-tabs,
+.wgf-rp-foot { flex: 0 0 auto; }
+
+/* -- One-line notices (2026-08-02) ------------------------------------------------
+   Quiet text plates in the empty-state family: the realm-vs-character divergence
+   line under the realm list, and the failed character-set line above the roster.
+   Informational, never blocking. */
+
+.wgf-rp-diverge,
+.wgf-rp-charnote {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--wgf-muted, #a99e92);
+  background: rgba(0, 0, 0, 0.28);
+  border-top: 1px solid rgba(0, 0, 0, 0.55);
+}
+
+/* The failure line sits ABOVE its list and reads as a warning, in the same coral
+   the sign-out control already uses. */
+.wgf-rp-charnote {
+  color: #ff8f7a;
+  border-top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+}
+
+.wgf-rp-diverge[hidden],
+.wgf-rp-charnote[hidden] { display: none; }
+
+/* === Warband recut (2026-08-05) ==================================================
+   Owner north star: the retail Warband character-select screen. The window becomes
+   a dark floating panel with gold trim; each character row becomes a wide dark
+   card - name large in class colour, "Level N Class" with the class word coloured,
+   realm muted below, faction crest on the card's right - and the SELECTED card
+   wears a warm gold gradient fill inside a gold-glow border (the screenshot's
+   Alterrboy card). Same markup, same behavior, same affordances; this section only
+   restyles, by cascade (same-or-higher specificity, later in source).
+
+   Card language mirrors lane A's /account/ rail cards; the shared card sheet is
+   assigned to that lane, so these rules stay scoped to .wgf-rp-* on purpose. */
+
+/* The floating panel: near-black plate inside a thin gold edge, with a faint warm
+   glow instead of the old bare grey border. */
+.wgf-rp-window {
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(58, 46, 24, 0.35), rgba(0, 0, 0, 0) 55%),
+    linear-gradient(180deg, #131118 0%, #0a090d 60%, #070608 100%);
+  border: 1px solid #a8894a;
+  box-shadow:
+    0 0 0 1px #000,
+    0 0 0 3px rgba(58, 46, 24, 0.55),
+    0 0 22px rgba(232, 197, 110, 0.18),
+    0 18px 48px rgba(0, 0, 0, 0.85),
+    inset 0 0 0 1px rgba(232, 197, 110, 0.12),
+    inset 0 0 42px rgba(0, 0, 0, 0.55);
+}
+
+/* The title plaque joins the gold trim. */
+.wgf-rp-plaque {
+  border-color: #a8894a;
+  color: var(--wgf-gold-bright, #ffd869);
+  box-shadow: 0 0 0 1px #000, 0 0 10px rgba(232, 197, 110, 0.25),
+              0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Each character = a wide dark card, not a bare striped row. The descendant
+   selector out-cascades the old .wgf-rp-char:nth-child(even) stripe (same
+   specificity, later in source) so every card reads as one plate. */
+.wgf-rp-charlist .wgf-rp-char {
+  margin: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.28));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.wgf-rp-charlist .wgf-rp-char:nth-child(even) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.28));
+}
+.wgf-rp-charlist .wgf-rp-char:hover,
+.wgf-rp-charlist .wgf-rp-char:focus-visible {
+  border-color: rgba(232, 197, 110, 0.35);
+  background: linear-gradient(180deg, rgba(244, 196, 92, 0.09), rgba(0, 0, 0, 0.28));
+  box-shadow: inset 0 0 0 1px rgba(232, 197, 110, 0.12), 0 1px 3px rgba(0, 0, 0, 0.55);
+  outline: none;
+}
+
+/* SELECTED card: warm gold gradient fill + gold-glow border. */
+.wgf-rp-charlist .wgf-rp-char.is-active {
+  border-color: rgba(244, 196, 92, 0.8);
+  background: linear-gradient(90deg,
+    rgba(244, 196, 92, 0.30) 0%,
+    rgba(244, 196, 92, 0.12) 55%,
+    rgba(244, 196, 92, 0.05) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(244, 196, 92, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 12px rgba(244, 196, 92, 0.35);
+}
+
+/* Name LARGE in class colour; the meta line keeps the coloured class word; the
+   realm line stays the quiet muted grey third line. */
+.wgf-rp-charlist .wgf-rp-char__name { font-size: 15.5px; }
+.wgf-rp-charlist .wgf-rp-char__meta { font-size: 12px; }
+
+/* Portrait frame warms to match the trim. */
+.wgf-rp-charlist .wgf-rp-char__face { border-color: #5d5137; }
+
+/* Faction crest, riding the card's right edge (server-resolved first-party art;
+   neutral characters simply carry none). */
+.wgf-rp-char__crest {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+  opacity: 0.95;
+}
+
+/* Enter World is the primary act: it gets the bigger red beveled plate. Cancel
+   stays the quiet sibling at kit size. */
+.wgf-rp-actions .wgf-rp-ok {
+  min-width: 136px;
+  height: 30px;
+  font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .wgf-rp-charlist .wgf-rp-char { margin: 3px 5px; }
+}

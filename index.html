@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="wgf-navskin-game">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TheWoWDB — Header identity</title>
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-site-shell.css">
+  <link rel="stylesheet" href="/assets/wgf-chrome.css">
+</head>
+<body class="wgf-shell-page" data-wgf-page="home">
+  <header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner">
+      <a class="wgf-shell-logo" href="/" aria-label="TheWoWDB - Home">TheWoWDB</a>
+      <nav id="wgf-primary-nav" class="wgf-shell-nav" aria-label="Primary navigation">
+        <a class="wgf-nav-link" href="/item/">Item Prices</a>
+        <a class="wgf-nav-link" href="/guides/">Guides</a>
+      </nav>
+    </div>
+    <div class="wgf-shell-searchband">
+      <form class="wgf-shell-search wgf-shell-search--prime" role="search" action="/search/" method="get">
+        <input class="wgf-shell-search__input" type="search" name="q" placeholder="Search" aria-label="Search">
+        <button class="wgf-shell-search__btn" type="submit" aria-label="Search">⌕</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="preview-note">
+    <p><strong>Homepage</strong> — no <code>.wgf-shell-right</code> in the template, and the search form is hidden on home. The logged-in account must still sit in the header top-right: <strong>Alterrboy</strong>, <strong>Proudmoore US</strong>, <strong>Retail</strong>.</p>
+    <p>Open Enter World, then Cancel / Esc / click the dimmer. The chip must not disappear.</p>
+    <div class="preview-nav">
+      <a href="/item/">Inner item page</a>
+      <a href="/guides/">Guides (username-only template)</a>
+    </div>
+  </main>
+
+  <script>
+    try {
+      localStorage.setItem("wgf-auth-account", "Alterrboy");
+      localStorage.setItem("wgf-ah-realm", "proudmoore");
+      localStorage.setItem("wgf-ah-realm-name", "Proudmoore");
+      localStorage.setItem("wgf-ah-region", "us");
+      localStorage.setItem("wgf-ah-game", "retail");
+    } catch (e) {}
+  </script>
+  <script src="/assets/wgf-header-identity.js"></script>
+  <script src="/assets/wgf-shell.js"></script>
+</body>
+</html>
