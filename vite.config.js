@@ -1,5 +1,5 @@
-import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { createReadStream, existsSync, statSync } from "node:fs";
+import { extname, resolve } from "node:path";
 import { defineConfig } from "vite";
 
 const dungeonSlugs = [
@@ -20,7 +20,40 @@ const dungeonInput = Object.fromEntries(
   ])
 );
 
+const MIME = {
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".webp": "image/webp",
+  ".css": "text/css; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".woff2": "font/woff2",
+};
+
+function serveRepoAssets() {
+  return {
+    name: "serve-repo-assets",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const urlPath = decodeURIComponent(String((req && req.url) || "").split("?")[0]);
+        if (!urlPath.startsWith("/assets/")) return next();
+        const local = resolve(__dirname, urlPath.slice(1));
+        if (!existsSync(local)) return next();
+        try {
+          if (!statSync(local).isFile()) return next();
+        } catch (err) {
+          return next();
+        }
+        res.setHeader("Content-Type", MIME[extname(local).toLowerCase()] || "application/octet-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        createReadStream(local).pipe(res);
+      });
+    },
+  };
+}
+
 export default defineConfig({
+  plugins: [serveRepoAssets()],
   server: {
     host: "127.0.0.1",
     port: 4173,
@@ -29,11 +62,6 @@ export default defineConfig({
       "^/assets/(ui|icons|fonts|dungeon-tiles|loading-screens)/": {
         target: "https://thewowdb.com",
         changeOrigin: true,
-        bypass(req) {
-          const urlPath = String(req.url || "").split("?")[0];
-          const local = resolve(__dirname, "." + urlPath);
-          if (existsSync(local)) return urlPath;
-        },
       },
     },
   },
