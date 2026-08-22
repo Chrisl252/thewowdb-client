@@ -1,0 +1,543 @@
+/* Auction House preview chrome + toolbar integration.
+   JUMP TO (.wgf-ah-quicklinks) is retired: "Browse item prices" is this page,
+   and Compare cheapest realm is a first-class toolbar action next to Search /
+   Market Share, linking to the existing /cheapest-realm/ tool. */
+
+body.wgf-ah-page {
+  font-size: 14px;
+}
+
+body[data-wgf-page="auction-house"] .wgf-shell-search {
+  display: none;
+}
+
+/* ── Shell ─────────────────────────────────────────────────────────────── */
+
+.wgf-shell-topbar {
+  border-bottom: 2px solid var(--wgf-metal);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.42)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate-hi);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.4),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.wgf-shell-topbar__inner {
+  max-width: min(1536px, calc(100vw - 36px));
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.wgf-shell-logo {
+  display: inline-flex;
+  align-items: center;
+  color: var(--wgf-gold);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 15px;
+  flex: 0 0 auto;
+}
+
+.wgf-shell-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.wgf-shell-nav a,
+.wgf-nav-trigger {
+  color: var(--wgf-muted);
+  text-decoration: none;
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  font-size: var(--text-sm);
+  background: none;
+  border: 0;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.wgf-shell-nav a:hover,
+.wgf-nav-trigger:hover,
+.wgf-shell-nav a.is-active {
+  color: var(--wgf-gold);
+}
+
+.wgf-nav-group {
+  position: relative;
+}
+
+.wgf-nav-caret {
+  display: inline-block;
+  margin-left: 4px;
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  transform: translateY(2px);
+}
+
+.wgf-nav-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 12rem;
+  padding: var(--space-2);
+  background: var(--wgf-panel-1);
+  border: 1px solid var(--wgf-border-neutral);
+  box-shadow: var(--shadow-2);
+  z-index: 50;
+}
+
+.wgf-nav-group:hover > .wgf-nav-menu,
+.wgf-nav-group:focus-within > .wgf-nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wgf-nav-menu a {
+  display: block;
+  padding: 6px 10px;
+  color: var(--wgf-text);
+  text-align: left;
+}
+
+.wgf-nav-menu a:hover,
+.wgf-nav-menu a.is-active {
+  color: var(--wgf-gold);
+  background: rgba(var(--wgf-gold-rgb), 0.08);
+}
+
+.wgf-seo-breadcrumb {
+  padding: var(--space-2) var(--space-3);
+  max-width: min(1536px, calc(100vw - 36px));
+  margin: 0 auto;
+  border-bottom: 1px solid var(--wgf-metal-soft);
+}
+
+.wgf-seo-breadcrumb ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  font-size: var(--text-sm);
+}
+
+.wgf-seo-breadcrumb li {
+  display: flex;
+  align-items: center;
+  color: var(--wgf-muted);
+}
+
+.wgf-seo-breadcrumb li::after {
+  content: "\203A";
+  color: var(--wgf-gold-2);
+  padding: 0 var(--space-2);
+}
+
+.wgf-seo-breadcrumb li:last-child {
+  color: var(--wgf-gold);
+}
+
+.wgf-seo-breadcrumb li:last-child::after {
+  content: "";
+  padding: 0;
+}
+
+.wgf-seo-breadcrumb a {
+  text-decoration: none;
+  color: var(--wgf-muted);
+}
+
+.wgf-seo-breadcrumb a:hover {
+  color: var(--wgf-gold);
+  text-decoration: underline;
+}
+
+.wgf-shell-main {
+  max-width: min(1536px, calc(100vw - 36px));
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-3) 28px;
+}
+
+.wgf-page-hero--ah-compact {
+  padding: 2px 2px var(--space-1);
+  margin-bottom: var(--space-2);
+  border: none;
+  background: transparent;
+}
+
+.wgf-page-hero--ah-compact h1 {
+  font-family: var(--font-display);
+  font-variant: small-caps;
+  font-size: clamp(18px, 2.2vw, 24px);
+  letter-spacing: 0.02em;
+  color: var(--wgf-gold);
+  margin: 0 0 var(--space-1);
+  line-height: 1.15;
+  text-shadow: var(--text-ink-outline);
+}
+
+.wgf-page-hero--ah-tagline {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--wgf-muted);
+  max-width: 42rem;
+}
+
+/* ── In-game window + red button (kit, with paint fallbacks) ───────────── */
+
+.wgf-window {
+  position: relative;
+  border: 2px solid var(--wgf-metal);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.44)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.65), var(--shadow-2);
+  color: var(--wgf-text);
+}
+
+.wgf-window__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 38px;
+  padding: var(--space-2) var(--space-5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.38)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate-hi);
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  text-shadow: var(--text-ink-outline);
+}
+
+.wgf-btn-red {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--wgf-btn-h);
+  min-width: 96px;
+  border: 1px solid #d8b25a;
+  border-radius: 0;
+  background:
+    url(/assets/ui/128-redbutton-left-cap.png) left center / auto 100% no-repeat border-box,
+    url(/assets/ui/128-redbutton-right-cap.png) right center / auto 100% no-repeat border-box,
+    url(/assets/ui/_128-redbutton-center.png) left center / auto 100% repeat-x content-box,
+    linear-gradient(180deg, #a61f1f, #7c1414);
+  padding: 0 var(--wgf-btn-cap);
+  color: var(--wgf-gold-bright);
+  font-family: var(--font-game);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-decoration: none;
+  text-shadow: var(--text-ink-outline);
+  cursor: pointer;
+  user-select: none;
+}
+
+.wgf-btn-red:hover {
+  filter: brightness(1.12);
+}
+
+.wgf-btn-red:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ── Toolbar (Search / Market Share / Compare cheapest realm) ──────────── */
+
+.ah-toolbar {
+  display: grid;
+  grid-template-columns: minmax(168px, 220px) minmax(200px, 1fr) 130px minmax(300px, 380px);
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-2) 12px;
+  background: linear-gradient(180deg, var(--wgf-plate-hi), var(--wgf-plate));
+  border-bottom: 1px solid var(--wgf-metal-soft);
+}
+
+.ah-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.ah-toolbar__actions > * {
+  flex: 1 1 0;
+}
+
+.ah-control,
+.ah-searchbox,
+.ah-filter-button {
+  height: var(--wgf-dropdown-h);
+  border: 1px solid var(--wgf-well-edge);
+  border-radius: 4px;
+  background: var(--wgf-well);
+  color: var(--ah-text, var(--wgf-text));
+  font-family: var(--font-ui);
+}
+
+.ah-control.ah-realm-select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 0 34px 0 12px;
+  border-color: var(--wgf-gold-soft);
+  background:
+    url(/assets/ui/auctionhouse-ui-dropdown-arrow-down.png) right 8px center / auto 16px no-repeat,
+    var(--wgf-well);
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-weight: 600;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+
+.ah-searchbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-2);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.ah-searchbox span {
+  color: var(--wgf-gold-muted);
+  font-size: 16px;
+}
+
+.ah-searchbox input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.ah-searchbox:focus-within {
+  box-shadow: var(--focus-ring), inset 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.ah-filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-2);
+  border-radius: 0;
+  background: var(--wgf-panel-1);
+  color: var(--wgf-gold-muted);
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ah-filter-button::first-letter {
+  color: var(--wgf-gold-bright);
+}
+
+.ah-filter-button:hover {
+  background: var(--wgf-panel-2);
+  color: var(--wgf-gold-bright);
+}
+
+.ah-toolbar .ah-search-button.wgf-btn-red {
+  --wgf-btn-h: 34px;
+  --wgf-btn-cap: 15px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Promoted from the leftover JUMP TO chip row into the browser toolbar.
+   Same family as Market Share (secondary plate) + Search (primary red). */
+.ah-toolbar .ah-cheapest-realm {
+  width: 100%;
+  min-width: 0;
+  white-space: normal;
+  line-height: 1.05;
+  padding: 0 8px;
+}
+
+.ah-toolbar .ah-cheapest-realm.wgf-btn-red {
+  --wgf-btn-h: 34px;
+  --wgf-btn-cap: 15px;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+}
+
+.ah-layout {
+  display: grid;
+  grid-template-columns: minmax(160px, 210px) minmax(0, 1fr);
+}
+
+.ah-sidebar {
+  background: var(--wgf-bg-2);
+  border-right: 1px solid var(--wgf-border-neutral);
+  padding: var(--space-2);
+}
+
+.ah-sidebar-title {
+  color: var(--wgf-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  padding: var(--space-2);
+  margin: 0 0 var(--space-2);
+  background: var(--wgf-panel-2);
+  border: 1px solid var(--wgf-border-neutral);
+}
+
+.ah-cat-row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 7px 10px;
+  margin: 0 0 2px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--wgf-gold-link);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ah-cat-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--wgf-gold-bright);
+}
+
+.ah-cat-row.is-active {
+  background: linear-gradient(180deg, var(--wgf-plate-hi), var(--wgf-plate));
+  border-color: var(--wgf-gold-dark);
+  color: var(--wgf-gold-bright);
+}
+
+.ah-table-shell {
+  margin: var(--space-2);
+  border: 1px solid var(--wgf-well-edge);
+  border-radius: 4px;
+  background: var(--wgf-well);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.75);
+  overflow: auto;
+}
+
+.ah-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ah-table thead th {
+  background: linear-gradient(180deg, var(--wgf-plate-hi), var(--wgf-plate));
+  color: var(--wgf-gold-muted);
+  border: 1px solid var(--wgf-metal-soft);
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  text-align: left;
+  padding: 8px 10px;
+  text-shadow: var(--text-ink-outline);
+}
+
+.ah-table tbody td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--wgf-border-neutral-soft);
+  color: var(--wgf-text);
+}
+
+.ah-table tbody tr[hidden] {
+  display: none;
+}
+
+.ah-item-name {
+  font-family: var(--font-game);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ah-item-name.q-uncommon { color: var(--q-uncommon); }
+.ah-item-name.q-rare { color: var(--q-rare); }
+.ah-item-name.q-epic { color: var(--q-epic); }
+
+.ah-price {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--wgf-gold);
+  white-space: nowrap;
+}
+
+.ah-empty {
+  padding: var(--space-4);
+  color: var(--wgf-muted);
+  text-align: center;
+}
+
+.ah-empty[hidden] {
+  display: none;
+}
+
+@media (max-width: 1050px) {
+  .ah-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ah-searchbox,
+  .ah-toolbar__actions {
+    grid-column: 1 / -1;
+  }
+
+  .ah-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ah-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--wgf-border-neutral);
+  }
+}
