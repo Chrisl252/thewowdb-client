@@ -1,0 +1,389 @@
+/* wgf-item-card.css — normalized item card + inline chip + WoW quality scale.
+   Single home for quality colors. Warm Stone + Gold; tokens where available.
+
+   2026-08-22 category-grid pass: the price cards on /items/herbs/ (and sibling
+   material grids that reuse .wgf-item-card) were flat brown rectangles with a
+   thin-bordered square icon and a pile of SILVER/GOLD stars. That is the cheap
+   look the owner circled. Cards now wear the Hall plate (classhall stone tile +
+   --wgf-panel-1 + metal edge), the first-party spellbook icon frame, and a
+   two-column coin ledger. Navy tooltip slop (rgba(12,12,30)→rgba(5,5,16)) is
+   forbidden here.
+
+   Scope: .wgf-item-card / .wgf-item-grid / chips / quality. Compact .wgf-item-row
+   (deals tables, AH results) is unchanged — another ticket owns those rows. */
+
+/* WoW quality scale — the EXACT in-game client palette, consumed from the --q-* tokens
+   in static/css/_tokens.css. The `.wgf-shell-page h1.q-*` forms exist because the
+   shell paints every h1 gold at (0,1,1) — an item name that IS a heading still
+   carries its quality colour. */
+.q-poor,.wgf-shell-page h1.q-poor{color:var(--q-poor)}
+.q-common,.wgf-shell-page h1.q-common{color:var(--q-common,#ffffff)}
+.q-uncommon,.wgf-shell-page h1.q-uncommon{color:var(--q-uncommon)}
+.q-rare,.wgf-shell-page h1.q-rare{color:var(--q-rare)}
+.q-epic,.wgf-shell-page h1.q-epic{color:var(--q-epic)}
+.q-legendary,.wgf-shell-page h1.q-legendary{color:var(--q-legendary)}
+.q-artifact,.wgf-shell-page h1.q-artifact{color:var(--q-artifact)}
+.q-heirloom,.wgf-shell-page h1.q-heirloom{color:var(--q-heirloom)}
+a.wgf-item-chip.q-poor{color:var(--q-poor)}a.wgf-item-chip.q-common{color:var(--q-common,#ffffff)}
+a.wgf-item-chip.q-uncommon{color:var(--q-uncommon)}a.wgf-item-chip.q-rare{color:var(--q-rare)}
+a.wgf-item-chip.q-epic{color:var(--q-epic)}a.wgf-item-chip.q-legendary{color:var(--q-legendary)}
+a.wgf-item-chip.q-artifact{color:var(--q-artifact)}a.wgf-item-chip.q-heirloom{color:var(--q-heirloom)}
+
+/* ── Card (5a) — Class Hall item plate ────────────────────────────────────────
+   Works with current items_app.py markup (.ic-icon + .ic-body > head/note/price)
+   and the tighter .ic-identity wrap used when prices sit on their own row.
+   Icon window is optically centered on the title block, not the whole card —
+   do not repeat the homepage catchip bug of stretching the 138×131 frame to a
+   square (that parks the gilt window high-right of the label). */
+
+.wgf-item-card {
+  --ic-win: 48px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  column-gap: 2px;
+  row-gap: 0;
+  padding: 14px 16px 12px 14px;
+  border: 2px solid var(--wgf-metal);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(0, 0, 0, 0.14)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 180px 180px repeat,
+    var(--wgf-panel-1);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 rgba(var(--wgf-gold-rgb), 0.18),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    var(--shadow-2, 0 12px 38px rgba(0, 0, 0, 0.45));
+  transition:
+    border-color var(--motion-fast, 120ms) var(--ease-standard, ease),
+    box-shadow var(--motion-fast, 120ms) var(--ease-standard, ease);
+}
+.wgf-item-card:hover,
+.wgf-item-card:focus-within {
+  border-color: rgba(var(--wgf-gold-rgb), 0.55);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(var(--wgf-gold-rgb), 0.16),
+    0 14px 36px rgba(0, 0, 0, 0.5);
+}
+
+/* Frame PNG is 138×131; the gilt window is 83×83 at (39,16). Pad to the
+   flourishes, then cancel with negative margin so flex/grid aligns the WINDOW
+   to the title block — not the decorative corners. */
+.wgf-item-card .ic-icon {
+  --ic-pad-t: calc(var(--ic-win) * 16 / 83);
+  --ic-pad-r: calc(var(--ic-win) * 16 / 83);
+  --ic-pad-b: calc(var(--ic-win) * 32 / 83);
+  --ic-pad-l: calc(var(--ic-win) * 39 / 83);
+  box-sizing: content-box;
+  flex: 0 0 auto;
+  align-self: start;
+  width: var(--ic-win);
+  height: var(--ic-win);
+  padding: var(--ic-pad-t) var(--ic-pad-r) var(--ic-pad-b) var(--ic-pad-l);
+  margin: calc(var(--ic-pad-t) * -1) calc(var(--ic-pad-r) * -1)
+          calc(var(--ic-pad-b) * -1) calc(var(--ic-pad-l) * -1);
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background:
+    url(/assets/ui/spellbook-item-iconframe.png) center / 100% 100% no-repeat;
+}
+.wgf-item-card .ic-icon img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border: 0;
+  border-radius: 0;
+  background: #000;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.55);
+}
+
+/* Quality reads on the inner icon, inside the gilt window — not as a cheap
+   outer rectangle border. */
+.wgf-item-card.q-poor .ic-icon img      { box-shadow: inset 0 0 0 2px var(--q-poor); }
+.wgf-item-card.q-common .ic-icon img    { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55); }
+.wgf-item-card.q-uncommon .ic-icon img  { box-shadow: inset 0 0 0 2px var(--q-uncommon); }
+.wgf-item-card.q-rare .ic-icon img      { box-shadow: inset 0 0 0 2px var(--q-rare); }
+.wgf-item-card.q-epic .ic-icon img      { box-shadow: inset 0 0 0 2px var(--q-epic); }
+.wgf-item-card.q-legendary .ic-icon img { box-shadow: inset 0 0 0 2px var(--q-legendary); }
+.wgf-item-card.q-artifact .ic-icon img  { box-shadow: inset 0 0 0 2px var(--q-artifact); }
+.wgf-item-card.q-heirloom .ic-icon img  { box-shadow: inset 0 0 0 2px var(--q-heirloom); }
+
+.ic-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding-top: 6px; /* title cap-height sits on the icon window midline */
+}
+.ic-head {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  column-gap: var(--space-2);
+  row-gap: 2px;
+  flex-wrap: wrap;
+}
+.ic-name {
+  font-family: var(--font-game, var(--font-display, "Cinzel", serif));
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--wgf-gold-primary);
+  text-shadow: var(--text-ink-outline);
+}
+.ic-name:hover { color: var(--wgf-gold-bright); text-decoration: none; }
+.ic-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  min-width: 1.15rem;
+  text-align: center;
+  color: var(--wgf-text);
+  border: 1px solid var(--wgf-metal-soft);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.12rem 0.28rem;
+}
+.ic-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--wgf-muted);
+  line-height: 1.35;
+}
+
+/* Price ledger — two aligned columns, not a star pile. */
+.ic-price {
+  margin: 10px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(var(--wgf-gold-rgb), 0.16);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  color: var(--wgf-text);
+}
+.ic-price--multi {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(4.75rem, 1fr);
+  justify-content: start;
+  column-gap: 12px;
+  row-gap: 6px;
+  align-items: center;
+  width: 100%;
+}
+.ic-tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-game, var(--font-ui, serif));
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--wgf-muted);
+  line-height: 1;
+}
+/* Star character stays in the markup (live templates emit it) but reads as a
+   metal quality pip so Silver/Gold are a ledger, not a rating. */
+.ic-tier-star {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 0;
+  font-size: 0;
+  line-height: 0;
+  color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.55);
+  background: currentColor;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  transform: rotate(45deg);
+}
+.ic-tier--gold { color: var(--wgf-gold-bright, var(--wgf-gold-primary)); }
+.ic-tier--silver { color: #e4e8ee; }
+.ic-tier--bronze { color: #c8814b; }
+.ic-coins {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.28rem;
+  flex-wrap: nowrap;
+  font-family: var(--font-mono, monospace);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--wgf-text);
+  text-align: right;
+}
+.ic-price--multi .ic-coins { justify-self: end; }
+.crp-g { color: var(--coin-gold, var(--wgf-gold)); }
+.crp-s { color: var(--coin-silver, #c0c0c0); }
+.crp-c { color: var(--coin-copper, #c8602c); }
+.crp-unit { color: var(--wgf-muted); font-weight: 600; font-size: 0.78em; }
+.ic-sub { color: var(--wgf-muted); font-size: 0.8rem; font-family: var(--font-ui, serif); }
+.ic-realm {
+  background: #0c0a07;
+  color: var(--wgf-text);
+  border: 1px solid var(--wgf-border-neutral);
+  border-radius: var(--radius-control, 4px);
+  padding: 0.2rem 0.45rem;
+  font: inherit;
+  font-size: 0.85rem;
+  max-width: 12rem;
+  margin-right: 0.4rem;
+}
+
+/* Optional identity wrap: icon + title only, prices full-bleed underneath.
+   When present, the icon is flex-centered on the title/note block. */
+.ic-identity {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 2px;
+  min-width: 0;
+  /* Clear the frame's bottom flourish so the ledger does not sit under it. */
+  padding-bottom: 10px;
+}
+.wgf-item-card:has(> .ic-identity) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.ic-identity .ic-body { padding-top: 0; }
+.ic-identity .ic-icon { align-self: center; }
+.wgf-item-card:has(> .ic-identity) > .ic-price {
+  margin-top: 0;
+}
+
+/* Card grid for shelves of featured / category items */
+.wgf-item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  gap: var(--space-3);
+  margin: 1rem 0 0.5rem;
+}
+
+/* Inline chip — unchanged; used in guides and tooltips, not this grid. */
+.wgf-item-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.04rem 0.42rem 0.04rem 0.16rem;
+  border: 1px solid var(--wgf-border, rgba(244, 196, 92, 0.22));
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.22);
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1.3;
+  vertical-align: -0.28em;
+}
+.wgf-item-chip img { width: 16px; height: 16px; border-radius: 3px; display: block; }
+.wgf-item-chip:hover { border-color: var(--wgf-gold, var(--wgf-gold-primary)); }
+
+/* ── Compact row (5b): related lists, search results, category lists, deals/AH
+   rows. UNCHANGED this pass — deals tables / AH results stay row language. ── */
+.wgf-item-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--wgf-border-neutral-soft, var(--wgf-border-neutral));
+  border-radius: var(--radius-control);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.14)), var(--wgf-panel-1);
+  transition:
+    border-color var(--motion-fast, 120ms) var(--ease-standard, ease),
+    background var(--motion-fast, 120ms) var(--ease-standard, ease);
+}
+.wgf-item-row + .wgf-item-row { margin-top: 2px; }
+.wgf-item-row:hover,
+.wgf-item-row:focus-within {
+  background: linear-gradient(180deg, rgba(var(--wgf-gold-rgb), 0.10), rgba(var(--wgf-gold-rgb), 0.04)), var(--wgf-panel-2);
+  border-color: rgba(var(--wgf-gold-rgb), 0.35);
+}
+.ir-ic {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--wgf-well, #0c0a07);
+  border: 1px solid var(--wgf-metal, #3a3a4a);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.75), 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.ir-ic img { width: 100%; height: 100%; display: block; }
+.ir-main { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.08rem; }
+.ir-nm {
+  font-family: var(--font-display, "Cinzel", serif);
+  font-weight: 700;
+  font-size: 0.98rem;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ir-nm:hover { text-decoration: underline; }
+.ir-meta { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+.ir-cat { font-family: var(--font-ui, serif); font-size: 0.78rem; color: var(--wgf-muted); }
+.ir-price { flex: 0 0 auto; font-size: 0.92rem; white-space: nowrap; }
+.ir-tier { flex: 0 0 auto; font-size: 0.95rem; line-height: 1; text-shadow: 0 0 3px rgba(0, 0, 0, 0.6); }
+.ir-tier--gold { color: var(--wgf-gold-primary); }
+.ir-tier--silver { color: #cdd3da; }
+.ir-tier--bronze { color: #c8814b; }
+.wgf-rowlink::after { content: ""; position: absolute; inset: 0; z-index: 0; }
+@media (max-width: 520px) {
+  .wgf-item-row { flex-wrap: wrap; }
+  .ir-price { margin-left: 52px; }
+}
+
+.wgf-item-ref {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  font-family: var(--font-ui, serif);
+  font-size: 0.72rem;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--wgf-muted);
+  text-decoration: none;
+  border: 1px solid var(--wgf-metal-soft);
+  background: rgba(0, 0, 0, 0.28);
+  line-height: 1;
+}
+.wgf-item-ref:hover,
+.wgf-item-ref:focus-visible { color: var(--wgf-gold-bright); border-color: var(--wgf-gold-dim); }
+.wgf-item-ref:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.wgf-item-ref__ext { flex: 0 0 auto; opacity: 0.9; }
+.wgf-item-ref__label { letter-spacing: 0.01em; }
+
+.wgf-item-row .ir-ic img {
+  border: 1px solid var(--wgf-border-neutral);
+  border-radius: 3px;
+  background: #000;
+}
+.wgf-item-row.q-poor .ir-ic img      { border-color: var(--q-poor); }
+.wgf-item-row.q-common .ir-ic img    { border-color: var(--q-common); }
+.wgf-item-row.q-uncommon .ir-ic img  { border-color: var(--q-uncommon); }
+.wgf-item-row.q-rare .ir-ic img      { border-color: var(--q-rare); }
+.wgf-item-row.q-epic .ir-ic img      { border-color: var(--q-epic); }
+.wgf-item-row.q-legendary .ir-ic img { border-color: var(--q-legendary); }
+.wgf-item-row.q-artifact .ir-ic img  { border-color: var(--q-artifact); }
+.wgf-item-row.q-heirloom .ir-ic img  { border-color: var(--q-heirloom); }
+
+@media (prefers-reduced-motion: reduce) {
+  .wgf-item-card,
+  .wgf-item-row { transition: none; }
+}

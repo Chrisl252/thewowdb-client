@@ -1,12 +1,14 @@
 {
-  "name": "thewowdb-reckful-pin-preview",
+  "name": "thewowdb-ui-preview",
   "private": true,
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 4188",
+    "dev": "vite --host 0.0.0.0 --port 4173",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1 --port 4188"
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "test": "node --test enter-world/identity.test.js header-identity.test.js pve/mythic-plus/dungeons/dungeon-art.test.js item-comments/sort-comments.test.js && node item/check-css.mjs"
   },
   "devDependencies": {
+    "jsdom": "^26.1.0",
     "vite": "^6.3.5"
   }
 }

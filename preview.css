@@ -1,8 +1,11 @@
-/* Preview tokens — subset of static/css/_tokens.css (Warm Stone + Gold). */
+/* Shared preview tokens — union of the per-ticket sheets so one Vite
+   server can render every destination. Production still loads
+   static/css/_tokens.css from the private site. */
+
 @font-face {
   font-family: "FrizQuadrata";
   src: url("/assets/fonts/frizqt.woff2") format("woff2");
-  font-weight: 400 700;
+  font-weight: 400 800;
   font-style: normal;
   font-display: swap;
 }
@@ -15,29 +18,48 @@
   --wgf-panel-1: #221b11;
   --wgf-panel-2: #2b2215;
   --wgf-panel-3: #352a1a;
-  --wgf-border: rgba(var(--wgf-gold-rgb), 0.24);
-  --wgf-border-strong: rgba(var(--wgf-gold-rgb), 0.42);
+  --wgf-border: rgba(240, 192, 64, 0.24);
+  --wgf-border-strong: rgba(240, 192, 64, 0.42);
   --wgf-border-neutral: #453824;
+  --wgf-border-neutral-soft: #2f2616;
   --wgf-gold-primary: #f0c040;
   --wgf-gold: var(--wgf-gold-primary);
   --wgf-gold-bright: #ffd978;
   --wgf-gold-link: #ffd978;
   --wgf-gold-muted: #b9a66b;
+  --wgf-gold-soft: #c5a43a;
   --wgf-gold-dim: #8d7625;
+  --wgf-gold-dark: #5a4410;
   --wgf-gold-rgb: 240, 192, 64;
   --wgf-on-gold: #160b00;
   --wgf-text: #ece7dd;
   --wgf-muted: #b1a58c;
-  --wgf-metal: #4a4a4a;
+  --wgf-metal: #3a3228;
   --wgf-metal-soft: #2e2e2e;
   --wgf-well: #0a0a0c;
+  --wgf-well-edge: #05050a;
   --wgf-plate: var(--wgf-well);
+  --wgf-plate-hi: var(--wgf-panel);
   --wgf-up: #3fcf6b;
+  --wgf-down: #e5564b;
   --wgf-up-rgb: 63, 207, 107;
+  --wgf-down-rgb: 229, 86, 75;
+  --q-poor: #9d9d9d;
+  --q-common: #ffffff;
+  --q-uncommon: #1eff00;
+  --q-rare: #0070dd;
+  --q-epic: #a335ee;
+  --q-legendary: #ff8000;
+  --q-artifact: #e6cc80;
+  --q-heirloom: #00ccff;
+  --coin-gold: #f5c300;
+  --coin-silver: #c0c0c0;
+  --coin-copper: #c8602c;
   --fc-alliance: #3a6fd8;
   --font-display: "Cinzel", "Palatino Linotype", serif;
   --font-ui: "Crimson Text", Georgia, serif;
   --font-game: "FrizQuadrata", "Cinzel", serif;
+  --font-game-display: "Morpheus", "Cinzel", serif;
   --font-mono: "JetBrains Mono", "Courier New", monospace;
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -51,11 +73,14 @@
   --space-4: 24px;
   --space-5: 32px;
   --space-6: 48px;
+  --space-7: 64px;
+  --radius-control: 4px;
+  --radius-card: 5px;
   --text-ink-outline: 0 1px 2px rgba(0, 0, 0, 0.92), 0 0 4px rgba(0, 0, 0, 0.6);
   --focus-ring: 0 0 0 2px var(--wgf-bg), 0 0 0 4px var(--wgf-gold-primary);
   --motion-fast: 120ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
-  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 12px 38px rgba(0, 0, 0, 0.45);
 }
 
 *,
@@ -67,8 +92,9 @@ html, body { margin: 0; min-height: 100%; }
 body.wgf-shell-page {
   color: var(--wgf-text);
   font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
   background-color: #0c0a08;
-  background-image: none;
 }
 
 body.wgf-shell-page::before {
@@ -87,6 +113,65 @@ body.wgf-shell-page::before {
 
 a { color: var(--wgf-gold-link); }
 a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hub {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.hub-kicker {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-game);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wgf-gold-muted);
+}
+
+.hub h1 {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--wgf-gold-bright);
+}
+
+.hub-sub {
+  margin: 0 0 var(--space-4);
+  color: var(--wgf-muted);
+}
+
+.hub-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.hub-nav a {
+  display: block;
+  padding: 12px 14px;
+  border: 1px solid var(--wgf-border);
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(240, 192, 64, 0.04), rgba(0, 0, 0, 0.18)), var(--wgf-panel-1);
+  text-decoration: none;
+  font-family: var(--font-game);
+}
+
+.hub-nav a:hover {
+  border-color: var(--wgf-border-strong);
+  color: var(--wgf-gold-bright);
+}
 
 .wgf-pvp-wrap {
   max-width: 1100px;

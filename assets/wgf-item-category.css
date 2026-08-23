@@ -1,0 +1,229 @@
+/* wgf-item-category.css — category price-grid destination ( /items/herbs/ and
+   sibling material grids that share the same page chrome).
+
+   The live herb page was a dark brown/black void: empty hero box, green-outlined
+   status strip, no dungeon art. Match the homepage / guides Hall pattern:
+   first-party dungeon tile + warm gold scrim. Hero is an art plate, not a
+   hollow dark rectangle.
+
+   Tight scope: body[data-wgf-page="item-category"] and .icp-* only.
+   Does NOT restyle the global header, Enter World modal, /item/ Price Guide
+   hero (another ticket), deals tables, or homepage category tiles. */
+
+body[data-wgf-page="item-category"] {
+  background-color: #0c0a08;
+  background-image: none;
+}
+
+.icp-pagebg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background: url("/assets/dungeon-tiles/magisters-terrace.jpg") center 28% / cover no-repeat;
+  filter: saturate(1.04);
+}
+.icp-pagebg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 85% at 50% 6%, rgba(var(--wgf-gold-rgb), 0.14), transparent 46%),
+    linear-gradient(180deg, rgba(12, 10, 8, 0.70) 0%, rgba(12, 10, 8, 0.64) 32%, rgba(11, 9, 7, 0.86) 100%);
+}
+
+body[data-wgf-page="item-category"][data-wgf-cat="herb"] .icp-pagebg {
+  background-image: url("/assets/dungeon-tiles/magisters-terrace.jpg");
+}
+
+.icp-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px clamp(16px, 3vw, 32px) 64px;
+}
+
+/* Breadcrumbs — page-local; not the global topbar. */
+.wgf-seo-breadcrumb {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+}
+.wgf-seo-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--wgf-muted);
+}
+.wgf-seo-breadcrumb li:not(:last-child)::after {
+  content: "›";
+  margin-left: 0.5rem;
+  color: var(--wgf-gold-dim);
+}
+.wgf-seo-breadcrumb a {
+  color: var(--wgf-gold-muted);
+  text-decoration: none;
+}
+.wgf-seo-breadcrumb a:hover { color: var(--wgf-gold-bright); text-decoration: underline; }
+.wgf-seo-breadcrumb [aria-current="page"] { color: var(--wgf-text); }
+
+/* Hero: framed Quel'Thalas tile, not an empty dark box. */
+body[data-wgf-page="item-category"] .wgf-seo-hero,
+.icp-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: none;
+  margin: 0 0 1rem;
+  padding: clamp(28px, 4.5vw, 48px) clamp(20px, 3vw, 40px);
+  border: 2px solid var(--wgf-metal);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(12, 10, 8, 0.42) 0%, rgba(12, 10, 8, 0.78) 72%, rgba(12, 10, 8, 0.88) 100%),
+    url("/assets/dungeon-tiles/magisters-terrace.jpg") center 38% / cover no-repeat,
+    var(--wgf-panel-1);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.65),
+    var(--shadow-2, 0 12px 38px rgba(0, 0, 0, 0.45));
+}
+.icp-hero__row {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 28px);
+}
+.icp-hero__crest {
+  --ic-win: 56px;
+  --ic-pad-t: calc(var(--ic-win) * 16 / 83);
+  --ic-pad-r: calc(var(--ic-win) * 16 / 83);
+  --ic-pad-b: calc(var(--ic-win) * 32 / 83);
+  --ic-pad-l: calc(var(--ic-win) * 39 / 83);
+  flex: 0 0 auto;
+  box-sizing: content-box;
+  width: var(--ic-win);
+  height: var(--ic-win);
+  padding: var(--ic-pad-t) var(--ic-pad-r) var(--ic-pad-b) var(--ic-pad-l);
+  margin: calc(var(--ic-pad-t) * -1) calc(var(--ic-pad-r) * -1)
+          calc(var(--ic-pad-b) * -1) calc(var(--ic-pad-l) * -1);
+  background-image:
+    url(/assets/ui/spellbook-item-iconframe.png),
+    url(/assets/icons/trade_herbalism.jpg);
+  background-repeat: no-repeat, no-repeat;
+  background-origin: padding-box, content-box;
+  background-clip: padding-box, content-box;
+  background-position: center, center;
+  background-size: 100% 100%, 100% 100%;
+}
+.icp-hero__text { min-width: 0; }
+.icp-hero .wgf-seo-eyebrow,
+.wgf-seo-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.55rem;
+  color: var(--wgf-gold-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.icp-live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--wgf-up);
+  box-shadow: 0 0 6px var(--wgf-up);
+}
+.icp-hero .wgf-seo-h1,
+.wgf-shell-page h1.wgf-seo-h1 {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.6vw, 48px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--wgf-gold-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.92), 0 3px 14px rgba(0, 0, 0, 0.55);
+}
+.icp-hero .wgf-seo-sub,
+.wgf-seo-sub {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--wgf-muted);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Status — stone plate + live pip. Replaces the chunky green outline bar.
+   Realm/version stay ON THE PAGE; the global header ticket owns persistent
+   identity and is not touched here. */
+.icp-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.1rem;
+  margin: 0 0 1.25rem;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--wgf-metal);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.22)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-panel-1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.65);
+}
+.icp-status .wgf-snapshot__seal {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--wgf-up-rgb), 0.16);
+  color: var(--wgf-up);
+  font-size: 0.7rem;
+  line-height: 1;
+}
+.icp-status .wgf-snapshot__label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wgf-up);
+}
+.icp-status .wgf-snapshot__meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+  margin-left: auto;
+}
+.icp-status .wgf-snapshot__rel {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.86rem;
+  color: var(--wgf-text);
+}
+.icp-status .wgf-snapshot__sep { color: var(--wgf-gold-dim); }
+.icp-status .wgf-snapshot__scope {
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  color: var(--wgf-muted);
+}
+
+@media (max-width: 640px) {
+  .icp-hero__row { align-items: flex-start; }
+  .icp-status .wgf-snapshot__meta { margin-left: 0; }
+  .wgf-item-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icp-live-dot { box-shadow: none; }
+}
