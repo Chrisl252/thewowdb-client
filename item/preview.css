@@ -1,0 +1,87 @@
+/* Local preview tokens — subset of /static/css/_tokens.css so /item/ can
+   render without the private site repo. Production already loads the real
+   token sheet first. */
+
+@font-face {
+  font-family: "FrizQuadrata";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/assets/fonts/frizqt.woff2") format("woff2");
+}
+
+:root {
+  --wgf-bg-base: #16110a;
+  --wgf-bg: var(--wgf-bg-base);
+  --wgf-bg-2: #1c160e;
+  --wgf-bg-hero:
+    linear-gradient(135deg, rgba(46, 36, 20, 0.92), rgba(18, 14, 8, 0.96)),
+    radial-gradient(circle at top right, rgba(var(--wgf-gold-rgb), 0.12), transparent 24rem);
+  --wgf-panel: #221b11;
+  --wgf-panel-1: #221b11;
+  --wgf-panel-2: #2b2215;
+  --wgf-panel-3: #352a1a;
+  --wgf-border: rgba(240, 192, 64, 0.24);
+  --wgf-border-strong: rgba(240, 192, 64, 0.42);
+  --wgf-border-neutral: #453824;
+  --wgf-gold-primary: #f0c040;
+  --wgf-gold: var(--wgf-gold-primary);
+  --wgf-gold-bright: #ffd978;
+  --wgf-gold-link: #ffd978;
+  --wgf-gold-muted: #b9a66b;
+  --wgf-gold-soft: #c5a43a;
+  --wgf-gold-dim: #8d7625;
+  --wgf-gold-rgb: 240, 192, 64;
+  --wgf-on-gold: #160b00;
+  --wgf-text: #ece7dd;
+  --wgf-muted: #b1a58c;
+  --wgf-metal: #4a4a4a;
+  --wgf-metal-soft: #2e2e2e;
+  --wgf-well: #0a0a0c;
+  --wgf-plate: var(--wgf-well);
+  --wgf-plate-hi: var(--wgf-panel);
+  --wgf-up: #3fcf6b;
+  --wgf-down: #e5564b;
+  --coin-copper: #c8602c;
+  --q-poor: #9d9d9d;
+  --q-common: #ffffff;
+  --q-uncommon: #1eff00;
+  --q-rare: #0070dd;
+  --q-epic: #a335ee;
+  --q-legendary: #ff8000;
+  --q-heirloom: #00ccff;
+  --font-display: "Cinzel", "Palatino Linotype", serif;
+  --font-ui: "Crimson Text", Georgia, serif;
+  --font-game: "FrizQuadrata", "Cinzel", serif;
+  --font-game-display: "Cinzel", serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --text-ink-outline: 0 1px 2px rgba(0, 0, 0, 0.92), 0 0 4px rgba(0, 0, 0, 0.6);
+  --shadow-2: 0 12px 38px rgba(0, 0, 0, 0.45);
+  --motion-fast: 120ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --focus-ring: 0 0 0 2px var(--wgf-bg), 0 0 0 4px var(--wgf-gold-primary);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body.wgf-shell-page {
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+  font-size: 18px;
+  line-height: 1.5;
+  padding: 28px 0 64px;
+}
