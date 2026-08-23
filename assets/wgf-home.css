@@ -397,7 +397,7 @@ a.hm-ticker__cell:hover .hm-ticker__v{text-decoration:underline}
    Entries read as book lines (dark ink on parchment, Friz), not floating buttons;
    the parchment pane kit re-tokens text colors to dark-on-light for us. */
 .hm-profbook{max-width:820px;margin:var(--space-5) auto 0}
-.hm-profbook__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 18px}
+.hm-profbook__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 18px;align-items:center}
 
 /* Directive 7 kept the entries as book LINES rather than floating buttons, and
    that part is right — but stripped of every texture they read as plain text,
@@ -412,20 +412,28 @@ a.hm-ticker__cell:hover .hm-ticker__v{text-decoration:underline}
    surface needs it. */
 .hm-hero .hm-profbook .catchip{
   display:flex;align-items:center;gap:10px;
-  background:none;filter:none;height:auto;border:0;border-radius:0;
-  padding:6px 8px;cursor:pointer;
+  background:none;filter:none;height:auto;min-height:34px;border:0;border-radius:0;
+  padding:4px 8px;cursor:pointer;overflow:visible;
   font-family:var(--font-game);font-size:var(--text-md);font-weight:600;
-  font-variant:normal;letter-spacing:.01em;line-height:1.25;
+  font-variant:normal;letter-spacing:.01em;line-height:1;
   color:#5a2f0c;text-shadow:none;text-align:left;
 }
+/* Frame PNG is 138×131; the gilt window is 83×83 at (39,16). Stretching the
+   whole file to 34×34 left the square high-right of the label. Pad to the
+   flourishes, then cancel with negative margin so flex aligns the window. */
 .hm-hero .hm-profbook .catchip::before{
-  content:"";flex:0 0 auto;width:34px;height:34px;
+  content:"";flex:0 0 auto;align-self:center;box-sizing:content-box;
+  width:34px;height:34px;
+  padding:6.55px 6.55px 13.11px 15.98px;
+  margin:-6.55px -6.55px -13.11px -15.98px;
   background-image:
     url(/assets/ui/spellbook-item-iconframe.png),
     var(--cat-icon, url(/assets/icons/inv_misc_book_09.jpg));
   background-repeat:no-repeat,no-repeat;
+  background-origin:padding-box,content-box;
+  background-clip:padding-box,content-box;
   background-position:center,center;
-  background-size:100% 100%,62% 62%;
+  background-size:100% 100%,100% 100%;
 }
 /* Each category wears its own real in-game icon, keyed off the data-cat the
    markup already carries for item-index.js — no new attributes, no JS. */
