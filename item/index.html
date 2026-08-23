@@ -1,15 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="wgf-navskin-game">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WOW Item Price Guide — TheWoWDB</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Crimson+Text:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-site-shell.css">
+  <link rel="stylesheet" href="/assets/wgf-chrome.css">
   <link rel="stylesheet" href="/item/preview.css">
   <link rel="stylesheet" href="/assets/item-index.css">
 </head>
-<body class="wgf-shell-page" data-wgf-page="item-index">
+<body class="wgf-shell-page" data-wgf-page="item-index" data-wgf-snapshot="2026-08-22T19:00:00.000Z" data-wgf-expansion="Midnight">
+  <header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner">
+      <a class="wgf-shell-logo" href="/" aria-label="TheWoWDB - Home">TheWoWDB</a>
+      <nav id="wgf-primary-nav" class="wgf-shell-nav" aria-label="Primary navigation">
+        <a class="wgf-nav-link" href="/herbs/">Herbs</a>
+        <a class="wgf-nav-link is-active" href="/item/">Item Prices</a>
+        <a class="wgf-nav-link" href="/guides/">Guides</a>
+      </nav>
+    </div>
+    <div class="wgf-shell-searchband">
+      <form class="wgf-shell-search wgf-shell-search--prime" role="search" action="/search/" method="get">
+        <input class="wgf-shell-search__input" type="search" name="q" placeholder="Search" aria-label="Search">
+        <button class="wgf-shell-search__btn" type="submit" aria-label="Search">⌕</button>
+      </form>
+    </div>
+  </header>
+
   <div class="wgf-item-index-layout">
     <header class="wgf-seo-hero">
       <p class="wgf-seo-eyebrow">WOW AUCTION HOUSE</p>
@@ -84,6 +104,10 @@
     </main>
   </div>
 
+  <script src="/assets/wgf-header-demo.js"></script>
+  <script src="/assets/wgf-identity-format.js"></script>
+  <script src="/assets/wgf-header-identity.js"></script>
+  <script src="/assets/wgf-shell.js"></script>
   <script src="/item/preview.js"></script>
   <script src="/assets/item-index.js"></script>
 </body>

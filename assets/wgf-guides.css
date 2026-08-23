@@ -19,6 +19,14 @@
   white-space: nowrap;
 }
 
+/* Sitewide header identity replaces this username-only cluster. */
+body:has(.wgf-header-identity) .gsh-user-nav,
+.gsh-user-nav[data-wgf-replaced-by="header-identity"] {
+  display: none !important;
+}
+
+
+
 .gsh-user-link,
 .gsh-login-link {
   color: var(--wgf-gold-link);
