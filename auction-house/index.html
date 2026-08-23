@@ -3,16 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Auction House — TheWoWDB</title>
+  <title>WoW Auction House — Moon Guard US — TheWoWDB</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
   <link rel="stylesheet" href="/preview.css">
   <link rel="stylesheet" href="/assets/wgf-ah.css">
+  <link rel="stylesheet" href="/assets/ah/browse-layout.css">
+  <link rel="stylesheet" href="/assets/ah/browse-chrome.css">
 </head>
 <body class="wgf-shell-page wgf-ah-page" data-wgf-page="auction-house">
   <header class="wgf-shell-topbar">
     <div class="wgf-shell-topbar__inner">
-      <a class="wgf-shell-logo" href="/auction-house/">THEWOWDB</a>
+      <a class="wgf-shell-logo" href="/">THEWOWDB</a>
       <nav class="wgf-shell-nav" aria-label="Primary">
         <a href="/auction-house/" class="is-active">Items</a>
         <div class="wgf-nav-group">
@@ -29,32 +31,25 @@
     </div>
   </header>
 
-  <nav class="wgf-seo-breadcrumb" aria-label="Breadcrumb">
-    <ol>
-      <li><a href="/auction-house/">Home</a></li>
-      <li aria-current="page">Auction House</li>
-    </ol>
-  </nav>
-
-  <main class="wgf-shell-main">
-    <header class="wgf-page-hero wgf-page-hero--ah-compact">
-      <h1>Auction House</h1>
-      <p class="wgf-page-hero--ah-tagline">
-        Search any item for live realm prices from recorded Auction House snapshots.
-      </p>
+  <main class="ah-page">
+    <header class="ah-page-hero">
+      <p class="ah-page-hero__kicker">Price tracker · Retail</p>
+      <h1>WoW Auction House</h1>
+      <p class="ah-page-hero__sub">Moon Guard — US · live commodity listings from recorded Auction House snapshots.</p>
     </header>
 
-    <section class="wgf-window" aria-labelledby="ah-window-title">
-      <header class="wgf-window__title" id="ah-window-title">Browse Auctions</header>
+    <section class="wgf-window ah-window" aria-labelledby="ah-window-title">
+      <header class="wgf-window__title" id="ah-window-title">Moon Guard — US</header>
 
       <form class="ah-toolbar" id="ahSearchForm" role="search">
         <label class="visually-hidden" for="ahRealm">Realm</label>
         <select class="ah-control ah-realm-select" id="ahRealm" name="realm">
+          <option selected>Moon Guard</option>
           <option>Area 52</option>
           <option>Stormrage</option>
           <option>Illidan</option>
-          <option>Proudmoore</option>
         </select>
+        <span class="ah-region-display" aria-hidden="true">US</span>
 
         <label class="ah-searchbox" for="ahSearch">
           <span aria-hidden="true">⌕</span>
@@ -62,76 +57,252 @@
         </label>
 
         <button class="ah-filter-button" id="ahMarketShare" type="button">Market Share</button>
+        <button class="ah-filter-button" id="ahExportButton" type="button">Export</button>
 
         <div class="ah-toolbar__actions">
-          <a
-            class="wgf-btn-red ah-cheapest-realm"
-            id="ahCheapestRealm"
-            href="/cheapest-realm/"
-          >Compare cheapest realm</a>
+          <!-- JUMP TO / Compare cheapest realm: owned by the cheapest-realm ticket. Do not restyle. -->
+          <a class="wgf-btn-red ah-cheapest-realm" id="ahCheapestRealm" href="/cheapest-realm/">Compare cheapest realm</a>
           <button class="ah-search-button wgf-btn-red" type="submit">Search</button>
         </div>
       </form>
 
       <div class="ah-layout">
-        <aside class="ah-sidebar" aria-label="Categories">
-          <h2 class="ah-sidebar-title">Categories</h2>
-          <button class="ah-cat-row is-active" type="button" data-ah-cat="all" aria-current="true">All Items</button>
-          <button class="ah-cat-row" type="button" data-ah-cat="herb">Herbs</button>
-          <button class="ah-cat-row" type="button" data-ah-cat="cloth">Cloth</button>
-          <button class="ah-cat-row" type="button" data-ah-cat="potion">Potions &amp; Flasks</button>
-          <button class="ah-cat-row" type="button" data-ah-cat="reagent">Reagents</button>
+        <aside class="ah-sidebar" aria-label="Browse auctions">
+          <div class="ah-sidebar-head">
+            <h2 class="ah-sidebar-title">Browse Auctions</h2>
+          </div>
+          <nav class="ah-category-tree" id="ahCategoryTree">
+            <button class="ah-cat-row ah-cat-row--all-items is-active" type="button" aria-current="true">
+              <span class="ah-cat-label">All Items</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Weapons</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Armor</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Containers</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Gems</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Item Enhancements</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Consumables</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Trade Goods</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Recipes</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Battle Pets</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Quest Items</span>
+            </button>
+            <button class="ah-cat-row top" type="button" data-has-children="1">
+              <span class="ah-cat-caret" aria-hidden="true">▸</span>
+              <span class="ah-cat-label">Miscellaneous</span>
+            </button>
+          </nav>
+          <footer class="ah-sidebar-verified">
+            <span class="ah-sidebar-verified__label">Last verified</span>
+            <time class="ah-sidebar-verified__age" datetime="2026-08-21">1 d ago</time>
+          </footer>
         </aside>
 
-        <div class="ah-table-shell wgf-scroll">
-          <table class="ah-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Type</th>
-                <th>Min buyout</th>
-                <th>Available</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr data-ah-row data-name="Peacebloom" data-cat="herb">
-                <td><a class="ah-item-name q-uncommon" href="/cheapest-realm/?q=Peacebloom">Peacebloom</a></td>
-                <td>Herb</td>
-                <td class="ah-price">1g 24s</td>
-                <td>18,420</td>
-              </tr>
-              <tr data-ah-row data-name="Silverleaf" data-cat="herb">
-                <td><a class="ah-item-name q-uncommon" href="/cheapest-realm/?q=Silverleaf">Silverleaf</a></td>
-                <td>Herb</td>
-                <td class="ah-price">96s 40c</td>
-                <td>12,110</td>
-              </tr>
-              <tr data-ah-row data-name="Lightweave Cloth" data-cat="cloth">
-                <td><a class="ah-item-name q-uncommon" href="/cheapest-realm/?q=Lightweave%20Cloth">Lightweave Cloth</a></td>
-                <td>Cloth</td>
-                <td class="ah-price">4g 10s</td>
-                <td>6,804</td>
-              </tr>
-              <tr data-ah-row data-name="Flask of Alchemical Chaos" data-cat="potion">
-                <td><a class="ah-item-name q-rare" href="/cheapest-realm/?q=Flask%20of%20Alchemical%20Chaos">Flask of Alchemical Chaos</a></td>
-                <td>Flask</td>
-                <td class="ah-price">312g 50s</td>
-                <td>240</td>
-              </tr>
-              <tr data-ah-row data-name="Pummel Permit" data-cat="reagent">
-                <td><a class="ah-item-name q-rare" href="/cheapest-realm/?q=Pummel%20Permit">Pummel Permit</a></td>
-                <td>Reagent</td>
-                <td class="ah-price">84,200g</td>
-                <td>7</td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="ah-empty" id="ahEmpty" hidden>No listings match that search on this realm.</p>
+        <div class="ah-main">
+          <div class="ah-results-context" id="ahResultsContext">
+            <h2>Most-listed commodities on US</h2>
+            <p class="ah-results-meta">Most-listed commodities this hour. Pick one for its full price history, or search any item above.</p>
+          </div>
+
+          <div class="ah-table-shell wgf-scroll">
+            <table class="ah-table hide-type-col" id="ahTable">
+              <thead>
+                <tr>
+                  <th class="col-price ah-sortable is-sorted" scope="col">Buyout <span class="sort-arrow" aria-hidden="true">▾</span></th>
+                  <th scope="col">Item</th>
+                  <th class="col-type" scope="col">Type</th>
+                  <th class="col-qty ah-sortable" scope="col">Listed</th>
+                  <th class="col-market ah-sortable" scope="col">Market</th>
+                  <th class="col-fav" scope="col">
+                    <span class="ah-col-fav-label">Track</span>
+                    <span class="wgf-favbtn wgf-trk-star ah-col-fav-mark" title="Track" aria-hidden="true"></span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="ahRows">
+                <tr data-ah-row data-name="Silverleaf Thread">
+                  <td class="price-cell"><span class="money"><span class="coin">12g</span> <span class="coin">40s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#silverleaf-thread">Silverleaf Thread</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">184,220</td>
+                  <td class="market-cell"><span class="money"><span class="coin">11g</span> <span class="coin">85s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="1" aria-pressed="false" aria-label="Track Silverleaf Thread" title="Track Silverleaf Thread"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Weavercloth">
+                  <td class="price-cell"><span class="money"><span class="coin">3g</span> <span class="coin">10s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#weavercloth">Weavercloth</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">96,410</td>
+                  <td class="market-cell"><span class="money"><span class="coin">2g</span> <span class="coin">94s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="2" aria-pressed="false" aria-label="Track Weavercloth" title="Track Weavercloth"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Mycobloom">
+                  <td class="price-cell"><span class="money"><span class="coin">1g</span> <span class="coin">24s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#mycobloom">Mycobloom</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">71,008</td>
+                  <td class="market-cell"><span class="money"><span class="coin">1g</span> <span class="coin">18s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav is-tracked" data-item-id="3" aria-pressed="true" aria-label="Stop tracking Mycobloom" title="Stop tracking Mycobloom"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Bismuth">
+                  <td class="price-cell"><span class="money"><span class="coin">4g</span> <span class="coin">80s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#bismuth">Bismuth</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">54,330</td>
+                  <td class="market-cell"><span class="money"><span class="coin">4g</span> <span class="coin">55s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="4" aria-pressed="false" aria-label="Track Bismuth" title="Track Bismuth"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Aqirite">
+                  <td class="price-cell"><span class="money"><span class="coin">8g</span> <span class="coin">15s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#aqirite">Aqirite</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">41,902</td>
+                  <td class="market-cell"><span class="money"><span class="coin">7g</span> <span class="coin">90s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="5" aria-pressed="false" aria-label="Track Aqirite" title="Track Aqirite"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Luredrop">
+                  <td class="price-cell"><span class="money"><span class="coin">2g</span> <span class="coin">6s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#luredrop">Luredrop</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">38,771</td>
+                  <td class="market-cell"><span class="money"><span class="coin">1g</span> <span class="coin">98s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="6" aria-pressed="false" aria-label="Track Luredrop" title="Track Luredrop"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Arathor's Spear">
+                  <td class="price-cell"><span class="money"><span class="coin">3g</span> <span class="coin">44s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#arathors-spear">Arathor's Spear</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">29,640</td>
+                  <td class="market-cell"><span class="money"><span class="coin">3g</span> <span class="coin">20s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="7" aria-pressed="false" aria-label="Track Arathor's Spear" title="Track Arathor's Spear"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Storm Dust">
+                  <td class="price-cell"><span class="money"><span class="coin">6g</span> <span class="coin">75s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#storm-dust">Storm Dust</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">22,108</td>
+                  <td class="market-cell"><span class="money"><span class="coin">6g</span> <span class="coin">40s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav is-tracked" data-item-id="8" aria-pressed="true" aria-label="Stop tracking Storm Dust" title="Stop tracking Storm Dust"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Gloom Chitin">
+                  <td class="price-cell"><span class="money"><span class="coin">9g</span> <span class="coin">30s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-uncommon" href="#gloom-chitin">Gloom Chitin</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">15,882</td>
+                  <td class="market-cell"><span class="money"><span class="coin">8g</span> <span class="coin">95s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="9" aria-pressed="false" aria-label="Track Gloom Chitin" title="Track Gloom Chitin"></button></td>
+                </tr>
+                <tr data-ah-row data-name="Tranquility Bloom">
+                  <td class="price-cell"><span class="money"><span class="coin">18g</span> <span class="coin">60s</span></span></td>
+                  <td>
+                    <div class="ah-item-cell">
+                      <span class="ah-placeholder-icon" aria-hidden="true"></span>
+                      <a class="ah-item-link q-rare" href="#tranquility-bloom">Tranquility Bloom</a>
+                    </div>
+                  </td>
+                  <td class="col-type">—</td>
+                  <td class="qty-cell">11,240</td>
+                  <td class="market-cell"><span class="money"><span class="coin">17g</span> <span class="coin">25s</span></span></td>
+                  <td class="col-fav"><button type="button" class="wgf-favbtn wgf-trk-star js-fav ah-fav" data-item-id="10" aria-pressed="false" aria-label="Track Tranquility Bloom" title="Track Tranquility Bloom"></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ah-statusbar" id="ahStatusbar">
+            <span id="ahResultCount">10 items</span>
+            <span id="ahStatus">Moon Guard</span>
+            <span id="ahSyncStatus">Commodity prices · US region</span>
+          </div>
         </div>
       </div>
+    </section>
+
+    <section class="ah-about" aria-labelledby="ah-about-title">
+      <h2 id="ah-about-title">About the WoW Auction House price tracker</h2>
+      <p>
+        TheWoWDB records Auction House snapshots across US and EU realms and shows the
+        cheapest live buyout, listed quantity, and a region market line for each commodity.
+        Figures on this page are from the last successful scan of Moon Guard; verify in
+        game before you list or buy.
+      </p>
     </section>
   </main>
 
   <script src="/assets/ah-browser.js"></script>
+  <script src="/assets/ah/browse.js"></script>
 </body>
 </html>

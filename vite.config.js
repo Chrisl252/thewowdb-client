@@ -108,6 +108,7 @@ function serveRepoAssets() {
 const htmlInput = {
   home: resolve(__dirname, "index.html"),
   homepage: resolve(__dirname, "home/index.html"),
+  headerDemo: resolve(__dirname, "header/index.html"),
   header: resolve(__dirname, "enter-world/index.html"),
   herbsListing: resolve(__dirname, "herbs/index.html"),
   item: resolve(__dirname, "item/index.html"),
