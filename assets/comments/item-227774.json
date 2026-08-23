@@ -1,0 +1,119 @@
+{
+  "itemId": 227774,
+  "itemName": "Pummel Permit",
+  "quality": "rare",
+  "wowheadUrl": "https://www.wowhead.com/item=227774/pummel-permit",
+  "wowheadCount": 51,
+  "comments": [
+    {
+      "id": "local-01",
+      "author": "Sparkwrench",
+      "class": "Mage",
+      "level": 80,
+      "race": "Gnome",
+      "realm": "Area 52",
+      "upvotes": 486,
+      "createdAt": "2024-09-02T14:11:00Z",
+      "body": "Buy this from Paxton Bombshell at Opportunity Point in the Ringing Deeps for 1,000,000 gold. It is the last reagent for Crowd Pummeler 2-30. Check the AH first — the vendor is the ceiling, not the deal."
+    },
+    {
+      "id": "local-02",
+      "author": "Boltfang",
+      "class": "Hunter",
+      "level": 80,
+      "race": "Worgen",
+      "realm": "Stormrage",
+      "upvotes": 351,
+      "createdAt": "2024-09-18T21:04:00Z",
+      "body": "Pilfer Through Parts can drop it, but treat that as a lottery ticket. People burn tens of thousands of gold-tier parts and still walk away empty. If you are not already inventing for parts, just buy the permit."
+    },
+    {
+      "id": "local-03",
+      "author": "Gildgear",
+      "class": "Warrior",
+      "level": 80,
+      "race": "Dwarf",
+      "realm": "Hyjal",
+      "upvotes": 274,
+      "createdAt": "2024-10-03T09:40:00Z",
+      "body": "BoE, so you can flip it. When the mount is on a hype week the AH price spikes toward the vendor million; mid-week it often sits in the 300–500k range. I buy the dip and hold one for the next craft."
+    },
+    {
+      "id": "local-04",
+      "author": "Rivetshade",
+      "class": "Rogue",
+      "level": 80,
+      "race": "Undead",
+      "realm": "Mal'Ganis",
+      "upvotes": 188,
+      "createdAt": "2024-10-21T16:28:00Z",
+      "body": "Khaz Algar Engineering only. If your alt is not an engineer, you cannot eat this reagent — you are shopping for someone who can press the craft. Mail it or list it, do not vendor it for 1 silver."
+    },
+    {
+      "id": "local-05",
+      "author": "Copperveil",
+      "class": "Priest",
+      "level": 80,
+      "race": "Human",
+      "realm": "Proudmoore",
+      "upvotes": 142,
+      "createdAt": "2024-11-08T11:02:00Z",
+      "body": "The tooltip is not kidding: it looks fake on purpose. Paxton is selling a stamped card that says you may pummel civilians with a robot. That is the entire joke, and the entire gold sink."
+    },
+    {
+      "id": "local-06",
+      "author": "Nailsong",
+      "class": "Monk",
+      "level": 80,
+      "race": "Pandaren",
+      "realm": "Tichondrius",
+      "upvotes": 97,
+      "createdAt": "2025-01-14T19:55:00Z",
+      "body": "Full Pummeler list if you are pricing the mount: 1000 Bountiful Bolts, 200 Assorted Whirligigs, 80 Blinker Fluid, 50 Cataclysmic Converters, 20 Pummel-Proof Plating, and this. The permit is usually the single biggest line item."
+    },
+    {
+      "id": "local-07",
+      "author": "Ashcaliper",
+      "class": "Warlock",
+      "level": 80,
+      "race": "Goblin",
+      "realm": "Illidan",
+      "upvotes": 64,
+      "createdAt": "2025-03-02T08:17:00Z",
+      "body": "Region hop before you hit the vendor. Some realms sit 150k under the cluster average for weeks. One cheap permit is a better inventing unlock than another hour of Pilfer."
+    },
+    {
+      "id": "local-08",
+      "author": "Quillbrace",
+      "class": "Druid",
+      "level": 80,
+      "race": "Night Elf",
+      "realm": "Moon Guard",
+      "upvotes": 41,
+      "createdAt": "2025-05-19T22:33:00Z",
+      "body": "Stacks to 1000, which is funny because you will never own 1000. If you are a goblin banker, one spare in the guild bank saves the next engineer a panic buy at 1M."
+    },
+    {
+      "id": "local-09",
+      "author": "Tinkoral",
+      "class": "Paladin",
+      "level": 80,
+      "race": "Lightforged Draenei",
+      "realm": "Sargeras",
+      "upvotes": 18,
+      "createdAt": "2025-08-11T13:46:00Z",
+      "body": "Added in 11.0.2. If an older guide still says it is unobtainable, ignore it — Paxton has been selling it since the first season of The War Within."
+    },
+    {
+      "id": "local-10",
+      "author": "Mossclamp",
+      "class": "Shaman",
+      "level": 80,
+      "race": "Tauren",
+      "realm": "Emerald Dream",
+      "upvotes": 7,
+      "createdAt": "2026-02-27T07:09:00Z",
+      "body": "I got one from Pilfer on a T3 gold part after about two weeks of daily inventing. Possible, just not a plan. Screenshot it if it happens; nobody will believe you."
+    }
+  ]
+}
