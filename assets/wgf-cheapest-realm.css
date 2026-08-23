@@ -1,0 +1,277 @@
+/* Cheapest Realm destination — existing /cheapest-realm/ tool, preview subset. */
+
+body[data-wgf-page="cheapest-realm"] {
+  font-size: 18px;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.4rem 3rem;
+}
+
+.hero {
+  padding: 0.6rem 0 1.1rem;
+}
+
+.hero .eyebrow {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  color: var(--wgf-gold-soft);
+  margin: 0 0 0.35rem;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  margin: 0;
+  color: var(--wgf-gold);
+  line-height: 1.05;
+}
+
+.hero p.sub {
+  margin: 0.6rem 0 0;
+  max-width: 50rem;
+  font-size: 1.1rem;
+  color: var(--wgf-text);
+}
+
+.searchsec {
+  position: relative;
+  margin: 1.1rem 0 1.6rem;
+  padding: 1.6rem 1.5rem 1.7rem;
+  border: 2px solid var(--wgf-metal);
+  border-radius: 4px;
+  background: linear-gradient(180deg, rgba(34, 27, 17, 0.72), rgba(10, 10, 12, 0.88));
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.65), 0 12px 34px -20px rgba(0, 0, 0, 0.85);
+}
+
+.search-kicker {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.74rem;
+  color: var(--wgf-gold-soft);
+  margin: 0 0 0.7rem;
+}
+
+.search__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 66px;
+}
+
+.search__input {
+  width: 100%;
+  padding: 1.15rem 1.2rem;
+  font-size: 1.5rem;
+  font-family: var(--font-ui);
+  border: 1px solid var(--wgf-well-edge);
+  border-radius: 0;
+  background: var(--wgf-well);
+  color: var(--wgf-text);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.search__input:focus {
+  outline: none;
+  box-shadow: var(--focus-ring), inset 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.results {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0.3rem;
+  background: var(--wgf-panel-1);
+  border: 1px solid var(--wgf-metal);
+  border-radius: 6px;
+}
+
+.results[hidden] {
+  display: none;
+}
+
+.results li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0.6rem 0.7rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.results li:hover,
+.results li.is-active {
+  background: var(--wgf-panel-3);
+  border-color: var(--wgf-border);
+}
+
+.results .nm {
+  font-family: var(--font-game);
+  font-weight: 600;
+  color: var(--wgf-text);
+}
+
+.results .sub {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--wgf-muted);
+  font-family: var(--font-mono);
+}
+
+.sel {
+  display: flex;
+  gap: 1.1rem;
+  align-items: center;
+  margin: 0 0 1.2rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--wgf-border-neutral);
+  border-radius: 5px;
+  background: var(--wgf-panel-1);
+}
+
+.sel[hidden] {
+  display: none;
+}
+
+.sel .nm {
+  font-family: var(--font-game);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--wgf-gold);
+}
+
+.sel .tags {
+  margin-top: 0.35rem;
+  color: var(--wgf-muted);
+  font-size: 0.82rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list[hidden] {
+  display: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  border: 1px solid var(--wgf-border-neutral);
+  border-radius: 5px;
+  background: var(--wgf-panel-1);
+  padding: 0.62rem 1.1rem;
+}
+
+.row--top {
+  border-color: var(--wgf-gold-dim);
+  background: linear-gradient(90deg, rgba(244, 196, 92, 0.13), transparent 55%), var(--wgf-panel-1);
+}
+
+.row .rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  background: var(--wgf-panel-3);
+  color: var(--wgf-muted);
+  border: 1px solid var(--wgf-border-neutral);
+}
+
+.row--top .rank {
+  background: var(--wgf-gold);
+  color: var(--wgf-on-gold);
+  border-color: var(--wgf-gold);
+}
+
+.row .realm {
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  font-size: 1.16rem;
+  font-weight: 600;
+}
+
+.row .crown {
+  font-family: var(--font-game);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  font-variant: small-caps;
+  color: var(--wgf-on-gold);
+  background: var(--wgf-gold);
+  padding: 0.12rem 0.45rem;
+  border-radius: 3px;
+}
+
+.row .grow {
+  flex: 1 1 auto;
+}
+
+.row .price {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.32rem;
+  color: var(--wgf-gold);
+}
+
+.row .stock {
+  font-size: 0.86rem;
+  color: var(--wgf-muted);
+  min-width: 6rem;
+  text-align: right;
+}
+
+.empty,
+.prompt {
+  color: var(--wgf-muted);
+}
+
+.empty[hidden],
+.prompt[hidden] {
+  display: none;
+}
+
+.about {
+  margin: 2.2rem 0 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--wgf-border-neutral);
+}
+
+.about h2 {
+  font-family: var(--font-display);
+  color: var(--wgf-gold);
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+}
+
+.about p {
+  max-width: 50rem;
+  color: var(--wgf-muted);
+  font-size: 0.98rem;
+}
+
+.crp-g { color: var(--coin-gold); }
+.crp-s { color: var(--coin-silver); }
+.crp-c { color: var(--coin-copper); }
+
+@media (max-width: 680px) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .search__input {
+    font-size: 1.2rem;
+  }
+}

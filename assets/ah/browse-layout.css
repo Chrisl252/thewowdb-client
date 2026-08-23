@@ -1,0 +1,523 @@
+/* AH browser layout for the Moon Guard preview.
+   Mirrors production class names from assets/ah/base.css + the chrome kit.
+   Visual bugs in the sidebar, track column, and table-end live here so
+   assets/ah/browse-chrome.css can patch them without touching toolbar /
+   .ah-cheapest-realm (owned by the cheapest-realm ticket). */
+
+body.wgf-ah-page {
+  font-size: 14px;
+}
+
+.ah-page {
+  max-width: min(1500px, calc(100vw - 36px));
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-3) var(--space-6);
+}
+
+.ah-page-hero {
+  margin: 0 0 var(--space-3);
+}
+
+.ah-page-hero__kicker {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--wgf-gold-muted);
+}
+
+.ah-page-hero h1 {
+  margin: 0 0 var(--space-1);
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  font-size: var(--text-2xl);
+  letter-spacing: 0.03em;
+  text-shadow: var(--text-ink-outline);
+}
+
+.ah-page-hero__sub {
+  margin: 0;
+  color: var(--wgf-muted);
+  font-size: var(--text-sm);
+}
+
+/* ── Window kit (subset of wgf-chrome.css) ─────────────────────────────── */
+
+.wgf-window {
+  position: relative;
+  border: 2px solid var(--wgf-metal);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.44)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.65), var(--shadow-2);
+  color: var(--wgf-text);
+}
+
+.wgf-window__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: var(--space-2) var(--space-5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.38)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat,
+    var(--wgf-plate-hi);
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  text-shadow: var(--text-ink-outline);
+}
+
+.wgf-btn-red {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--wgf-btn-h);
+  min-width: 96px;
+  border: 1px solid #d8b25a;
+  border-radius: 0;
+  background: linear-gradient(180deg, #a61f1f, #7c1414);
+  padding: 0 var(--wgf-btn-cap);
+  color: var(--wgf-gold-bright);
+  font-family: var(--font-game);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-decoration: none;
+  text-shadow: var(--text-ink-outline);
+  cursor: pointer;
+}
+
+.wgf-btn-red:hover { filter: brightness(1.12); }
+.wgf-btn-red:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* ── Toolbar (generic controls only; no cheapest-realm / JUMP TO rules) ── */
+
+.ah-toolbar {
+  display: grid;
+  grid-template-columns: minmax(160px, 200px) 40px minmax(180px, 1fr) 120px 100px minmax(140px, 1fr) 120px;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-2) 12px;
+  background: linear-gradient(180deg, var(--wgf-plate-hi), var(--wgf-plate));
+  border-bottom: 1px solid var(--wgf-metal-soft);
+}
+
+.ah-control,
+.ah-searchbox,
+.ah-filter-button {
+  height: var(--wgf-dropdown-h);
+  border: 1px solid var(--wgf-well-edge);
+  border-radius: 4px;
+  background: var(--wgf-well);
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+}
+
+.ah-control.ah-realm-select {
+  appearance: none;
+  width: 100%;
+  padding: 0 34px 0 12px;
+  border-color: var(--wgf-gold-soft);
+  background:
+    url(/assets/ui/auctionhouse-ui-dropdown-arrow-down.png) right 8px center / auto 16px no-repeat,
+    var(--wgf-well);
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-weight: 600;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}
+
+.ah-region-display {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--wgf-dropdown-h);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--wgf-border-neutral-soft);
+  border-radius: 4px;
+  background: var(--wgf-panel-1);
+  color: var(--wgf-gold-soft);
+  font-family: var(--font-game);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.ah-searchbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-2);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.ah-searchbox span { color: var(--wgf-gold-muted); font-size: 16px; }
+
+.ah-searchbox input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.ah-filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-2);
+  border-radius: 0;
+  background: var(--wgf-panel-1);
+  color: var(--wgf-gold-muted);
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+.ah-filter-button::first-letter { color: var(--wgf-gold-bright); }
+.ah-filter-button:hover { background: var(--wgf-panel-2); color: var(--wgf-gold-bright); }
+
+.ah-toolbar .ah-search-button.wgf-btn-red {
+  --wgf-btn-h: 34px;
+  width: 100%;
+  min-width: 0;
+}
+
+.ah-layout {
+  display: grid;
+  grid-template-columns: minmax(180px, 225px) minmax(0, 1fr);
+}
+
+/* ── Sidebar (production-like: flat slab, boxed title, mixed type) ─────── */
+
+.ah-sidebar {
+  background: var(--wgf-bg-2);
+  border-right: 1px solid var(--wgf-border-neutral);
+  padding: var(--space-2) var(--space-1) var(--space-2) var(--space-2);
+}
+
+.ah-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.ah-sidebar-title {
+  width: 100%;
+  color: var(--ah-gold, var(--wgf-gold));
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  padding: var(--space-2);
+  margin: 0;
+  background: var(--wgf-panel-2);
+  border: 1px solid var(--wgf-border-neutral);
+  border-radius: 4px 4px 0 0;
+}
+
+.ah-category-tree {
+  padding: var(--space-1) var(--space-1) var(--space-3) 0;
+}
+
+.ah-cat-row {
+  width: 100%;
+  min-height: 26px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border: 0;
+  border-left: 3px solid transparent;
+  background: transparent;
+  color: #f3eee2;
+  font-family: var(--font-display);
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ah-cat-row.top {
+  margin: var(--space-1) 0;
+  color: var(--wgf-gold);
+  background: var(--wgf-panel-2);
+  border: 1px solid var(--wgf-border-neutral-soft);
+  border-left: 3px solid var(--wgf-border-neutral-soft);
+  border-radius: 5px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ah-cat-row--all-items {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--wgf-gold-soft);
+  background: var(--wgf-panel-1);
+  border-radius: 4px;
+  margin: 0 0 var(--space-1);
+}
+
+.ah-cat-row:hover { color: var(--wgf-gold-bright); }
+.ah-cat-row.is-active,
+.ah-cat-row.active {
+  color: var(--wgf-gold-bright);
+  border-left-color: var(--wgf-gold);
+}
+
+.ah-cat-caret {
+  width: 14px;
+  flex: 0 0 14px;
+  color: #777;
+}
+
+.ah-cat-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ah-sidebar-verified {
+  padding: 6px 8px 2px;
+  color: #8a8070;
+  font-family: var(--font-ui);
+  font-size: 11px;
+}
+
+.ah-sidebar-verified__label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ah-sidebar-verified__age {
+  color: #c4b89a;
+  font-size: 13px;
+}
+
+/* ── Results + table ───────────────────────────────────────────────────── */
+
+.ah-main { min-width: 0; background: var(--wgf-bg-base); }
+
+.ah-results-context {
+  padding: 12px var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--wgf-border-neutral-soft);
+}
+
+.ah-results-context h2 {
+  margin: 0 0 var(--space-1);
+  color: #fff8dc;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.ah-results-meta {
+  margin: 0;
+  color: #94866b;
+  font-size: 12px;
+}
+
+.ah-table-shell {
+  position: relative;
+  margin: var(--space-2);
+  overflow: auto;
+  border: 1px solid var(--wgf-well-edge);
+  border-radius: 4px;
+  background: var(--wgf-well);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.75), inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+.ah-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: var(--wgf-text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
+.ah-table thead th {
+  height: 28px;
+  padding: var(--space-1) var(--space-2);
+  background: linear-gradient(180deg, var(--wgf-plate-hi), var(--wgf-plate));
+  color: var(--wgf-gold-muted);
+  border: 1px solid var(--wgf-metal-soft);
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  text-align: left;
+  text-shadow: var(--text-ink-outline);
+}
+
+.ah-table .col-price { width: 140px; text-align: right; }
+.ah-table .col-type { width: 72px; }
+.ah-table .col-qty { width: 100px; text-align: right; }
+.ah-table .col-market { width: 130px; text-align: right; }
+.ah-table.hide-type-col .col-type { display: none; }
+
+.ah-table .col-fav { width: 42px; text-align: center; }
+.ah-table td.col-fav { text-align: center; }
+.ah-table td.col-fav .wgf-favbtn { display: inline-block; vertical-align: middle; }
+.ah-table thead th.col-fav { text-align: center; }
+.ah-table thead th.col-fav .ah-col-fav-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.ah-table tbody td {
+  height: 31px;
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--wgf-border-neutral-soft);
+  vertical-align: middle;
+}
+
+.ah-table tbody tr { cursor: pointer; }
+.ah-table tbody tr:nth-child(odd) { background: rgba(255, 255, 255, 0.02); }
+.ah-table tbody tr:nth-child(even) { background: rgba(0, 0, 0, 0.18); }
+.ah-table tbody tr:hover { background: linear-gradient(180deg, rgba(var(--wgf-gold-rgb), 0.10), rgba(var(--wgf-gold-rgb), 0.04)); }
+
+.ah-table td.price-cell,
+.ah-table td.market-cell,
+.ah-table td.qty-cell { text-align: right; }
+
+.ah-item-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.ah-placeholder-icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border: 1px solid var(--wgf-border-neutral);
+  border-radius: 2px;
+  background: linear-gradient(135deg, #15110e, #2b241b);
+}
+
+.ah-item-link {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: 800;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
+}
+
+.q-uncommon { color: var(--q-uncommon); }
+.q-rare { color: var(--q-rare); }
+.q-epic { color: var(--q-epic); }
+
+.money {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.coin { color: var(--wgf-gold); }
+
+.sort-arrow {
+  display: inline-block;
+  min-width: 0.75em;
+  color: var(--wgf-gold);
+}
+
+/* Production-like star (20px, low opacity, baseline-aligned). */
+.wgf-favbtn,
+.wgf-trk-star {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: url(/assets/ui/auctionhouse-icon-favorite.png) center / contain no-repeat transparent;
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.wgf-favbtn:hover,
+.wgf-trk-star:hover { opacity: 0.85; filter: brightness(1.1); }
+
+.wgf-favbtn.is-tracked,
+.wgf-trk-star.is-tracked {
+  opacity: 1;
+  filter: brightness(1.15) drop-shadow(0 0 2px rgba(var(--wgf-gold-rgb), 0.6));
+}
+
+.ah-statusbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+  padding: var(--space-2) 12px;
+  border-top: 1px solid var(--wgf-border-neutral-soft);
+  color: var(--wgf-muted);
+  font-size: 12px;
+}
+
+.ah-about {
+  margin-top: 36px;
+  padding-top: 8px;
+  border-top: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.ah-about h2 {
+  margin: 0 0 var(--space-2);
+  color: var(--wgf-gold);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.ah-about p {
+  margin: 0;
+  max-width: 46rem;
+  color: var(--wgf-muted);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+@media (max-width: 1050px) {
+  .ah-toolbar { grid-template-columns: 1fr 40px; }
+  .ah-searchbox,
+  .ah-filter-button,
+  .ah-search-button { grid-column: 1 / -1; }
+  .ah-layout { grid-template-columns: 1fr; }
+  .ah-sidebar { border-right: 0; border-bottom: 1px solid var(--wgf-border-neutral); }
+}

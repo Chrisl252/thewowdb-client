@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reckful — Stormwind memorial pin | TheWoWDB</title>
+  <meta name="description" content="Direct Stormwind map pin for Reckful’s Cathedral of Light tribute: 51.6, 44.4. Copy the /way or open the zone map.">
+  <link rel="preload" href="/assets/fonts/frizqt.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-reckful.css">
+</head>
+<body class="wgf-shell-page" data-wgf-page="pvp-reckful">
+  <header class="rk-topbar">
+    <div class="rk-topbar__inner">
+      <a class="rk-logo" href="/">TheWoWDB</a>
+      <nav class="rk-nav" aria-label="Section">
+        <a href="/pvp/">PvP</a>
+        <a href="/pvp/reckful/" aria-current="page">Reckful</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wgf-pvp-wrap">
+    <nav class="wgf-seo-breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/pvp/">PvP</a></li>
+        <li aria-current="page">Reckful</li>
+      </ol>
+    </nav>
+
+    <header class="rk-hero wgf-pvp-hero">
+      <p class="rk-hero__eyebrow">Memorial · Stormwind City</p>
+      <h1>Reckful</h1>
+      <p class="rk-hero__sub">
+        Byron “Reckful” Bernstein — the Stormwind pin below is the in-game tribute
+        in the Cathedral of Light. Go there first; the story can wait.
+      </p>
+    </header>
+
+    <section class="rk-mapcard" id="map" aria-labelledby="rk-map-title">
+      <div class="rk-mapcard__head">
+        <h2 id="rk-map-title">Stormwind map pin</h2>
+        <p class="rk-mapcard__where">Cathedral of Light · Cathedral Square</p>
+      </div>
+
+      <figure class="rk-map">
+        <div class="rk-map__frame" role="img" aria-label="Stormwind City map with Reckful pinned at the Cathedral of Light, 51.6 by 44.4">
+          <img class="rk-map__art" src="/assets/stormwind-city.svg" alt="" width="1000" height="1000">
+          <button
+            class="rk-pin"
+            id="rk-pin"
+            type="button"
+            data-rk-pin
+            style="--rk-x: 51.6%; --rk-y: 44.4%;"
+            aria-label="Reckful pin: Cathedral of Light, Stormwind City, 51.6, 44.4. Activate to copy /way Stormwind City 51.6 44.4 Reckful."
+          >
+            <span class="rk-pin__label">Reckful</span>
+            <span class="rk-pin__glyph" aria-hidden="true"></span>
+            <span class="rk-pin__pulse" aria-hidden="true"></span>
+          </button>
+        </div>
+        <figcaption>
+          Pin sits on the Cathedral of Light — same spot players gathered, and where
+          the Reckful rogue-trainer NPC stands.
+        </figcaption>
+      </figure>
+
+      <div class="rk-direct">
+        <div class="rk-coords">
+          <span class="rk-coords__lab">Coordinates</span>
+          <span class="rk-coords__val" id="rk-xy">51.6, 44.4</span>
+          <p class="rk-coords__zone">Stormwind City · uiMap 84 · zone 1519</p>
+          <p class="rk-coords__zone" id="rk-pin-live" aria-live="polite"></p>
+        </div>
+        <div class="rk-actions">
+          <button class="rk-btn" type="button" data-rk-copy="/way Stormwind City 51.6 44.4 Reckful">
+            Copy /way
+          </button>
+          <a class="rk-btn" href="/zone/stormwind-city/?pin=51.6,44.4#map">Open in map</a>
+          <a class="rk-btn" href="https://www.wowhead.com/npc=173819/reckful#maps" rel="noopener noreferrer">Wowhead pin</a>
+        </div>
+        <p class="rk-copyline" id="rk-way">/way Stormwind City 51.6 44.4 Reckful</p>
+      </div>
+    </section>
+
+    <article class="rk-prose">
+      <h2>The tribute</h2>
+      <p>
+        Reckful is a human rogue trainer in the Cathedral of Light. Blizzard placed
+        him there after the community filled that hall in July 2020. Talk to him,
+        tell him it was good to see him, or <code>/hug</code> — he hugs back.
+      </p>
+      <p>
+        He will not train Assassination rogues. That line is the old arena joke:
+        he climbed the ladder as Subtlety when Assassination was the easy queue.
+      </p>
+      <p class="rk-src">
+        Pin source: Wowhead NPC 173819 mapper (Stormwind zone 1519, cluster
+        51.4–51.6 / 44.4–44.6) and Wowpedia’s Cathedral listing 51.6, 44.38.
+        Displayed waypoint is the cluster center: <strong>51.6, 44.4</strong>.
+        No coordinates were invented for this page.
+      </p>
+    </article>
+  </main>
+
+  <script src="/assets/wgf-reckful.js"></script>
+</body>
+</html>

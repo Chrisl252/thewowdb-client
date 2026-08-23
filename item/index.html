@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="wgf-navskin-game">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WOW Item Price Guide — TheWoWDB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Crimson+Text:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-site-shell.css">
+  <link rel="stylesheet" href="/assets/wgf-chrome.css">
+  <link rel="stylesheet" href="/item/preview.css">
+  <link rel="stylesheet" href="/assets/item-index.css">
+</head>
+<body class="wgf-shell-page" data-wgf-page="item-index" data-wgf-snapshot="2026-08-22T19:00:00.000Z" data-wgf-expansion="Midnight">
+  <header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner">
+      <a class="wgf-shell-logo" href="/" aria-label="TheWoWDB - Home">TheWoWDB</a>
+      <nav id="wgf-primary-nav" class="wgf-shell-nav" aria-label="Primary navigation">
+        <a class="wgf-nav-link" href="/herbs/">Herbs</a>
+        <a class="wgf-nav-link is-active" href="/item/">Item Prices</a>
+        <a class="wgf-nav-link" href="/guides/">Guides</a>
+      </nav>
+    </div>
+    <div class="wgf-shell-searchband">
+      <form class="wgf-shell-search wgf-shell-search--prime" role="search" action="/search/" method="get">
+        <input class="wgf-shell-search__input" type="search" name="q" placeholder="Search" aria-label="Search">
+        <button class="wgf-shell-search__btn" type="submit" aria-label="Search">⌕</button>
+      </form>
+    </div>
+  </header>
+
+  <div class="wgf-item-index-layout">
+    <header class="wgf-seo-hero">
+      <p class="wgf-seo-eyebrow">WOW AUCTION HOUSE</p>
+      <h1 class="wgf-seo-h1">WOW ITEM PRICE GUIDE</h1>
+      <p class="wgf-seo-sub">Search any item - reagents, gear, recipes, mounts - or browse by category. Auction House prices from recorded Blizzard snapshots.</p>
+      <ul class="ii-hero-meta">
+        <li><b>Search</b> reagents, gear, recipes, mounts</li>
+        <li><b>Browse</b> by profession category</li>
+        <li><b>Track</b> live snapshot prices</li>
+      </ul>
+    </header>
+
+    <main class="wgf-seo-main">
+      <section class="ii-searchsec" aria-labelledby="ii-find-label">
+        <p class="ii-kicker" id="ii-find-label">Find an item</p>
+        <div class="search">
+          <div class="search__field">
+            <svg class="search__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>
+              <path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input id="ii-q" class="search__input" type="search" autocomplete="off" placeholder="Search items — Roseate Pigment, herbs, mounts…" aria-label="Search items">
+          </div>
+          <ul id="ii-results" class="results" hidden role="listbox" aria-label="Search results"></ul>
+        </div>
+
+        <div class="cats">
+          <p class="cats__label">Browse by category</p>
+          <div class="cats__row">
+            <button class="catchip" type="button" data-cat="herb">Herbs</button>
+            <button class="catchip" type="button" data-cat="ore">Ore &amp; Stone</button>
+            <button class="catchip" type="button" data-cat="enchanting">Enchanting</button>
+            <button class="catchip" type="button" data-cat="potion">Potions &amp; Flasks</button>
+            <button class="catchip" type="button" data-cat="jewelcrafting">Jewelcrafting</button>
+            <button class="catchip" type="button" data-cat="armor">Armor / Transmog</button>
+            <button class="catchip" type="button" data-cat="weapon">Weapons</button>
+            <button class="catchip" type="button" data-cat="recipe">Recipes</button>
+            <button class="catchip" type="button" data-cat="mount">Mounts</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="ii-browse" class="browse-sec" hidden>
+        <div class="browse-head">
+          <h2 id="ii-browse-h" class="section-h">Browse</h2>
+          <button id="ii-browse-clear" class="linkbtn" type="button">Clear category</button>
+        </div>
+        <div id="ii-browse-grid" class="browse-grid"></div>
+      </section>
+
+      <section id="ii-toplist" aria-labelledby="ii-tracked-h">
+        <h2 id="ii-tracked-h" class="section-h">Tracked items</h2>
+        <div class="ii-list">
+          <a class="ii-row" href="/item/roseate-pigment-153635/" style="--qc: var(--q-common)">
+            <span class="ic"><img alt="" src="/assets/icons/inv_inscription_pigment_pink.jpg"><span class="qring"></span></span>
+            <span class="nm">Roseate Pigment</span>
+            <span class="cat">Inscription</span>
+            <span class="grow"></span>
+            <span class="price">1g 85s</span>
+            <span class="avail"><b>12,440</b> listed</span>
+          </a>
+          <a class="ii-row" href="/item/peacebloom-2447/" style="--qc: var(--q-common)">
+            <span class="ic"><img alt="" src="/assets/icons/trade_herbalism.jpg"><span class="qring"></span></span>
+            <span class="nm">Peacebloom</span>
+            <span class="cat">Herb</span>
+            <span class="grow"></span>
+            <span class="price">12s</span>
+            <span class="avail"><b>84,200</b> listed</span>
+          </a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/assets/wgf-header-demo.js"></script>
+  <script src="/assets/wgf-identity-format.js"></script>
+  <script src="/assets/wgf-header-identity.js"></script>
+  <script src="/assets/wgf-shell.js"></script>
+  <script src="/item/preview.js"></script>
+  <script src="/assets/item-index.js"></script>
+</body>
+</html>
