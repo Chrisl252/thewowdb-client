@@ -16,11 +16,7 @@ namespace TheWoWDB.Client.Wow;
 public static class WowInstallScanner
 {
     /// <summary>Every flavor directory Blizzard ships, newest naming included.</summary>
-    private static readonly string[] KnownFlavors =
-    {
-        "_retail_", "_classic_", "_classic_era_", "_classic_ptr_", "_classic_beta_",
-        "_ptr_", "_xptr_", "_beta_", "_anniversary_",
-    };
+    private static readonly string[] KnownFlavors = WowFlavors.KnownDirectories;
 
     public static List<WowInstall> Scan(IEnumerable<string>? extraPaths = null)
     {
@@ -62,7 +58,7 @@ public static class WowInstallScanner
     {
         path = path.Trim().Trim('"').TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
         var leaf = Path.GetFileName(path);
-        if (KnownFlavors.Contains(leaf, StringComparer.OrdinalIgnoreCase))
+        if (WowFlavors.IsFlavorDirectoryName(leaf))
             return Path.GetDirectoryName(path) ?? path;
         // ...\_retail_\Interface\AddOns and anything under it
         var idx = path.IndexOf(@"\Interface\", StringComparison.OrdinalIgnoreCase);
@@ -73,15 +69,38 @@ public static class WowInstallScanner
     public static List<WowFlavor> FlavorsIn(string root)
     {
         var found = new List<WowFlavor>();
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         if (!Directory.Exists(root)) return found;
 
         foreach (var name in KnownFlavors)
+            TryAddFlavor(root, name, found, seen);
+
+        // Blizzard adds flavor folders faster than we ship. Any other _name_
+        // that actually looks playable is a client the user can enable, not a
+        // silent skip. Forever's launch folder is the case this is for.
+        try
         {
-            var dir = Path.Combine(root, name);
-            if (Directory.Exists(dir) && LooksPlayable(dir))
-                found.Add(new WowFlavor(name, dir));
+            foreach (var dir in Directory.EnumerateDirectories(root))
+            {
+                var name = Path.GetFileName(dir);
+                if (!WowFlavors.IsFlavorDirectoryName(name)) continue;
+                TryAddFlavor(root, name, found, seen);
+            }
         }
+        catch (Exception ex)
+        {
+            Log.Warn($"could not enumerate flavors in {root}: {ex.Message}");
+        }
+
         return found;
+    }
+
+    private static void TryAddFlavor(string root, string name, List<WowFlavor> found, HashSet<string> seen)
+    {
+        if (!seen.Add(name)) return;
+        var dir = Path.Combine(root, name);
+        if (Directory.Exists(dir) && LooksPlayable(dir))
+            found.Add(new WowFlavor(name, dir));
     }
 
     /// <summary>
@@ -92,7 +111,11 @@ public static class WowInstallScanner
     {
         if (Directory.Exists(Path.Combine(flavorDir, "Interface"))) return true;
         if (Directory.Exists(Path.Combine(flavorDir, "WTF"))) return true;
-        foreach (var exe in new[] { "Wow.exe", "WowClassic.exe", "WowT.exe", "WowB.exe" })
+        foreach (var exe in new[]
+                 {
+                     "Wow.exe", "WowClassic.exe", "WowT.exe", "WowB.exe",
+                     "WowClassicT.exe", "WowClassicB.exe", "WowForever.exe",
+                 })
             if (File.Exists(Path.Combine(flavorDir, exe))) return true;
         return false;
     }
@@ -137,7 +160,7 @@ public static class WowInstallScanner
         try { text = Encoding.ASCII.GetString(File.ReadAllBytes(db)); }
         catch (Exception ex) { Log.Warn($"product.db unreadable: {ex.Message}"); yield break; }
 
-        var rx = new Regex(@"[A-Za-z]:[\\/][ -~]{0,160}?World of Warcraft(?![ -~])",
+        var rx = new Regex(@"[A-Za-z]:[\\/][ -~]{0,160}?World of Warcraft(?: Forever)?(?![ -~])",
                            RegexOptions.IgnoreCase);
         foreach (Match m in rx.Matches(text))
             yield return m.Value.Replace('/', '\\');
@@ -150,7 +173,9 @@ public static class WowInstallScanner
             @"Program Files (x86)\World of Warcraft",
             @"Program Files\World of Warcraft",
             @"World of Warcraft",
+            @"World of Warcraft Forever",
             @"Games\World of Warcraft",
+            @"Games\World of Warcraft Forever",
             @"Blizzard\World of Warcraft",
             @"Battle.net\World of Warcraft",
         };

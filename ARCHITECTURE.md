@@ -15,6 +15,7 @@ TrayApp timer (every N hours)
             AddonFolder.InstalledVersion   read ## Version out of the .toc
             Downloader.DownloadToTempAsync verify sha256 before anything is used
             AddonFolder.InstallFromZip     stage, swap, roll back on failure
+            AddonForever.EnsureStamped     Forever (Camelot) toc + shim, if this flavor is Forever
             AddonFolder.WriteFile          market data, written atomically
   -> SyncReport -> MainForm rows / tray balloon
 ```
@@ -28,9 +29,11 @@ TrayApp timer (every N hours)
 | `Core/Settings.cs` | User state as JSON in `%LOCALAPPDATA%\TheWoWDB`. Atomic save, defaults on corruption. |
 | `Core/Log.cs` | The rolling log file. The only evidence that exists when a background run misbehaves. |
 | `Core/AppInfo.cs` | Name, version, public URLs. |
-| `Wow/WowInstall.cs` | `WowInstall` / `WowFlavor` records and their display names. |
-| `Wow/WowInstallScanner.cs` | Finding WoW: registry, Battle.net `product.db`, common paths, user-added paths. |
+| `Wow/WowInstall.cs` | `WowInstall` / `WowFlavor` records. Display names live in `WowFlavors`. |
+| `Wow/WowFlavors.cs` | Flavor directory names, Forever/Camelot identity, interface number. |
+| `Wow/WowInstallScanner.cs` | Finding WoW: registry, Battle.net `product.db`, common paths, user-added paths. Unknown `_name_` folders that look playable are included. |
 | `Wow/AddonFolder.cs` | **Everything that writes into an AddOns directory.** Junction guard, zip-slip guard, staged install, atomic file write. |
+| `Wow/AddonForever.cs` | Stamps `WGFCompanion_Camelot.toc` and `flavor/forever.lua` so Forever loads the Midnight addon in-date. |
 | `Sync/Manifest.cs` | The manifest contract (addon / data / client entries). |
 | `Sync/Downloader.cs` | All network access and hash verification. The only `HttpClient`. |
 | `Sync/SyncService.cs` | The pass itself: compare, download once, apply per flavor, report. |

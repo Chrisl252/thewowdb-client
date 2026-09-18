@@ -6,7 +6,10 @@ A unit of work is a **new file behind a named seam**, registered in one place.
 Never add a second concern to an existing file.
 
 - New way to find WoW -> a private source method in `Wow/WowInstallScanner.cs`,
-  added to the array in `Scan`. That array is the registration line.
+  added to the array in `Scan`. That array is the registration line. A new
+  flavor directory name goes in `Wow/WowFlavors.cs` (`KnownDirectories` plus
+  `DisplayName` / `IsForever`); the scanner already picks up unknown `_name_`
+  folders that look playable.
 - New thing to keep updated -> a new entry type in `Sync/Manifest.cs` plus a
   block in `SyncService.RunAsync`. It downloads through `Downloader` and writes
   through `AddonFolder`; it does not open its own `HttpClient` or call
@@ -39,6 +42,7 @@ Then run it against a real WoW install and confirm from evidence, not guesswork:
 
 - `%LOCALAPPDATA%\TheWoWDB\client.log` shows the pass and what it decided
 - the addon's `## Version` in the installed `.toc` matches the manifest
+- on a Forever client, `WGFCompanion_Camelot.toc` sits next to it and declares interface `16001`
 - `["build"]` at the top of the installed `data/MarketData.lua` matches the manifest
 - a junctioned addon folder is reported as skipped and its files are unchanged
 

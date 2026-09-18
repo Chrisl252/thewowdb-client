@@ -99,6 +99,12 @@ public sealed class SyncService(Settings settings, string manifestUrl)
                     // zip, so whatever we knew about the on-disk build is void.
                 }
 
+                // Already-installed copies must get the Camelot toc too: a
+                // version match would otherwise skip InstallFromZip forever,
+                // and Forever would keep seeing a Midnight-only addon.
+                if (flavor.IsForever && Directory.Exists(addonPath))
+                    AddonForever.EnsureStamped(addonPath);
+
                 if (_settings.KeepMarketDataFresh && manifest.Data is { Url.Length: > 0 } data
                     && Directory.Exists(addonPath))
                 {
