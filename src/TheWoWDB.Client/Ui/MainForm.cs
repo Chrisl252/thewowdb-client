@@ -33,9 +33,9 @@ public sealed class MainForm : Form
 
         Text = AppInfo.Name;
         Icon = icon;
-        // Tall enough for six flavors (retail + the classic family + PTR/beta)
+        // Tall enough for retail, the classic family, Forever, and PTR/beta
         // without scrolling; a scrollbar on first run reads as "something is cut off".
-        ClientSize = new Size(580, 640);
+        ClientSize = new Size(580, 700);
         MinimumSize = new Size(580, 460);
         StartPosition = FormStartPosition.CenterScreen;
         DarkTitleBar.Apply(this);
@@ -224,7 +224,7 @@ public sealed class MainForm : Form
             {
                 Text = "No World of Warcraft installation found.\r\n\r\n" +
                        "Use \"Add WoW folder...\" and pick the folder that contains\r\n" +
-                       "_retail_ (usually C:\\Program Files (x86)\\World of Warcraft).",
+                       "_retail_ or the Forever client (usually C:\\Program Files (x86)\\World of Warcraft).",
                 AutoSize = true,
                 ForeColor = Theme.Muted,
                 Font = Theme.Ui(9f),
@@ -253,7 +253,7 @@ public sealed class MainForm : Form
     {
         using var dialog = new FolderBrowserDialog
         {
-            Description = "Pick the World of Warcraft folder (the one containing _retail_)",
+            Description = "Pick the World of Warcraft folder (the one containing _retail_ or Forever)",
             UseDescriptionForTitle = true,
             ShowNewFolderButton = false,
         };
@@ -265,7 +265,7 @@ public sealed class MainForm : Form
         {
             MessageBox.Show(this,
                 "That folder does not look like a World of Warcraft installation.\r\n\r\n" +
-                "Pick the folder that contains _retail_ or _classic_era_.",
+                "Pick the folder that contains _retail_, _classic_era_, or the Forever client.",
                 AppInfo.Name, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }

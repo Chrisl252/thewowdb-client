@@ -87,6 +87,9 @@ public static class AddonFolder
             if (Directory.Exists(target)) Directory.Move(target, previous);
             Directory.Move(staging, target);
             DeleteDirectory(previous);
+            // Forever reports interface 16001; the zip still says 120100.
+            if (flavor.IsForever)
+                AddonForever.EnsureStamped(target);
         }
         catch
         {

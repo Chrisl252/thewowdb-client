@@ -21,8 +21,8 @@ stale.
 
 ## What it does
 
-- Finds every WoW installation and flavor (Retail, Classic, Classic Era, PTR, Beta)
-- Installs the Companion addon into each one you leave enabled
+- Finds every WoW installation and flavor (Retail, Classic, Classic Era, Forever, PTR, Beta)
+- Installs the Companion addon into each one you leave enabled, including a Camelot toc so Forever does not mark it out of date
 - Updates the addon when a new version ships
 - Refreshes the packaged market data on a timer (every 3 hours by default)
 - Sits in the tray; nothing to open, nothing to remember
@@ -30,8 +30,10 @@ stale.
 ## What it does not do
 
 - No account, no login, no telemetry. It sends nothing about you anywhere.
-- It reads no game files and uploads no data. Traffic is one-way: it downloads
-  a manifest, an addon zip, and a price file.
+- It reads no combat logs, account files, or addon saved variables, and it
+  uploads nothing. Traffic is one-way: a manifest, an addon zip, and a price
+  file. The only extra read is a tiny `.build.info` stamp used to tell Forever
+  apart from Classic Beta.
 - It does not touch an addon folder that is a junction or symlink to a source
   tree, so a developer's working copy is never overwritten.
 

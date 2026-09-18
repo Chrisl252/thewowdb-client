@@ -24,9 +24,9 @@
     <DebugType>none</DebugType>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 
-    <Version>1.0.1</Version>
-    <FileVersion>1.0.1.0</FileVersion>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <Version>1.0.2</Version>
+    <FileVersion>1.0.2.0</FileVersion>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
     <Product>TheWoWDB Client</Product>
     <Company>TheWoWDB</Company>
     <Description>Installs and updates the TheWoWDB Companion addon and keeps its market data fresh.</Description>
@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="app.ico" LogicalName="app.ico" />
+    <EmbeddedResource Include="..\..\addon\forever\forever.lua" LogicalName="forever.lua" />
   </ItemGroup>
 
 </Project>
