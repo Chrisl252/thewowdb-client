@@ -5,7 +5,7 @@ using TheWoWDB.Client.Wow;
 
 namespace TheWoWDB.Client.Sync;
 
-public enum FlavorOutcome { UpToDate, Installed, Updated, DataRefreshed, SkippedDeveloperLink, Disabled, Failed }
+public enum FlavorOutcome { UpToDate, Installed, Updated, DataRefreshed, SkippedDeveloperLink, Disabled, NotRetail, Failed }
 
 public sealed record FlavorReport(WowFlavor Flavor, FlavorOutcome Outcome, string Detail);
 
@@ -68,6 +68,15 @@ public sealed class SyncService(Settings settings, string manifestUrl)
             if (!_settings.IsFlavorEnabled(flavor.Path))
             {
                 reports.Add(new FlavorReport(flavor, FlavorOutcome.Disabled, "turned off"));
+                continue;
+            }
+
+            // The Companion is a retail addon carrying retail prices. Never
+            // install or refresh it in a classic-family client (WoW Forever
+            // included); an existing folder there is left for the player to remove.
+            if (!flavor.RunsRetail)
+            {
+                reports.Add(new FlavorReport(flavor, FlavorOutcome.NotRetail, "retail addon, not for this game"));
                 continue;
             }
 

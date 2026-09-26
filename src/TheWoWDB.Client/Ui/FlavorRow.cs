@@ -86,6 +86,7 @@ public sealed class FlavorRow : Panel
             FlavorOutcome.UpToDate => ("up to date", Theme.Good),
             FlavorOutcome.SkippedDeveloperLink => ("developer link, untouched", Theme.Muted),
             FlavorOutcome.Disabled => ("off", Theme.Muted),
+            FlavorOutcome.NotRetail => ("retail addon, not for this game", Theme.Muted),
             FlavorOutcome.Failed => (Shorten(report.Detail), Theme.Bad),
             _ => ("", Theme.Muted),
         };
