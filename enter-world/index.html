@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TheWoWDB — Enter World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Crimson+Text:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-identity-chrome.css">
+</head>
+<body class="wgf-shell-page" data-wgf-page="enter-world" data-wgf-snapshot="2026-08-22T19:00:00.000Z" data-wgf-expansion="Midnight">
+  <a class="visually-hidden" href="#main">Skip to content</a>
+
+  <header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner">
+      <a class="wgf-shell-logo" href="/" aria-label="TheWoWDB home">
+        <span class="wgf-logo-coin" aria-hidden="true"></span>
+        TheWoWDB
+      </a>
+
+      <nav class="wgf-shell-nav" id="wgf-primary-nav" aria-label="Primary">
+        <a href="/herbs/">Herbs</a>
+        <a href="/item/">Item Prices</a>
+        <a href="/guides/">Guides</a>
+      </nav>
+
+      <div class="wgf-shell-right">
+        <form class="wgf-shell-search wgf-shell-search--prime" action="/search/" role="search">
+          <label class="visually-hidden" for="q">Search TheWoWDB</label>
+          <input class="wgf-shell-search__input" id="q" name="q" type="search" placeholder="Search items, bosses, zones…">
+        </form>
+        <button id="wgf-identity" class="wgf-realm-btn" type="button" aria-haspopup="dialog" aria-controls="wgf-enter-world" data-wgf-chrome-owned="1">
+          Enter World
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="id-page">
+    <p class="id-kicker">Verified — US Auction House</p>
+    <h1 class="id-title">WOW <em>HERBS</em></h1>
+    <p class="id-sub">Materials</p>
+    <p class="id-note">
+      After you choose a character, the header keeps the selected realm and WoW
+      version visible in text — you should not have to reopen Enter World to
+      remember whether you are on Proudmoore US Retail or a Classic realm.
+      The gold live plate (green dot, last updated, US Region · Retail (Midnight))
+      stays in this header on every page, not only on herb listings. Midnight is
+      the expansion, not a realm.
+    </p>
+  </main>
+
+  <div id="wgf-enter-world" class="wgf-rp-root" hidden aria-hidden="true">
+    <div id="wgf-rp-backdrop" class="wgf-rp-backdrop"></div>
+    <section class="wgf-window wgf-rp-window" role="dialog" aria-modal="true" aria-labelledby="wgf-rp-title">
+      <header class="wgf-window__title" id="wgf-rp-title">
+        Enter World
+        <button id="wgf-rp-close" class="wgf-window__x" type="button" aria-label="Close"></button>
+      </header>
+
+      <div class="wgf-rp-account">
+        <span>Signed in as <strong>Alterrboy</strong></span>
+        <div class="wgf-rp-account-actions">
+          <button id="wgf-rp-refresh" class="wgf-rp-link" type="button">Refresh characters</button>
+          <button id="wgf-rp-account" class="wgf-rp-link" type="button">Account</button>
+          <button id="wgf-rp-signout" class="wgf-rp-link" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <nav class="wgf-window__tabs wgf-window__tabs--top" role="tablist" aria-label="Enter World">
+        <button id="wgf-rp-tab-characters" class="wgf-tab is-active" type="button" role="tab" aria-selected="true">Characters</button>
+        <button id="wgf-rp-tab-realms" class="wgf-tab" type="button" role="tab" aria-selected="false">Realms</button>
+      </nav>
+
+      <div id="wgf-rp-selected" class="wgf-rp-selected">Selected: Proudmoore US · Retail</div>
+      <div id="wgf-rp-count" class="wgf-rp-count">8 characters</div>
+      <div id="wgf-rp-list" class="wgf-rp-body"></div>
+
+      <footer class="wgf-rp-footer">
+        <button id="wgf-rp-cancel" class="wgf-btn-stone" type="button">Cancel</button>
+        <button id="wgf-rp-enter" class="wgf-btn-red" type="button">Enter World</button>
+      </footer>
+    </section>
+  </div>
+
+  <div id="wgf-rp-toast" class="wgf-rp-toast" hidden></div>
+
+  <script src="/assets/wgf-header-demo.js"></script>
+  <script src="/assets/wgf-identity-format.js"></script>
+  <script src="/assets/wgf-header-identity.js"></script>
+  <script src="/assets/wgf-identity-chrome.js"></script>
+</body>
+</html>
