@@ -33,6 +33,7 @@ TrayApp timer (every N hours)
 | `Wow/AddonFolder.cs` | **Everything that writes into an AddOns directory.** Junction guard, zip-slip guard, staged install, atomic file write. |
 | `Sync/Manifest.cs` | The manifest contract (addon / data / client entries). |
 | `Sync/Downloader.cs` | All network access and hash verification. The only `HttpClient`. |
+| `Sync/WdbUploader.cs` | Opt-in WoW Forever cache upload: `questcache.wdb` + `creaturecache.wdb` from `_classic_beta_` only, to the manifest's `wdb_upload.url`. Off unless the player ticks it AND the manifest enables it; never fails a pass. |
 | `Sync/SyncService.cs` | The pass itself: compare, download once, apply per flavor, report. |
 | `Ui/Theme.cs` | The site palette and the hand-rolled dark controls. |
 | `Ui/FlavorRow.cs` | One detected client as a row. |

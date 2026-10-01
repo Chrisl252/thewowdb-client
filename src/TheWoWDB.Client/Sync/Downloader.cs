@@ -88,6 +88,31 @@ public sealed class Downloader : IDisposable
         return buffer.ToArray();
     }
 
+    /// <summary>
+    /// Multipart POST of small local files (the WoW Forever WDB caches). Returns
+    /// the status code and the first 2 KB of the body for the log. A refusal is a
+    /// status, not an exception: an upload is a courtesy and never fails a sync.
+    /// </summary>
+    public async Task<(int Status, string Body)> PostFilesAsync(
+        string url, IReadOnlyDictionary<string, byte[]> files,
+        IReadOnlyDictionary<string, string> fields, CancellationToken ct)
+    {
+        using var form = new MultipartFormDataContent();
+        foreach (var (name, value) in fields)
+            form.Add(new StringContent(value), name);
+        foreach (var (name, bytes) in files)
+        {
+            var part = new ByteArrayContent(bytes);
+            part.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            form.Add(part, name, name + ".wdb");
+        }
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        cts.CancelAfter(TimeSpan.FromSeconds(60));
+        using var response = await _http.PostAsync(url, form, cts.Token).ConfigureAwait(false);
+        var body = await response.Content.ReadAsStringAsync(cts.Token).ConfigureAwait(false);
+        return ((int)response.StatusCode, body.Length > 2048 ? body[..2048] : body);
+    }
+
     private static string Sha256File(string path)
     {
         using var stream = File.OpenRead(path);

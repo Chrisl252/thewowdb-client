@@ -158,6 +158,12 @@ public sealed class MainForm : Form
             _settings.Save();
         });
 
+        var shareCache = MakeCheck("Share WoW Forever quest data", _settings.ShareForeverCache, 260, 8, v =>
+        {
+            _settings.ShareForeverCache = v;
+            _settings.Save();
+        });
+
         var links = new FlowLayoutPanel
         {
             Location = new Point(18, 60),
@@ -175,7 +181,7 @@ public sealed class MainForm : Form
         log.LinkClicked += (_, _) => Theme.OpenUrl(AppPaths.LogFile);
         links.Controls.Add(log);
 
-        footer.Controls.AddRange([startup, keepAddon, keepData, links]);
+        footer.Controls.AddRange([startup, shareCache, keepAddon, keepData, links]);
         footer.Paint += (_, e) =>
         {
             using var pen = new Pen(Theme.Border);

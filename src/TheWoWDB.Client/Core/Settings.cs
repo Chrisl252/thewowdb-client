@@ -15,6 +15,17 @@ public sealed class Settings
     public bool RunAtStartup { get; set; } = true;
     public bool KeepAddonUpdated { get; set; } = true;
     public bool KeepMarketDataFresh { get; set; } = true;
+    /// <summary>
+    /// Opt-in: send the WoW Forever quest and NPC caches (Cache/WDB/enUS
+    /// questcache.wdb + creaturecache.wdb: game data only, no account or
+    /// character data) to thewowdb.com. Off until the player ticks it, and the
+    /// manifest has to switch it on as well.
+    /// </summary>
+    public bool ShareForeverCache { get; set; }
+
+    /// <summary>sha256 of the last cache pair sent, so an unchanged cache is never re-sent.</summary>
+    public string? LastForeverCacheSha { get; set; }
+
     public int CheckIntervalHours { get; set; } = 3;
 
     /// <summary>Set once the first successful install finishes, so we only greet once.</summary>

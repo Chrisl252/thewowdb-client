@@ -57,6 +57,8 @@ public sealed class SyncService(Settings settings, string manifestUrl)
                 reports, manifest, DateTime.Now);
         }
 
+        await WdbUploader.RunAsync(_settings, manifest, installs, net, ct).ConfigureAwait(false);
+
         // Downloaded at most once per pass, then reused for every flavor.
         string? addonZip = null;
         byte[]? marketData = null;

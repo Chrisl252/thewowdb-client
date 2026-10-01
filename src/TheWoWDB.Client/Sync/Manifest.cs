@@ -15,6 +15,9 @@ public sealed class Manifest
     [JsonPropertyName("client")] public ClientEntry? Client { get; set; }
     [JsonPropertyName("message")] public string? Message { get; set; }
 
+    /// <summary>Site-side switch for the WoW Forever cache upload. Absent means off.</summary>
+    [JsonPropertyName("wdb_upload")] public WdbUploadEntry? WdbUpload { get; set; }
+
     public sealed class AddonEntry
     {
         [JsonPropertyName("version")] public string Version { get; set; } = "";
@@ -40,5 +43,11 @@ public sealed class Manifest
         [JsonPropertyName("version")] public string Version { get; set; } = "";
         [JsonPropertyName("url")] public string? Url { get; set; }
         [JsonPropertyName("notes")] public string? Notes { get; set; }
+    }
+
+    public sealed class WdbUploadEntry
+    {
+        [JsonPropertyName("enabled")] public bool Enabled { get; set; }
+        [JsonPropertyName("url")] public string Url { get; set; } = "";
     }
 }
