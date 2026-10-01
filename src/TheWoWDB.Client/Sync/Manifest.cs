@@ -18,6 +18,9 @@ public sealed class Manifest
     /// <summary>Site-side switch for the WoW Forever cache upload. Absent means off.</summary>
     [JsonPropertyName("wdb_upload")] public WdbUploadEntry? WdbUpload { get; set; }
 
+    /// <summary>Site-side switch for the Companion's collected game data. Absent means off.</summary>
+    [JsonPropertyName("collect_upload")] public WdbUploadEntry? CollectUpload { get; set; }
+
     public sealed class AddonEntry
     {
         [JsonPropertyName("version")] public string Version { get; set; } = "";

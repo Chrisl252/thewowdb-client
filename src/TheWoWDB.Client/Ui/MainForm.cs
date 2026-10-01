@@ -137,7 +137,7 @@ public sealed class MainForm : Form
 
     private Control BuildFooter()
     {
-        var footer = new Panel { Dock = DockStyle.Bottom, Height = 92, BackColor = Theme.Bg };
+        var footer = new Panel { Dock = DockStyle.Bottom, Height = 114, BackColor = Theme.Bg };
 
         var startup = MakeCheck("Start with Windows", AutoStart.IsEnabled(), 20, 8, v =>
         {
@@ -164,9 +164,15 @@ public sealed class MainForm : Form
             _settings.Save();
         });
 
+        var shareData = MakeCheck("Share gathering, vendor & disenchant data", _settings.ShareGameData, 20, 52, v =>
+        {
+            _settings.ShareGameData = v;
+            _settings.Save();
+        });
+
         var links = new FlowLayoutPanel
         {
-            Location = new Point(18, 60),
+            Location = new Point(18, 82),
             Size = new Size(520, 24),
             BackColor = Color.Transparent,
             FlowDirection = FlowDirection.LeftToRight,
@@ -181,7 +187,7 @@ public sealed class MainForm : Form
         log.LinkClicked += (_, _) => Theme.OpenUrl(AppPaths.LogFile);
         links.Controls.Add(log);
 
-        footer.Controls.AddRange([startup, shareCache, keepAddon, keepData, links]);
+        footer.Controls.AddRange([startup, shareCache, keepAddon, keepData, shareData, links]);
         footer.Paint += (_, e) =>
         {
             using var pen = new Pen(Theme.Border);

@@ -26,6 +26,17 @@ public sealed class Settings
     /// <summary>sha256 of the last cache pair sent, so an unchanged cache is never re-sent.</summary>
     public string? LastForeverCacheSha { get; set; }
 
+    /// <summary>
+    /// Opt-in: send what the Companion addon recorded while you played (herb and
+    /// ore node spots, disenchant results, vendor prices: ids, map coordinates,
+    /// counts and prices only, no names) to thewowdb.com. Off until the player
+    /// ticks it, and the manifest has to switch it on as well.
+    /// </summary>
+    public bool ShareGameData { get; set; }
+
+    /// <summary>sha256 of the last collection sent, so an unchanged one is never re-sent.</summary>
+    public string? LastGameDataSha { get; set; }
+
     public int CheckIntervalHours { get; set; } = 3;
 
     /// <summary>Set once the first successful install finishes, so we only greet once.</summary>

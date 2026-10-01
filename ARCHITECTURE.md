@@ -34,6 +34,7 @@ TrayApp timer (every N hours)
 | `Sync/Manifest.cs` | The manifest contract (addon / data / client entries). |
 | `Sync/Downloader.cs` | All network access and hash verification. The only `HttpClient`. |
 | `Sync/WdbUploader.cs` | Opt-in WoW Forever cache upload: `questcache.wdb` + `creaturecache.wdb` from `_classic_beta_` only, to the manifest's `wdb_upload.url`. Off unless the player ticks it AND the manifest enables it; never fails a pass. |
+| `Sync/CollectUploader.cs` | Opt-in Companion game-data upload (addon 0.13.0+): lifts the one-line `TWDBC1~` wire (gather nodes, disenchants, vendor costs; ids/coords/prices only) out of our own SavedVariables files (`WGFCompanion.lua`, `TheWoWDB_Forever.lua`, `TheWoWDB_Era.lua`) and POSTs it as JSON to the manifest's `collect_upload.url`. Off unless the player ticks it AND the manifest enables it; an unchanged collection (sha256) is not re-sent; never fails a pass. |
 | `Sync/SyncService.cs` | The pass itself: compare, download once, apply per flavor, report. |
 | `Ui/Theme.cs` | The site palette and the hand-rolled dark controls. |
 | `Ui/FlavorRow.cs` | One detected client as a row. |

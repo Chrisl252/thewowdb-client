@@ -113,6 +113,22 @@ public sealed class Downloader : IDisposable
         return ((int)response.StatusCode, body.Length > 2048 ? body[..2048] : body);
     }
 
+    /// <summary>
+    /// JSON POST of a small payload (the Companion's collected game data). Same
+    /// contract as <see cref="PostFilesAsync"/>: a refusal is a status, never an exception.
+    /// </summary>
+    public async Task<(int Status, string Body)> PostJsonAsync(
+        string url, object payload, CancellationToken ct)
+    {
+        using var content = new StringContent(JsonSerializer.Serialize(payload),
+                                              System.Text.Encoding.UTF8, "application/json");
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        cts.CancelAfter(TimeSpan.FromSeconds(60));
+        using var response = await _http.PostAsync(url, content, cts.Token).ConfigureAwait(false);
+        var body = await response.Content.ReadAsStringAsync(cts.Token).ConfigureAwait(false);
+        return ((int)response.StatusCode, body.Length > 2048 ? body[..2048] : body);
+    }
+
     private static string Sha256File(string path)
     {
         using var stream = File.OpenRead(path);

@@ -58,6 +58,7 @@ public sealed class SyncService(Settings settings, string manifestUrl)
         }
 
         await WdbUploader.RunAsync(_settings, manifest, installs, net, ct).ConfigureAwait(false);
+        await CollectUploader.RunAsync(_settings, manifest, installs, net, ct).ConfigureAwait(false);
 
         // Downloaded at most once per pass, then reused for every flavor.
         string? addonZip = null;
