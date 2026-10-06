@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moon Guard Under-Market Deal Candidates — TheWoWDB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="./preview.css">
+  <link rel="stylesheet" href="/assets/ah-deals.css">
+</head>
+<body class="wgf-shell-page wgf-ah-page" data-wgf-page="ah-deals">
+  <div class="deals-pagebg" aria-hidden="true"></div>
+
+  <main class="deals-page">
+    <header class="deals-hero">
+      <p class="deals-hero__kicker">Auction House · <span id="dealsRegionDisplay">US</span></p>
+      <h1 id="dealsContextHeading">Moon Guard Under-Market Deal Candidates</h1>
+      <p class="deals-hero__sub" id="dealsHeroContext" hidden></p>
+      <p class="deals-freshness" id="dealsFreshness">
+        Latest AH snapshot
+        <span id="dealsFreshLatest">loading…</span>
+        <span class="deals-fresh-sep" aria-hidden="true">·</span>
+        Next scheduled scan
+        <span id="dealsFreshNext">…</span>
+      </p>
+      <p class="deals-statusline">
+        <span id="dealsStatus"></span>
+        <span id="dealsSyncStatus"></span>
+        <span id="dealsResultCount"></span>
+      </p>
+    </header>
+
+    <section class="ah-window deals-window" aria-label="Deal candidates">
+      <div class="deals-chrome">
+        <div class="ah-toolbar deals-toolbar">
+          <div class="ah-realm-wrap deals-realm-wrap">
+            <label class="deals-field-label" for="dealsRealmInput">Realm</label>
+            <input
+              id="dealsRealmInput"
+              class="deals-input deals-realm-input"
+              type="text"
+              value="Moon Guard"
+              autocomplete="off"
+              spellcheck="false"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-controls="dealsRealmSuggest"
+            >
+            <ul id="dealsRealmSuggest" class="deals-realm-suggest" hidden role="listbox"></ul>
+          </div>
+
+          <div class="deals-type-toggle" role="group" aria-label="Deal type">
+            <button type="button" class="deals-type-btn is-active" data-deal-type="under_market" aria-pressed="true">Under Market</button>
+            <button type="button" class="deals-type-btn" data-deal-type="below_vendor" aria-pressed="false">Below Vendor</button>
+            <button type="button" class="deals-type-btn" data-deal-type="high_spread" aria-pressed="false">High Spread</button>
+            <button type="button" class="deals-type-btn" data-deal-type="all" aria-pressed="false">All</button>
+          </div>
+
+          <label class="deals-source-field">
+            <span class="visually-hidden">Listing source</span>
+            <select id="dealsSourceSelect" class="wgf-select" aria-label="Listing source">
+              <option value="all">Realm + Commodities</option>
+              <option value="realm">Realm only</option>
+              <option value="commodity">Commodities only</option>
+            </select>
+          </label>
+
+          <button type="button" id="dealsRefreshButton">Refresh</button>
+        </div>
+
+        <div class="deals-filterbar">
+          <label class="deals-field" data-field="min_discount_pct">
+            <span class="deals-field-label">Min under-market %</span>
+            <input id="dealsMinDiscount" class="deals-input" type="number" min="0" value="15">
+          </label>
+          <label class="deals-field" data-field="min_spread_pct" hidden>
+            <span class="deals-field-label">Min spread %</span>
+            <input id="dealsMinSpread" class="deals-input" type="number" min="0" value="50">
+          </label>
+          <label class="deals-field" data-field="min_profit">
+            <span class="deals-field-label">Min profit (g)</span>
+            <input id="dealsMinProfit" class="deals-input" type="number" min="0" value="0">
+          </label>
+          <label class="deals-field" data-field="max_price">
+            <span class="deals-field-label">Max price (g)</span>
+            <input id="dealsMaxPrice" class="deals-input" type="number" min="0" placeholder="Any">
+          </label>
+          <label class="deals-field" data-field="min_quantity">
+            <span class="deals-field-label">Min qty</span>
+            <input id="dealsMinQuantity" class="deals-input" type="number" min="1" value="1">
+          </label>
+          <div class="deals-filter-actions">
+            <button type="button" id="dealsExportButton">Export CSV</button>
+            <button type="button" id="dealsResetButton" class="deals-reset">Reset filters</button>
+          </div>
+        </div>
+
+        <p class="deals-explainer" id="dealsExplainer">
+          Listings priced well below the item's typical market price. Buy low, relist near market.
+        </p>
+      </div>
+
+      <aside class="deals-trust-warning" role="note">
+        Always verify in-game before buying. These are snapshot-based deal candidates, not guaranteed sales.
+        Score is based on margin, confidence, and listing depth. Sale velocity is not included.
+        Realm items are realm-specific; commodities are region-wide.
+      </aside>
+
+      <div class="ah-table-shell deals-table-shell">
+        <table class="ah-table deals-table">
+          <thead>
+            <tr>
+              <th class="col-score ah-sortable" data-sort="score" scope="col">Score <span class="sort-arrow"></span></th>
+              <th class="col-name ah-sortable" data-sort="name" scope="col">Item <span class="sort-arrow"></span></th>
+              <th class="col-source" scope="col">Source</th>
+              <th class="col-price ah-sortable price-cell" data-sort="price" scope="col">Price <span class="sort-arrow"></span></th>
+              <th class="col-market ah-sortable" data-sort="market" scope="col">Market <span class="sort-arrow"></span></th>
+              <th class="col-discount ah-sortable" data-sort="discount" scope="col">Under mkt % <span class="sort-arrow"></span></th>
+              <th class="col-spread ah-sortable" data-sort="spread" scope="col">Spread <span class="sort-arrow"></span></th>
+              <th class="col-profit ah-sortable" data-sort="profit" scope="col">Est. profit <span class="sort-arrow"></span></th>
+              <th class="col-qty ah-sortable" data-sort="available" scope="col">Available <span class="sort-arrow"></span></th>
+              <th class="col-updated" scope="col">Updated</th>
+            </tr>
+          </thead>
+          <tbody id="dealsRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="deals-about" aria-labelledby="deals-about-title">
+      <h2 id="deals-about-title">How these WoW deals work</h2>
+      <p>
+        This finder scans the latest Auction House snapshot for your realm (and region-wide commodities)
+        and surfaces listings priced below where they should be. Every row shows the current asking price,
+        a reference price, and an estimated profit so you can judge whether a flip is actually worth it.
+      </p>
+      <dl class="deals-glossary">
+        <div>
+          <dt>Under market</dt>
+          <dd>The cheapest listing is well below the item's typical market price. Buy it and relist closer to market for the difference.</dd>
+        </div>
+        <div>
+          <dt>Below vendor</dt>
+          <dd>The item is listed for less than a vendor will pay you for it. Buy it, sell it to a vendor, and pocket guaranteed gold.</dd>
+        </div>
+        <div>
+          <dt>High spread</dt>
+          <dd>There's a large gap between the cheapest listing and the next one up. Buy the cheap one and relist just under the next seller.</dd>
+        </div>
+      </dl>
+      <p class="deals-about-note">
+        Estimated profit is a guide based on the latest snapshot, not a guaranteed sale.
+        Under-market profits are shown after the 5% AH sale fee.
+      </p>
+    </section>
+  </main>
+
+  <script src="/assets/ah-deals.js"></script>
+</body>
+</html>

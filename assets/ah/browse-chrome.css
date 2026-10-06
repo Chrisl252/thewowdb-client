@@ -1,0 +1,283 @@
+/* Scoped AH chrome fixes — sidebar, track stars, table-end.
+   Selectors stay on the browse rail / fav column / results footer so this
+   sheet does not fight toolbar or .ah-cheapest-realm / JUMP TO rules. */
+
+/* =========================================================================
+   1. Browse Auctions sidebar
+   Root cause: .ah-sidebar painted a flat --wgf-bg-2 slab over the window's
+   stone tile; .ah-sidebar-title was a boxed Cinzel chip; .ah-cat-row.top
+   used a different face + card borders; carets were #777; LAST VERIFIED
+   sat as an unmerged footnote.
+   ========================================================================= */
+
+.ah-layout {
+  align-items: stretch;
+}
+
+.wgf-window .ah-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 6, 4, 0.42), rgba(8, 6, 4, 0.58)),
+    url(/assets/ui/classhall-stone-tile.png) left top / 256px 256px repeat;
+  border-right: 1px solid rgba(0, 0, 0, 0.62);
+  box-shadow:
+    inset -12px 0 16px -12px rgba(0, 0, 0, 0.7),
+    inset -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.wgf-window .ah-sidebar-head {
+  flex: 0 0 auto;
+}
+
+.wgf-window .ah-sidebar-title {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px 12px 7px;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.55);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.28));
+  color: var(--wgf-gold);
+  font-family: var(--font-game);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.14em;
+  text-shadow: var(--text-ink-outline);
+}
+
+.wgf-window .ah-category-tree {
+  flex: 1 1 auto;
+  padding: 6px 6px 8px;
+}
+
+.wgf-window .ah-cat-row,
+.wgf-window .ah-cat-row.top,
+.wgf-window .ah-cat-row.group,
+.wgf-window .ah-cat-row--all-items {
+  box-sizing: border-box;
+  margin: 0;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--wgf-text);
+  font-family: var(--font-game);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.wgf-window .ah-cat-row--all-items {
+  color: var(--wgf-gold-muted);
+  margin-bottom: 2px;
+}
+
+.wgf-window .ah-cat-row + .ah-cat-row {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.wgf-window .ah-cat-caret {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  flex: 0 0 14px;
+  color: var(--wgf-gold-muted);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.wgf-window .ah-cat-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--wgf-gold-bright);
+  filter: none;
+}
+
+.wgf-window .ah-cat-row:hover .ah-cat-caret {
+  color: var(--wgf-gold-bright);
+}
+
+.wgf-window .ah-cat-row.is-active,
+.wgf-window .ah-cat-row.active {
+  background: linear-gradient(180deg, rgba(var(--wgf-gold-rgb), 0.14), rgba(var(--wgf-gold-rgb), 0.05));
+  box-shadow: inset 3px 0 0 var(--wgf-gold);
+  color: var(--wgf-gold-bright);
+}
+
+.wgf-window .ah-sidebar-verified {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 8px 12px 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.55);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.38));
+  color: var(--wgf-muted);
+  font-family: var(--font-game);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wgf-window .ah-sidebar-verified__label {
+  display: inline;
+  letter-spacing: 0.1em;
+}
+
+.wgf-window .ah-sidebar-verified__age {
+  color: var(--wgf-gold-muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* =========================================================================
+   2. Track / favorite star column
+   Root cause: 20px inline-block star sat on the text baseline of a 31px
+   cell while the item cell flexed a 30px icon (taller row). Header used a
+   clipped text label, so the column mark did not line up with the stars.
+   Hit target was the glyph itself.
+   ========================================================================= */
+
+.ah-table .col-fav {
+  width: 44px;
+}
+
+.ah-table tbody td {
+  height: 44px;
+}
+
+.ah-table thead th.col-fav,
+.ah-table td.col-fav {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+}
+
+.ah-table td.col-fav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ah-table thead th.col-fav {
+  position: relative;
+}
+
+.ah-table td.col-fav .wgf-favbtn,
+.ah-table td.col-fav .wgf-trk-star,
+.ah-table thead th.col-fav .wgf-favbtn,
+.ah-table thead th.col-fav .ah-col-fav-mark {
+  display: block;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  padding: 0;
+  vertical-align: middle;
+  background-position: center;
+  background-size: 18px 18px;
+}
+
+.ah-table thead th.col-fav .ah-col-fav-mark {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+}
+
+.ah-table td.col-fav .wgf-favbtn,
+.ah-table td.col-fav .wgf-trk-star {
+  opacity: 0.55;
+}
+
+.ah-table td.col-fav .wgf-favbtn:hover,
+.ah-table td.col-fav .wgf-trk-star:hover {
+  opacity: 0.95;
+}
+
+.ah-table td.col-fav .wgf-favbtn.is-tracked,
+.ah-table td.col-fav .wgf-trk-star.is-tracked {
+  opacity: 1;
+}
+
+.ah-table td.col-fav .wgf-favbtn:focus-visible,
+.ah-table td.col-fav .wgf-trk-star:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 3px;
+}
+
+/* =========================================================================
+   3. Table end → count → About
+   Root cause: every tbody td kept a bottom border (including the last
+   commodity row), then .ah-table-shell closed as its own well, then
+   .ah-statusbar added a second hairline, then .ah-about used a bright
+   white rule — three stacked dividers under Tranquility Bloom.
+   ========================================================================= */
+
+.ah-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.wgf-window .ah-main {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.wgf-window .ah-table-shell {
+  margin: var(--space-2) var(--space-2) 0;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+}
+
+.wgf-window .ah-statusbar {
+  margin: 0 var(--space-2) var(--space-2);
+  padding: 8px 12px 10px;
+  border: 1px solid var(--wgf-well-edge);
+  border-top: 1px solid rgba(var(--wgf-gold-rgb), 0.14);
+  border-radius: 0 0 4px 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.28)),
+    var(--wgf-well);
+  box-shadow: inset 0 -2px 6px rgba(0, 0, 0, 0.45);
+  color: var(--wgf-muted);
+  font-family: var(--font-game);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.wgf-window .ah-statusbar #ahResultCount {
+  color: var(--wgf-gold-muted);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+
+.ah-page .ah-about {
+  margin-top: var(--space-4);
+  padding: var(--space-3) 2px 0;
+  border-top: 1px solid rgba(var(--wgf-gold-rgb), 0.22);
+}
+
+.ah-page .ah-about h2 {
+  font-family: var(--font-game);
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  text-shadow: var(--text-ink-outline);
+}
+
+@media (max-width: 1050px) {
+  .wgf-window .ah-sidebar {
+    min-height: 0;
+  }
+}

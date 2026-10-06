@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cheapest Realm — TheWoWDB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Crimson+Text:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/preview.css">
+  <link rel="stylesheet" href="/assets/wgf-ah.css">
+  <link rel="stylesheet" href="/assets/wgf-cheapest-realm.css">
+</head>
+<body class="wgf-shell-page" data-wgf-page="cheapest-realm">
+  <header class="wgf-shell-topbar">
+    <div class="wgf-shell-topbar__inner">
+      <a class="wgf-shell-logo" href="/auction-house/">THEWOWDB</a>
+      <nav class="wgf-shell-nav" aria-label="Primary">
+        <a href="/auction-house/">Items</a>
+        <div class="wgf-nav-group">
+          <button class="wgf-nav-trigger" type="button">
+            Game <span class="wgf-nav-caret" aria-hidden="true"></span>
+          </button>
+          <div class="wgf-nav-menu" role="menu">
+            <a href="/auction-house/" role="menuitem">Auction House</a>
+            <a href="/cheapest-realm/" class="is-active" role="menuitem">Cheapest Realm</a>
+          </div>
+        </div>
+        <a href="/cheapest-realm/" class="is-active">Cheapest Realm</a>
+      </nav>
+    </div>
+  </header>
+
+  <nav class="wgf-seo-breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/auction-house/">Home</a></li>
+      <li aria-current="page">Cheapest Realm</li>
+    </ol>
+  </nav>
+
+  <main class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Realm comparison</p>
+      <h1>Cheapest Realm</h1>
+      <p class="sub">Which realm lists any item cheapest right now, across every US realm.</p>
+    </header>
+
+    <section class="searchsec" aria-label="Compare realms">
+      <p class="search-kicker">Search an item</p>
+      <form id="crSearchForm">
+        <label class="visually-hidden" for="crSearch">Item name</label>
+        <div class="search__field">
+          <input class="search__input" id="crSearch" name="q" type="search" placeholder="Peacebloom, flasks, Pummel Permit…" autocomplete="off">
+        </div>
+        <ul class="results" id="crSuggest" hidden></ul>
+      </form>
+    </section>
+
+    <p class="prompt" id="crPrompt">Pick an item to rank connected realms by min buyout.</p>
+    <div class="sel" id="crSelected" hidden></div>
+    <div class="list" id="crList" hidden></div>
+    <p class="empty" id="crEmpty" hidden>No realm comparison for that name in this snapshot.</p>
+
+    <section class="about">
+      <h2>How this compares</h2>
+      <p>
+        The same Cheapest Realm tool linked from the Game menu. Commodity prices
+        are region-wide; realm-priced goods (gear, recipes, some reagents) vary
+        by connected realm. Always verify in game before you buy.
+      </p>
+    </section>
+  </main>
+
+  <script src="/assets/cheapest-realm.js"></script>
+</body>
+</html>
