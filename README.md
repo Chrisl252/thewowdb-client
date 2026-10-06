@@ -1,7 +1,7 @@
 # TheWoWDB Client
 
 A small Windows tray app that installs the **TheWoWDB Companion** addon into
-every World of Warcraft client you have, keeps it updated, and refreshes its
+every **retail** World of Warcraft client you have, keeps it updated, and refreshes its
 market prices in the background.
 
 Download: **[latest release](https://github.com/Chrisl252/thewowdb-client/releases/latest)** ·
@@ -22,7 +22,9 @@ stale.
 ## What it does
 
 - Finds every WoW installation and flavor (Retail, Classic, Classic Era, PTR, Beta)
-- Installs the Companion addon into each one you leave enabled
+- Installs the Companion addon into each **retail** client you leave enabled
+  (since 1.0.2; Classic-family clients, including `_classic_beta_` = WoW Forever,
+  show "retail addon, not for this game" because the Forever edition is a separate addon)
 - Updates the addon when a new version ships
 - Refreshes the packaged market data on a timer (every 3 hours by default)
 - Sits in the tray; nothing to open, nothing to remember
@@ -60,6 +62,12 @@ dotnet publish src/TheWoWDB.Client -c Release -o dist
 
 Produces one self-contained `dist/TheWoWDBClient.exe` with no runtime
 prerequisites.
+
+## Status
+
+Live: v1.0.2 (2026-09-26) on GitHub Releases. A daily scheduled job
+(`tools/daily.ps1`, after the 6am "WGF Addon Market Data Refresh" task) republishes
+market data so installed clients pick it up. Current state: [PROJECT_STATE.md](PROJECT_STATE.md).
 
 ## Layout
 

@@ -10,7 +10,7 @@ TrayApp timer (every N hours)
   -> SyncService.RunAsync
        -> Downloader.GetManifestAsync      one JSON document, the only source of truth
        -> WowInstallScanner.Scan           every install and flavor on this PC
-       -> for each enabled flavor:
+       -> for each enabled flavor (retail only since 1.0.2; classic-family = not for this game):
             AddonFolder.IsDeveloperLink?   junction -> skip entirely, touch nothing
             AddonFolder.InstalledVersion   read ## Version out of the .toc
             Downloader.DownloadToTempAsync verify sha256 before anything is used

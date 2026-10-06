@@ -7,3 +7,6 @@ dist/
 *.user
 *.suo
 .vs/
+
+# edit-time backups (never committed)
+backups/
