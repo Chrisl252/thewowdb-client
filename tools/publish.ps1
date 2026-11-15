@@ -35,6 +35,7 @@ param(
     [switch] $SkipClient,
     [bool]   $CollectUpload = $true,
     [bool]   $ScanUpload = $true,
+    [string] $ForeverPrices = "https://thewowdb.com/static/addon/forever-prices-{region}.lua.gz",
     [int]    $MinDataBytes = 250000
 )
 
@@ -199,6 +200,9 @@ try {
     # Upload switches (client 1.1.0+). Both doors are live on thewowdb.com since
     # 2026-11-15; set either to $false here to stop every installed client sending.
     $manifest.collectUpload = [bool]$CollectUpload
+    # Hourly Blizzard auction prices for the Forever addon (client 1.2.0+), written on
+    # thewowdb.com by tools/export_forever_realm_prices.py; {region} = us | eu.
+    if ($ForeverPrices) { $manifest.foreverPrices = $ForeverPrices }
     $manifest.scanUpload    = [bool]$ScanUpload
     $manifestPath = Join-Path $work "manifest.json"
     # WriteAllText with an explicit no-BOM encoding, NOT Set-Content -Encoding utf8:

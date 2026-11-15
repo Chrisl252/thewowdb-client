@@ -16,6 +16,8 @@ public sealed class Manifest
     /// <see cref="Addon"/>. Absent until a release publishes it; nothing is installed then.</summary>
     [JsonPropertyName("foreverAddon")] public AddonEntry? ForeverAddon { get; set; }
     /// <summary>Server-side switch for uploading the addon's collected wire. Off unless true.</summary>
+    /// <summary>Hourly Forever auction prices: a URL with a {region} placeholder (us / eu), gzipped Lua.</summary>
+    [JsonPropertyName("foreverPrices")] public string? ForeverPrices { get; set; }
     [JsonPropertyName("collectUpload")] public bool CollectUpload { get; set; }
     /// <summary>Server-side switch for uploading completed Forever auction scans. Off unless true.</summary>
     [JsonPropertyName("scanUpload")] public bool ScanUpload { get; set; }

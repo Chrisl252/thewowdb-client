@@ -16,6 +16,25 @@ public sealed class ForeverAddonInstaller(Settings settings, Manifest manifest, 
 
     public async Task<FlavorReport> RunAsync(WowFlavor flavor, CancellationToken ct)
     {
+        var report = await InstallAsync(flavor, ct).ConfigureAwait(false);
+        // Prices go in AFTER the addon: a fresh extract carries the empty stub.
+        var installed = report.Outcome is FlavorOutcome.UpToDate or FlavorOutcome.Installed or FlavorOutcome.Updated;
+        if (installed && settings.KeepMarketDataFresh && manifest.ForeverPrices is { Length: > 0 } url)
+        {
+            var line = await ForeverPrices.RefreshAsync(
+                flavor, AddonFolder.PathIn(flavor, AddonFolder.ForeverAddonName), url, net, ct).ConfigureAwait(false);
+            if (line is not null)
+                report = report with
+                {
+                    Outcome = report.Outcome == FlavorOutcome.UpToDate ? FlavorOutcome.DataRefreshed : report.Outcome,
+                    Detail = report.Detail + ", " + line,
+                };
+        }
+        return report;
+    }
+
+    private async Task<FlavorReport> InstallAsync(WowFlavor flavor, CancellationToken ct)
+    {
         var addonPath = AddonFolder.PathIn(flavor, AddonFolder.ForeverAddonName);
         if (AddonFolder.IsDeveloperLink(addonPath))
         {
