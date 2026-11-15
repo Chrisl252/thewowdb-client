@@ -11,7 +11,11 @@ public static class AddonFolder
 {
     public const string AddonName = "WGFCompanion";
 
-    public static string PathIn(WowFlavor flavor) => Path.Combine(flavor.AddOnsDir, AddonName);
+    /// <summary>The Forever edition of the addon: a different game, a different folder.</summary>
+    public const string ForeverAddonName = "TheWoWDB_Forever";
+
+    public static string PathIn(WowFlavor flavor, string addonName = AddonName) =>
+        Path.Combine(flavor.AddOnsDir, addonName);
 
     /// <summary>
     /// True when the addon folder is a junction or symlink rather than a real
@@ -35,9 +39,9 @@ public static class AddonFolder
         }
     }
 
-    public static string? InstalledVersion(string addonPath)
+    public static string? InstalledVersion(string addonPath, string addonName = AddonName)
     {
-        var toc = Path.Combine(addonPath, AddonName + ".toc");
+        var toc = Path.Combine(addonPath, addonName + ".toc");
         if (!File.Exists(toc)) return null;
         try
         {
@@ -63,15 +67,15 @@ public static class AddonFolder
     /// in once the extraction fully succeeded, so a half-downloaded file can
     /// never leave a broken addon in place.
     /// </summary>
-    public static void InstallFromZip(string zipPath, WowFlavor flavor)
+    public static void InstallFromZip(string zipPath, WowFlavor flavor, string addonName = AddonName)
     {
-        var target = PathIn(flavor);
+        var target = PathIn(flavor, addonName);
         if (IsDeveloperLink(target))
             throw new DeveloperLinkException(target);
 
         Directory.CreateDirectory(flavor.AddOnsDir);
-        var staging = Path.Combine(flavor.AddOnsDir, AddonName + ".installing");
-        var previous = Path.Combine(flavor.AddOnsDir, AddonName + ".previous");
+        var staging = Path.Combine(flavor.AddOnsDir, addonName + ".installing");
+        var previous = Path.Combine(flavor.AddOnsDir, addonName + ".previous");
 
         DeleteDirectory(staging);
         DeleteDirectory(previous);
@@ -79,10 +83,10 @@ public static class AddonFolder
 
         try
         {
-            ExtractAddonFolder(zipPath, staging);
+            ExtractAddonFolder(zipPath, staging, addonName);
 
-            if (!File.Exists(Path.Combine(staging, AddonName + ".toc")))
-                throw new InvalidDataException($"the package has no {AddonName}.toc; refusing to install it");
+            if (!File.Exists(Path.Combine(staging, addonName + ".toc")))
+                throw new InvalidDataException($"the package has no {addonName}.toc; refusing to install it");
 
             if (Directory.Exists(target)) Directory.Move(target, previous);
             Directory.Move(staging, target);
@@ -103,11 +107,11 @@ public static class AddonFolder
     /// AddOns\WGFCompanion\... regardless of how the zip was rolled. Entries are
     /// rejected if they resolve outside the destination (zip-slip).
     /// </summary>
-    private static void ExtractAddonFolder(string zipPath, string destination)
+    private static void ExtractAddonFolder(string zipPath, string destination, string addonName)
     {
         using var zip = ZipFile.OpenRead(zipPath);
         var root = Path.GetFullPath(destination) + Path.DirectorySeparatorChar;
-        var prefix = AddonName + "/";
+        var prefix = addonName + "/";
 
         foreach (var entry in zip.Entries)
         {

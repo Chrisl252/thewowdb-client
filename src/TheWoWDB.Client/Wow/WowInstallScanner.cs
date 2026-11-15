@@ -18,7 +18,7 @@ public static class WowInstallScanner
     /// <summary>Every flavor directory Blizzard ships, newest naming included.</summary>
     private static readonly string[] KnownFlavors =
     {
-        "_retail_", "_classic_", "_classic_era_", "_classic_ptr_", "_classic_beta_",
+        "_retail_", "_classic_", "_classic_era_", "_classic_ptr_", "_classic_beta_", "_forever_",
         "_ptr_", "_xptr_", "_beta_", "_anniversary_",
     };
 

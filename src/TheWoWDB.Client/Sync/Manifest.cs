@@ -12,6 +12,13 @@ public sealed class Manifest
     [JsonPropertyName("schema")] public int Schema { get; set; } = 1;
     [JsonPropertyName("addon")] public AddonEntry? Addon { get; set; }
     [JsonPropertyName("data")] public DataEntry? Data { get; set; }
+    /// <summary>The Forever edition of the addon (TheWoWDB_Forever): same shape as
+    /// <see cref="Addon"/>. Absent until a release publishes it; nothing is installed then.</summary>
+    [JsonPropertyName("foreverAddon")] public AddonEntry? ForeverAddon { get; set; }
+    /// <summary>Server-side switch for uploading the addon's collected wire. Off unless true.</summary>
+    [JsonPropertyName("collectUpload")] public bool CollectUpload { get; set; }
+    /// <summary>Server-side switch for uploading completed Forever auction scans. Off unless true.</summary>
+    [JsonPropertyName("scanUpload")] public bool ScanUpload { get; set; }
     [JsonPropertyName("client")] public ClientEntry? Client { get; set; }
     [JsonPropertyName("message")] public string? Message { get; set; }
 

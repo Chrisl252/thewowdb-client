@@ -10,6 +10,7 @@ public sealed class FlavorRow : Panel
     private readonly Label _name;
     private readonly Label _path;
     private readonly Label _state;
+    private readonly Label? _upload;
 
     public WowFlavor Flavor { get; }
     /// Named ToggleChanged, not EnabledChanged: Control already has an
@@ -20,7 +21,7 @@ public sealed class FlavorRow : Panel
     {
         Flavor = flavor;
         Width = width;
-        Height = 52;
+        Height = flavor.IsForever ? 72 : 52;
         Margin = new Padding(0, 0, 0, 6);
         BackColor = Theme.Panel;
 
@@ -74,6 +75,23 @@ public sealed class FlavorRow : Panel
         };
 
         Controls.AddRange([_toggle, _name, _path, _state]);
+
+        // Forever rows carry a third line: what the last upload to thewowdb.com did.
+        if (flavor.IsForever)
+        {
+            _upload = new Label
+            {
+                Text = "",
+                AutoSize = false,
+                Location = new Point(36, 47),
+                Size = new Size(width - 52, 16),
+                Font = Theme.Ui(8f),
+                ForeColor = Theme.Muted,
+                BackColor = Color.Transparent,
+                AutoEllipsis = true,
+            };
+            Controls.Add(_upload);
+        }
     }
 
     public void ShowResult(FlavorReport report)
@@ -87,9 +105,16 @@ public sealed class FlavorRow : Panel
             FlavorOutcome.SkippedDeveloperLink => ("developer link, untouched", Theme.Muted),
             FlavorOutcome.Disabled => ("off", Theme.Muted),
             FlavorOutcome.NotRetail => ("retail addon, not for this game", Theme.Muted),
+            FlavorOutcome.NoForeverAddon => (report.Detail, Theme.Muted),
             FlavorOutcome.Failed => (Shorten(report.Detail), Theme.Bad),
             _ => ("", Theme.Muted),
         };
+    }
+
+    /// <summary>The "last upload" line (Forever rows only).</summary>
+    public void ShowUpload(string line)
+    {
+        if (_upload is not null) _upload.Text = line;
     }
 
     public void ShowWorking() { _state.Text = "checking..."; _state.ForeColor = Theme.Muted; }
