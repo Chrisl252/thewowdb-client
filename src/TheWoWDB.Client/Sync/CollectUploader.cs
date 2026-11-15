@@ -18,6 +18,7 @@ public sealed class CollectUploader(UploadState state, UploadSender sender, stri
     {
         var wire = WireExtractor.Extract(luaText);
         if (wire is null) return null;                       // the addon has collected nothing yet
+        wire = WireExtractor.WithoutTrail(wire);             // the movement trail stays on the PC
 
         var hash = UploadState.Sha256Hex(wire);
         var f = state.File(path);

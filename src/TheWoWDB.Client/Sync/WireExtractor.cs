@@ -76,6 +76,20 @@ public static class WireExtractor
         return null;                                    // never closed
     }
 
+    /// <summary>
+    /// The wire without its movement trail (`P` records: where the player walked). The
+    /// trail was recorded for a leveling-route builder that no longer exists; the site
+    /// does not need it, so it never leaves the PC.
+    /// </summary>
+    public static string WithoutTrail(string wire)
+    {
+        var parts = wire.Split('~');
+        var kept = new List<string>(parts.Length) { parts[0] };
+        for (var i = 1; i < parts.Length; i++)
+            if (!parts[i].StartsWith("P,", StringComparison.Ordinal)) kept.Add(parts[i]);
+        return string.Join('~', kept);
+    }
+
     /// <summary>Record count per record letter (`G`, `D`, `V`, `K`, `N`, `Q`, ...). The first segment is the marker.</summary>
     public static SortedDictionary<char, int> CountRecords(string wire)
     {

@@ -33,6 +33,8 @@ param(
     [string] $AddonRepo  = "Chrisl252/wowgoldfarms",
     [string] $MarketData = "C:\Code\04_gaming_seo\wowgoldfarms\addon\WGFCompanion\data\MarketData.lua",
     [switch] $SkipClient,
+    [bool]   $CollectUpload = $true,
+    [bool]   $ScanUpload = $true,
     [int]    $MinDataBytes = 250000
 )
 
@@ -114,16 +116,35 @@ try {
 
     $addonDir = Join-Path $work "addon"
     New-Item -ItemType Directory -Path $addonDir -Force | Out-Null
-    gh release download $addonTag -R $AddonRepo -p "*.zip" -D $addonDir | Out-Null
+    # NAMED patterns, never "*.zip": since addon-v0.19.0 a release carries TWO zips
+    # (WGFCompanion-* = retail, TheWoWDB_Forever-* = the Forever edition). "first zip"
+    # would mirror the Forever folder as the retail addon and break every retail install.
+    gh release download $addonTag -R $AddonRepo -p "WGFCompanion*.zip" -D $addonDir | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "could not download the addon zip for $addonTag" }
 
     # One stable public name, whatever the private build called itself.
     $addonZip = Join-Path $work "WGFCompanion.zip"
-    Copy-Item (Get-ChildItem $addonDir -Filter *.zip | Select-Object -First 1).FullName $addonZip -Force
+    Copy-Item (Get-ChildItem $addonDir -Filter "WGFCompanion*.zip" | Select-Object -First 1).FullName $addonZip -Force
     $addonSha = Sha256 $addonZip
     Say "addon $addonVersion ($([math]::Round((Get-Item $addonZip).Length / 1KB)) KB)"
 
     # ---- 3. the market data -----------------------------------------------
+    # The Forever edition (optional: older addon releases have none; then the manifest
+    # carries no foreverAddon and the client says "Forever addon not published yet").
+    $foreverZip = $null; $foreverSha = $null
+    $foreverDir = Join-Path $work "forever"
+    New-Item -ItemType Directory -Path $foreverDir -Force | Out-Null
+    gh release download $addonTag -R $AddonRepo -p "TheWoWDB_Forever*.zip" -D $foreverDir 2>$null | Out-Null
+    $foreverSrc = Get-ChildItem $foreverDir -Filter "TheWoWDB_Forever*.zip" -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($foreverSrc) {
+        $foreverZip = Join-Path $work "TheWoWDB_Forever.zip"
+        Copy-Item $foreverSrc.FullName $foreverZip -Force
+        $foreverSha = Sha256 $foreverZip
+        Say "forever addon $addonVersion ($([math]::Round((Get-Item $foreverZip).Length / 1KB)) KB)"
+    } else {
+        Say "no Forever edition zip on $addonTag; manifest will carry no foreverAddon"
+    }
+    $global:LASTEXITCODE = 0
     if (-not (Test-Path $MarketData)) { throw "market data export missing: $MarketData" }
     $dataBytes = (Get-Item $MarketData).Length
     if ($dataBytes -lt $MinDataBytes) {
@@ -168,6 +189,17 @@ try {
             notes   = "https://thewowdb.com"
         }
     }
+    if ($foreverZip) {
+        $manifest.foreverAddon = [ordered]@{
+            version = $addonVersion
+            url     = "$base/live/TheWoWDB_Forever.zip"
+            sha256  = $foreverSha
+        }
+    }
+    # Upload switches (client 1.1.0+). Both doors are live on thewowdb.com since
+    # 2026-11-15; set either to $false here to stop every installed client sending.
+    $manifest.collectUpload = [bool]$CollectUpload
+    $manifest.scanUpload    = [bool]$ScanUpload
     $manifestPath = Join-Path $work "manifest.json"
     # WriteAllText with an explicit no-BOM encoding, NOT Set-Content -Encoding utf8:
     # PS 5.1's utf8 always emits a BOM, and a leading U+FEFF makes System.Text.Json
@@ -183,6 +215,7 @@ try {
     # must never be pointed at a file that is not there yet.
     PublishAsset $ClientRepo "live" "Live artifacts" $addonZip
     PublishAsset $ClientRepo "live" "Live artifacts" $dataGz
+    if ($foreverZip) { PublishAsset $ClientRepo "live" "Live artifacts" $foreverZip }
     PublishAsset $ClientRepo "live" "Live artifacts" $manifestPath
 
     Say ""

@@ -13,6 +13,15 @@ public class WireExtractorTests
     }
 
     [Fact]
+    public void Drops_the_movement_trail_and_nothing_else()
+    {
+        var wire = "TWDBC1~H,1,forever,70888,16001~K,500,8,1509:1~P,12,1436,560,85,1,2~Q,783,1,2~P,13,1436,561,85,1,2~N,515,1436,560,85,11,12,n,k,5,Murloc Raider";
+        var kept = WireExtractor.WithoutTrail(wire);
+        Assert.Equal("TWDBC1~H,1,forever,70888,16001~K,500,8,1509:1~Q,783,1,2~N,515,1436,560,85,11,12,n,k,5,Murloc Raider", kept);
+        Assert.False(WireExtractor.CountRecords(kept).ContainsKey('P'));
+    }
+
+    [Fact]
     public void Decodes_lua_escapes()
     {
         var lua = "x = { w = \"TWDBC1~G,1\\\"q\\\"\\\\z~D,1\\n~V,\\65\" }";
