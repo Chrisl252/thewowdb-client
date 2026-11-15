@@ -3,7 +3,9 @@ namespace TheWoWDB.Client.Sync;
 /// <summary>
 /// The client-side rate guard, one home for every number. Stricter than the
 /// server (4/hour, 12/day per IP) so a player on a shared IP is never the one
-/// who trips it. Pure over an <see cref="UploadState"/> and an injected clock.
+/// who trips it. EACH DOOR HAS ITS OWN BUDGET: with one shared gap the collected
+/// data (which changes at every logout) always went first and the auction scan
+/// from the same logout was blocked. Pure over an <see cref="UploadState"/> and an injected clock.
 /// </summary>
 public sealed class UploadBudget(UploadState state)
 {
@@ -19,28 +21,29 @@ public sealed class UploadBudget(UploadState state)
     public (bool Allowed, string Reason, DateTimeOffset? Until) Check(string door, DateTimeOffset now)
     {
         var nowU = now.ToUnixTimeSeconds();
-        _s.Attempts.RemoveAll(t => nowU - t > (long)Day.TotalSeconds);
+        var attempts = _s.Door(door).Attempts;
+        attempts.RemoveAll(t => nowU - t > (long)Day.TotalSeconds);
 
         var notBefore = _s.Door(door).NotBeforeUnix;
         if (notBefore > nowU)
             return (false, "cooling down", DateTimeOffset.FromUnixTimeSeconds(notBefore));
 
-        if (_s.Attempts.Count > 0)
+        if (attempts.Count > 0)
         {
-            var next = _s.Attempts.Max() + (long)MinGap.TotalSeconds;
+            var next = attempts.Max() + (long)MinGap.TotalSeconds;
             if (next > nowU)
                 return (false, "at most one upload every 20 minutes", DateTimeOffset.FromUnixTimeSeconds(next));
         }
-        if (_s.Attempts.Count >= MaxPerDay)
+        if (attempts.Count >= MaxPerDay)
         {
-            var next = _s.Attempts.Min() + (long)Day.TotalSeconds;
+            var next = attempts.Min() + (long)Day.TotalSeconds;
             return (false, "daily upload limit reached", DateTimeOffset.FromUnixTimeSeconds(next));
         }
         return (true, "", null);
     }
 
     /// <summary>Call immediately before the POST. A failed attempt still counts.</summary>
-    public void NoteAttempt(DateTimeOffset now) => _s.Attempts.Add(now.ToUnixTimeSeconds());
+    public void NoteAttempt(string door, DateTimeOffset now) => _s.Door(door).Attempts.Add(now.ToUnixTimeSeconds());
 
     public void NoteOk(string door) { var d = _s.Door(door); d.Strikes = 0; d.NotBeforeUnix = 0; }
 

@@ -25,12 +25,14 @@ public sealed class DoorState
     /// <summary>No attempt before this time (unix seconds): door off, rate limited, or cooling down.</summary>
     public long NotBeforeUnix { get; set; }
     public int Strikes { get; set; }
+    /// <summary>Unix seconds of every POST attempt to this door in the last 24 h (its own budget).</summary>
+    public List<long> Attempts { get; set; } = new();
 }
 
 /// <summary>Everything the uploaders remember between runs: budget, per-file hashes, door cool-downs.</summary>
 public sealed class UploadState
 {
-    /// <summary>Unix seconds of every POST attempt in the last 24 h (the shared budget).</summary>
+    /// <summary>Legacy (1.1.0): one budget shared by both doors. Unused since 1.1.1, kept so an old file still loads.</summary>
     public List<long> Attempts { get; set; } = new();
     public Dictionary<string, FileUpload> Files { get; set; } = new();
     public Dictionary<string, DoorState> Doors { get; set; } = new();

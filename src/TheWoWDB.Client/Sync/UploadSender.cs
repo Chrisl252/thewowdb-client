@@ -48,7 +48,7 @@ public sealed class UploadSender(UploadState state, IUploadTransport transport, 
         var gate = _budget.Check(door, now);
         if (!gate.Allowed) return new SendResult(SendKind.Skipped, gate.Reason);
 
-        _budget.NoteAttempt(now);
+        _budget.NoteAttempt(door, now);
         var r = await transport.PostAsync(url, body, contentType, ct).ConfigureAwait(false);
         now = _now();
 
