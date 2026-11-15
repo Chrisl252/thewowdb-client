@@ -6,6 +6,8 @@ public static class AppInfo
 {
     public const string Name = "TheWoWDB Client";
     public const string Site = "https://thewowdb.com";
+    public const string CollectUploadUrl = Site + "/api/collect/upload";
+    public const string ScanUploadUrl = Site + "/api/addon/scan";
     public const string AddonPage = "https://www.curseforge.com/wow/addons/thewowdb-companion";
 
     public static string Version { get; } =

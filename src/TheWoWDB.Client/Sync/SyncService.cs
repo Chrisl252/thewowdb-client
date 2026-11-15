@@ -5,7 +5,7 @@ using TheWoWDB.Client.Wow;
 
 namespace TheWoWDB.Client.Sync;
 
-public enum FlavorOutcome { UpToDate, Installed, Updated, DataRefreshed, SkippedDeveloperLink, Disabled, NotRetail, Failed }
+public enum FlavorOutcome { UpToDate, Installed, Updated, DataRefreshed, SkippedDeveloperLink, Disabled, NotRetail, NoForeverAddon, Failed }
 
 public sealed record FlavorReport(WowFlavor Flavor, FlavorOutcome Outcome, string Detail);
 
@@ -27,7 +27,7 @@ public sealed record SyncReport(
 /// WoW addons cannot fetch anything themselves, so packaged prices are only as
 /// fresh as whatever last wrote the file.
 /// </summary>
-public sealed class SyncService(Settings settings, string manifestUrl)
+public sealed class SyncService(Settings settings, string manifestUrl, UploadCoordinator? uploads = null)
 {
     private readonly Settings _settings = settings;
     private readonly string _manifestUrl = manifestUrl;
@@ -60,6 +60,7 @@ public sealed class SyncService(Settings settings, string manifestUrl)
         // Downloaded at most once per pass, then reused for every flavor.
         string? addonZip = null;
         byte[]? marketData = null;
+        using var forever = new ForeverAddonInstaller(_settings, manifest, net);
 
         foreach (var flavor in installs.SelectMany(i => i.Flavors))
         {
@@ -68,6 +69,13 @@ public sealed class SyncService(Settings settings, string manifestUrl)
             if (!_settings.IsFlavorEnabled(flavor.Path))
             {
                 reports.Add(new FlavorReport(flavor, FlavorOutcome.Disabled, "turned off"));
+                continue;
+            }
+
+            // WoW Forever has its own addon edition, installed from its own manifest entry.
+            if (flavor.IsForever)
+            {
+                reports.Add(await forever.RunAsync(flavor, ct).ConfigureAwait(false));
                 continue;
             }
 
@@ -142,6 +150,13 @@ public sealed class SyncService(Settings settings, string manifestUrl)
         }
 
         TryDelete(addonZip);
+
+        // After the pass: send what the Forever addon collected (guarded, opt-in; see UploadCoordinator).
+        if (uploads is not null)
+        {
+            try { await uploads.RunAfterSyncAsync(manifest, installs.SelectMany(i => i.Flavors), net, ct).ConfigureAwait(false); }
+            catch (Exception ex) { Log.Error("upload step failed", ex); }
+        }
 
         var changed = reports.Count(r => r.Outcome is FlavorOutcome.Installed
                                           or FlavorOutcome.Updated or FlavorOutcome.DataRefreshed);

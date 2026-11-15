@@ -7,7 +7,7 @@ using TheWoWDB.Client.Core;
 namespace TheWoWDB.Client.Sync;
 
 /// <summary>All network access. Nothing else in the client owns an HttpClient.</summary>
-public sealed class Downloader : IDisposable
+public sealed class Downloader : IDisposable, IUploadTransport
 {
     /// <summary>
     /// A fixed release tag, so the URL never changes: publishing a new manifest
@@ -92,6 +92,31 @@ public sealed class Downloader : IDisposable
     {
         using var stream = File.OpenRead(path);
         return Convert.ToHexString(SHA256.HashData(stream)).ToLowerInvariant();
+    }
+
+    /// <summary>
+    /// One POST, one attempt, hard 30 s ceiling. Never throws for a network problem:
+    /// Status 0 means no answer, with the reason in Body.
+    /// </summary>
+    public async Task<UploadResponse> PostAsync(string url, string body, string contentType, CancellationToken ct)
+    {
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        cts.CancelAfter(UploadResponse.Timeout);
+        try
+        {
+            using var content = new StringContent(body, new System.Text.UTF8Encoding(false), contentType);
+            using var response = await _http.PostAsync(url, content, cts.Token).ConfigureAwait(false);
+            var text = await response.Content.ReadAsStringAsync(cts.Token).ConfigureAwait(false);
+            return new UploadResponse((int)response.StatusCode, text);
+        }
+        catch (OperationCanceledException) when (!ct.IsCancellationRequested)
+        {
+            return new UploadResponse(0, "thewowdb.com did not answer in 30 seconds");
+        }
+        catch (HttpRequestException ex)
+        {
+            return new UploadResponse(0, "could not reach thewowdb.com (" + ex.Message + ")");
+        }
     }
 
     public void Dispose() => _http.Dispose();

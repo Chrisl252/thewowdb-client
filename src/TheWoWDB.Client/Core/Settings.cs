@@ -17,6 +17,11 @@ public sealed class Settings
     public bool KeepMarketDataFresh { get; set; } = true;
     public int CheckIntervalHours { get; set; } = 3;
 
+    /// <summary>Send what the Forever addon collected (drops, vendors, quest givers, and
+    /// completed auction scans) to thewowdb.com. On by default, visible in the window,
+    /// and still inert until the manifest also switches the feature on.</summary>
+    public bool ShareFindings { get; set; } = true;
+
     /// <summary>Set once the first successful install finishes, so we only greet once.</summary>
     public bool FirstRunDone { get; set; }
 

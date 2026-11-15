@@ -13,6 +13,7 @@ public sealed class TrayApp : ApplicationContext
 {
     private readonly Settings _settings;
     private readonly SyncService _sync;
+    private readonly UploadCoordinator _uploads;
     private readonly NotifyIcon _tray;
     private readonly System.Windows.Forms.Timer _timer;
     private readonly Icon _icon;
@@ -23,10 +24,11 @@ public sealed class TrayApp : ApplicationContext
     {
         _settings = settings;
         _icon = icon;
+        _uploads = new UploadCoordinator(settings);
         _sync = new SyncService(settings,
             string.IsNullOrWhiteSpace(settings.ManifestUrl)
                 ? Downloader.DefaultManifestUrl
-                : settings.ManifestUrl!);
+                : settings.ManifestUrl!, _uploads);
 
         _tray = new NotifyIcon
         {
@@ -90,7 +92,7 @@ public sealed class TrayApp : ApplicationContext
     {
         if (_window is null || _window.IsDisposed)
         {
-            _window = new MainForm(_settings, ct => _sync.RunAsync(ct), _icon);
+            _window = new MainForm(_settings, ct => _sync.RunAsync(ct), _icon, _uploads);
         }
         _window.Show();
         _window.WindowState = FormWindowState.Normal;
@@ -159,6 +161,7 @@ public sealed class TrayApp : ApplicationContext
         if (disposing)
         {
             _timer.Dispose();
+            _uploads.Dispose();
             _tray.Dispose();
         }
         base.Dispose(disposing);

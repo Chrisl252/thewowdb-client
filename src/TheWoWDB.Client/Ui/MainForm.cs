@@ -14,6 +14,7 @@ public sealed class MainForm : Form
 {
     private readonly Settings _settings;
     private readonly Func<CancellationToken, Task<SyncReport>> _sync;
+    private readonly UploadCoordinator? _uploads;
 
     private readonly FlowLayoutPanel _list;
     private readonly Label _status;
@@ -25,17 +26,19 @@ public sealed class MainForm : Form
 
     private readonly Icon _icon;
 
-    public MainForm(Settings settings, Func<CancellationToken, Task<SyncReport>> sync, Icon icon)
+    public MainForm(Settings settings, Func<CancellationToken, Task<SyncReport>> sync, Icon icon,
+                    UploadCoordinator? uploads = null)
     {
         _settings = settings;
         _sync = sync;
+        _uploads = uploads;
         _icon = icon;
 
         Text = AppInfo.Name;
         Icon = icon;
         // Tall enough for six flavors (retail + the classic family + PTR/beta)
         // without scrolling; a scrollbar on first run reads as "something is cut off".
-        ClientSize = new Size(580, 640);
+        ClientSize = new Size(580, 700);
         MinimumSize = new Size(580, 460);
         StartPosition = FormStartPosition.CenterScreen;
         DarkTitleBar.Apply(this);
@@ -91,6 +94,19 @@ public sealed class MainForm : Form
         Controls.SetChildIndex(buttons, 1);
 
         LoadFlavors();
+
+        if (_uploads is not null)
+        {
+            // A save of the addon's data can be uploaded while no sync is running.
+            _uploads.Changed += () => { if (IsHandleCreated && !IsDisposed) BeginInvoke(RefreshUploadLines); };
+        }
+    }
+
+    private void RefreshUploadLines()
+    {
+        if (_uploads is null) return;
+        foreach (var row in _rows)
+            if (row.Flavor.IsForever) row.ShowUpload(_uploads.DescribeFor(row.Flavor));
     }
 
     private Control BuildHeader()
@@ -137,7 +153,7 @@ public sealed class MainForm : Form
 
     private Control BuildFooter()
     {
-        var footer = new Panel { Dock = DockStyle.Bottom, Height = 92, BackColor = Theme.Bg };
+        var footer = new Panel { Dock = DockStyle.Bottom, Height = 150, BackColor = Theme.Bg };
 
         var startup = MakeCheck("Start with Windows", AutoStart.IsEnabled(), 20, 8, v =>
         {
@@ -158,9 +174,29 @@ public sealed class MainForm : Form
             _settings.Save();
         });
 
+        var share = MakeCheck("Share what I find (drops, vendors, quest givers) with thewowdb.com",
+                              _settings.ShareFindings, 20, 52, v =>
+        {
+            _settings.ShareFindings = v;
+            _settings.Save();
+            RefreshUploadLines();
+        });
+
+        var privacy = new Label
+        {
+            Text = "WoW Forever only. Sent: game ids, map positions, NPC and quest names, your level, race and " +
+                   "class, and when you played. Finished auction scans go with their realm and prices. " +
+                   "Never your character, account, guild or chat. Turn it off any time.",
+            Location = new Point(38, 74),
+            Size = new Size(520, 44),
+            Font = Theme.Ui(8f),
+            ForeColor = Theme.Muted,
+            BackColor = Color.Transparent,
+        };
+
         var links = new FlowLayoutPanel
         {
-            Location = new Point(18, 60),
+            Location = new Point(18, 120),
             Size = new Size(520, 24),
             BackColor = Color.Transparent,
             FlowDirection = FlowDirection.LeftToRight,
@@ -175,7 +211,7 @@ public sealed class MainForm : Form
         log.LinkClicked += (_, _) => Theme.OpenUrl(AppPaths.LogFile);
         links.Controls.Add(log);
 
-        footer.Controls.AddRange([startup, keepAddon, keepData, links]);
+        footer.Controls.AddRange([startup, keepAddon, keepData, share, privacy, links]);
         footer.Paint += (_, e) =>
         {
             using var pen = new Pen(Theme.Border);
@@ -242,6 +278,7 @@ public sealed class MainForm : Form
                 _settings.SetFlavorEnabled(flavor.Path, enabled);
                 _settings.Save();
             };
+            if (flavor.IsForever && _uploads is not null) row.ShowUpload(_uploads.DescribeFor(flavor));
             _rows.Add(row);
             _list.Controls.Add(row);
         }
@@ -299,6 +336,7 @@ public sealed class MainForm : Form
                 var match = report.Flavors.FirstOrDefault(f => f.Flavor.Path == row.Flavor.Path);
                 if (match is not null) row.ShowResult(match);
             }
+            RefreshUploadLines();
             return report;
         }
         catch (Exception ex)
