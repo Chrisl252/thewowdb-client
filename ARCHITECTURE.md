@@ -10,12 +10,19 @@ TrayApp timer (every N hours)
   -> SyncService.RunAsync
        -> Downloader.GetManifestAsync      one JSON document, the only source of truth
        -> WowInstallScanner.Scan           every install and flavor on this PC
-       -> for each enabled flavor (retail only since 1.0.2; classic-family = not for this game):
+       -> for each enabled flavor:
+            _forever_ -> ForeverAddonInstaller (TheWoWDB_Forever from manifest.foreverAddon;
+                         absent = "not published yet", nothing installed)
+            retail only for the Companion (classic-family = not for this game):
             AddonFolder.IsDeveloperLink?   junction -> skip entirely, touch nothing
             AddonFolder.InstalledVersion   read ## Version out of the .toc
             Downloader.DownloadToTempAsync verify sha256 before anything is used
             AddonFolder.InstallFromZip     stage, swap, roll back on failure
             AddonFolder.WriteFile          market data, written atomically
+       -> UploadCoordinator.RunAfterSyncAsync   (Forever only; also fired by ForeverWatcher on a save)
+            for every account under every enabled _forever_ flavor:
+              read TheWoWDB_Forever.lua (shared read) -> CollectUploader (wire)  /  ScanUploader (AH scans)
+              UploadSender: UploadBudget guard -> ONE POST (30 s) -> status -> cool-down
   -> SyncReport -> MainForm rows / tray balloon
 ```
 
@@ -34,10 +41,22 @@ TrayApp timer (every N hours)
 | `Sync/Manifest.cs` | The manifest contract (addon / data / client entries). |
 | `Sync/Downloader.cs` | All network access and hash verification. The only `HttpClient`. |
 | `Sync/SyncService.cs` | The pass itself: compare, download once, apply per flavor, report. |
+| `Wow/ForeverSavedVariables.cs` | Where `TheWoWDB_Forever.lua` lives per account, and the one shared-read of it. |
+| `Sync/ForeverAddonInstaller.cs` | Installs/updates `TheWoWDB_Forever` through `AddonFolder` (junction guard, staged swap). |
+| `Sync/WireExtractor.cs` | Pure: lifts the `TWDBC1~` string out of Lua text, decodes escapes, counts records. |
+| `Sync/LuaTable.cs` | Pure: reads one `key = { ... }` table out of a SavedVariables file. |
+| `Sync/UploadState.cs` | Persisted `uploads.json`: attempts, per-file hashes, door cool-downs, manifest switches. |
+| `Sync/UploadBudget.cs` | Pure rate guard: 1 per 20 min, 10 per day, 404 = 6 h, 429 = 2/6/24 h, failure = 1 h. |
+| `Sync/UploadSender.cs` | The transport seam (`IUploadTransport`) and one guarded POST per call. |
+| `Sync/CollectUploader.cs` | POST /api/collect/upload: the collected wire, deduped by SHA-256. |
+| `Sync/ScanUploader.cs` | POST /api/addon/scan: completed Forever AH scans as NDJSON, newest per realm, deduped by id. |
+| `Sync/ForeverWatcher.cs` | FileSystemWatcher over `WTF\Account`, 20 s debounce. |
+| `Sync/UploadCoordinator.cs` | Runs both uploaders per file, owns the state, produces the row's "last upload" line. |
 | `Ui/Theme.cs` | The site palette and the hand-rolled dark controls. |
 | `Ui/FlavorRow.cs` | One detected client as a row. |
 | `Ui/MainForm.cs` | The window. A view over `SyncService`; holds no update logic. |
 | `Ui/TrayApp.cs` | Lifetime: tray icon, menu, timer, first-run notification. |
+| `tests/TheWoWDB.Client.Tests` | xUnit: wire extractor, Lua reader, dedupe-by-hash, rate guard, door/429 handling, Forever install + junction guard (all in temp folders). `THEWOWDB_HOME` redirects client state. |
 | `Startup/AutoStart.cs` | The HKCU Run key, and nothing else. |
 
 ## Delivery
@@ -63,4 +82,7 @@ from what actually exists rather than from anything hand-written.
    install is staged and only swapped in once extraction fully succeeded.
 3. **An empty export is worse than no export.** The publisher refuses market
    data under a size floor; the addon showing nothing looks like an addon bug.
-4. **One `HttpClient`, one paths class, one log.** Shared concerns have one home.
+4. **Uploads are opt-in twice and never loop.** The manifest flag (`collectUpload`,
+   `scanUpload`) AND the player's checkbox; one attempt per call, hard 30 s timeout,
+   404 (door off) silent for 6 h, 429 backs off, unchanged content is never re-sent.
+5. **One `HttpClient`, one paths class, one log.** Shared concerns have one home.

@@ -21,19 +21,29 @@ stale.
 
 ## What it does
 
-- Finds every WoW installation and flavor (Retail, Classic, Classic Era, PTR, Beta)
+- Finds every WoW installation and flavor (Retail, Classic, Classic Era, Classic
+  Anniversary, WoW Forever, PTR, Beta)
 - Installs the Companion addon into each **retail** client you leave enabled
-  (since 1.0.2; Classic-family clients, including `_classic_beta_` = WoW Forever,
-  show "retail addon, not for this game" because the Forever edition is a separate addon)
+  (Classic-family clients show "retail addon, not for this game")
+- Installs the **Forever edition** (`TheWoWDB_Forever`) into the WoW Forever client
+  (`_forever_`) once the manifest publishes it; until then the row says so
+- WoW Forever only, on by default and switchable in the window: shares what the
+  Forever addon collected (drops, vendors, nodes, quest givers) and finished
+  auction scans with thewowdb.com, automatically, a few times a day at most
 - Updates the addon when a new version ships
 - Refreshes the packaged market data on a timer (every 3 hours by default)
 - Sits in the tray; nothing to open, nothing to remember
 
 ## What it does not do
 
-- No account, no login, no telemetry. It sends nothing about you anywhere.
-- It reads no game files and uploads no data. Traffic is one-way: it downloads
-  a manifest, an addon zip, and a price file.
+- No account, no login, no telemetry.
+- Retail and Classic: traffic is one-way (a manifest, an addon zip, a price file).
+- WoW Forever: when "Share what I find" is ticked it reads the addon's own
+  SavedVariables file (`TheWoWDB_Forever.lua`) and uploads only the collected
+  records: game ids, map positions, NPC and quest names, your level, race and
+  class, and when you played, plus finished auction scans with their realm.
+  Never your character, account or guild names. Uploads are capped at one per
+  20 minutes and 10 a day, and the server must switch the feature on first.
 - It does not touch an addon folder that is a junction or symlink to a source
   tree, so a developer's working copy is never overwritten.
 
@@ -65,7 +75,7 @@ prerequisites.
 
 ## Status
 
-Live: v1.0.2 (2026-09-26) on GitHub Releases. A daily scheduled job
+Live: v1.0.2 (2026-09-26) on GitHub Releases. Branch `feat/forever-uploader-20261115` = 1.1.0 (not released). A daily scheduled job
 (`tools/daily.ps1`, after the 6am "WGF Addon Market Data Refresh" task) republishes
 market data so installed clients pick it up. Current state: [PROJECT_STATE.md](PROJECT_STATE.md).
 

@@ -24,6 +24,9 @@ If a file passes ~400 lines or starts holding two domains, split it then, not la
   That is where the junction guard, the zip-slip guard and atomic writes live,
   and one bypass makes all three optional.
 - Anything that touches the network goes through `Sync/Downloader.cs`.
+- A new uploader = a new `Sync/<Thing>Uploader.cs` that sends through `UploadSender` (so the
+  budget, timeout and cool-downs apply) and is run by one line in `UploadCoordinator`.
+- Run the tests: `dotnet test tests/TheWoWDB.Client.Tests` (state is redirected to a temp folder).
 - Comments explain **why**, especially where the obvious code would be wrong:
   the junction guard, the size floor, the cache-buster on the manifest.
 - Log at the boundaries. A background app that fails silently is unfixable.
